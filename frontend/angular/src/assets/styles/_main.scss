@@ -1,0 +1,10 @@
+p{
+  &.error{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    color: red;
+    padding: 5px 10px;
+  }
+}

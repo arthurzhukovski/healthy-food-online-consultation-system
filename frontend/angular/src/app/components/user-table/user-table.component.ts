@@ -26,6 +26,5 @@ export class UserTableComponent implements OnInit {
 
             users => this.users = users,
             error =>  this.errorMessage = <any>error);
-    console.log(this.users);
   }
 }
