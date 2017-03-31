@@ -1,16 +1,27 @@
-<table>
-  <thead>
+<div class="userDataContainer">
+  <table class="table-userData">
+    <thead>
     <tr>
       <th>ID</th>
-      <th>ФИО</th>
+      <th>Имя</th>
+      <th>Фамилия</th>
       <th>E-mail</th>
+      <th>Логин</th>
+      <th>Пароль</th>
+      <th>Этап</th>
     </tr>
-  </thead>
-  <tbody>
-  <tr>
-    <td>1</td>
-    <td>aSD</td>
-    <td>asd@das.sd</td>
-  </tr>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.surname}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.login}}</td>
+      <td>{{user.password}}</td>
+      <td>{{user.stage}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

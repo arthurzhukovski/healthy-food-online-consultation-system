@@ -1,3 +1,17 @@
+.userDataContainer{
+  width: 100%;
+  padding: 20px 40px;
+  .table-userData{
+    width: 100%;
+    td,th{
+      min-width: 100px;
+      width: auto;
+    }
+    th{
+      text-align: center;
+    }
+  }
+}
 tr, td, th{
   border: 1px solid black;
   border-collapse: collapse;
