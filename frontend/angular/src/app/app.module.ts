@@ -21,7 +21,7 @@ import { RegisterComponent } from './components/register/index';
 
 const appRoutes: Routes = [
   { path: 'user-table', component: UserTableComponent, canActivate: [AuthGuard]},
-  { path: 'profile', component: HomeComponent},
+  { path: '', component: HomeComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 

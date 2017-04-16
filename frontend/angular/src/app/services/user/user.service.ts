@@ -37,4 +37,16 @@ export class UserService {
             return new RequestOptions({ headers: headers });
         }
     }
+
+    public static getCurentUser():User{
+        let user = localStorage.getItem('currentUser');
+        if (user) {
+            return JSON.parse(user);
+        } else
+        {
+            return null;
+        }
+    }
+
+
 }

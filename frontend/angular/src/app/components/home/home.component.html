@@ -1,12 +1,20 @@
 <div >
-    <h1>Hi {{currentUser.firstName}}!</h1>
-    <p>You're logged in with Angular 2!!</p>
-    <h3>All registered users:</h3>
-    <ul>
-        <li *ngFor="let user of users">
-            {{user.username}} ({{user.firstName}} {{user.lastName}})
-            - <a (click)="deleteUser(user.id)">Delete</a>
-        </li>
-    </ul>
-    <p><a [routerLink]="['/login']">Logout</a></p>
+
+    <div *ngIf="currentUser">
+
+        <h1>Hi {{currentUser.firstName}}!</h1>
+        <p>You're logged in with Angular 2!!</p>
+        <h3>All registered users:</h3>
+        <ul>
+            <li *ngFor="let user of users">
+                {{user.username}} ({{user.firstName}} {{user.lastName}})
+                - <a (click)="deleteUser(user.id)">Delete</a>
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="!currentUser">
+        We're glad to see you here.<a class="nav-item" routerLink="/login" routerLinkActive="active">Log in</a> to use all the website functionality.
+    </div>
+
 </div>

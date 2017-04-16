@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { User } from '../../models/index';
 import { UserService } from '../../services/index';
+import { NgModule } from '@angular/core';
 
 @Component({
     moduleId: module.id,
