@@ -9,7 +9,10 @@ import { fakeBackendProvider } from './helpers/index';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions } from '@angular/http';
 
+// other imports
+
 import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/index';
 import { UserTableComponent } from './components/user-table/user-table.component';
 import { UserDataItemComponent } from './components/user-data-item/user-data-item.component';
 import { AlertComponent } from './components/alert/index';
@@ -33,6 +36,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+    NavbarComponent,
     UserTableComponent,
     UserDataItemComponent,
     AlertComponent,
