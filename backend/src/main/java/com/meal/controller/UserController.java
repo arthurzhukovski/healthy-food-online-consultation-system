@@ -78,8 +78,8 @@ public class UserController {
    */
   @RequestMapping(value="/users/{id}/data", method = RequestMethod.GET)
   public ResponseEntity<UserFullEntity> updateUser(@RequestParam int id) {
-    UserFullEntity userFull = userService.findUserWithUserData(id);
-    return new ResponseEntity<UserFullEntity>(userFull, HttpStatus.OK);
+    UserFullEntity userFullEntity = userService.findUserWithUserData(id);
+    return new ResponseEntity<UserFullEntity>(userFullEntity, HttpStatus.OK);
   }
 
 }

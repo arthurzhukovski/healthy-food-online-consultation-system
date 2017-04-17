@@ -1,6 +1,5 @@
 package com.meal.interceptor;
 
-import com.meal.entity.UserEntity;
 import com.meal.service.AuthService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -10,10 +9,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ResourceBundle;
 
 @CrossOrigin
 @Scope("AuthInterceptor")

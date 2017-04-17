@@ -1,11 +1,11 @@
 package com.meal.service.impl;
 
 import java.util.Date;
-import java.util.List;
-import com.meal.dao.UserDao;
-import com.meal.dao.UserDataDao;
-import com.meal.entity.UserDataEntity;
+
+import com.meal.dao.UserDataRepository;
+import com.meal.dao.UserRepository;
 import com.meal.entity.UserEntity;
+import com.meal.entity.UserDataEntity;
 import com.meal.entity.UserFullEntity;
 import com.meal.service.UserService;
 import com.meal.utils.HelpUtils;
@@ -16,30 +16,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-  private final UserDao userDao;
-  private final UserDataDao userDataDao;
-  private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-  private final Date dateTime = new Date();
+  private final UserRepository userRepository;
+  private final UserDataRepository userDataRepository;
+  private final BCryptPasswordEncoder passwordEncoder;
+  private final Date dateTime;
   @Autowired
-  public UserServiceImpl(UserDao userDao, UserDataDao userDataDao) {
-    this.userDao = userDao;
-    this.userDataDao = userDataDao;
+  public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
+    this.userRepository = userRepository;
+    this.userDataRepository = userDataRepository;
+    this.passwordEncoder = new BCryptPasswordEncoder();
+    this.dateTime = new Date();
   }
 
   public Iterable<UserEntity> findAll() {
-    return userDao.findAll();
+    return userRepository.findAll();
   }
 
   public UserEntity findOne(int id) {
-    return userDao.findOne(id);
+    return userRepository.findOne(id);
   }
 
   public UserEntity findByLogin(String login) {
     if(HelpUtils.isNullOrEmpty(login)){
       return null;
     }
-    List<UserEntity> userEntities =  userDao.findFirstByLogin(login);
-    return userEntities.isEmpty() ? null : userEntities.get(0);
+
+    UserEntity user =  userRepository.findByLogin(login);
+    return user;
   }
 
  // public UserEntity createUser(UserEntity user) throws ServiceException {
@@ -57,40 +60,39 @@ public class UserServiceImpl implements UserService {
     user.setRegisteredAt(new java.sql.Timestamp(dateTime.getTime()));
 
     try {
-      user = userDao.save(user);
+      user = userRepository.save(user);
     } catch(Exception e){
      // throw new ServiceException(e);
     }
-    user.setPassword("");
     return user;
   }
 
   public UserEntity updateUser(UserEntity user) {
-    return userDao.save(user);
+    return userRepository.save(user);
   }
 
   public void deleteUser(int id) {
-    userDao.delete(id);
+    userRepository.delete(id);
   }
 
   public UserDataEntity findUserData(int id) {
-    return userDataDao.findOne(id);
+    return userDataRepository.findOne(id);
   }
 
   public UserDataEntity findUserDataByUserId(int id) {
-    return null; //TODO: userDataDao.findOne(id);
+    return null; //TODO: userDataRepository.findOne(id);
   }
 
   public UserDataEntity createUserData(UserDataEntity userData) {
-    return userDataDao.save(userData);
+    return userDataRepository.save(userData);
   }
 
   public UserDataEntity updateUserData(UserDataEntity userData) {
-    return userDataDao.save(userData);
+    return userDataRepository.save(userData);
   }
 
   public void deleteUserData(int id) {
-    userDataDao.delete(id);
+    userDataRepository.delete(id);
   }
 
   public void clearUserData(int id) { }

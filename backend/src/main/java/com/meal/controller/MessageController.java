@@ -1,6 +1,6 @@
 package com.meal.controller;
 
-import com.meal.entity.MessageEntity;
+import com.meal.entity.Message;
 import com.meal.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class MessageController {
      CREATE MESSAGE
    */
   @RequestMapping(value="/messages", method = RequestMethod.POST)
-  public ResponseEntity<MessageEntity> createMessage(@RequestBody MessageEntity message) {
+  public ResponseEntity<Message> createMessage(@RequestBody Message message) {
     messageService.createMessage(message);
     return new ResponseEntity(HttpStatus.OK);
   }
@@ -41,20 +41,20 @@ public class MessageController {
    GET ALL USER MESSAGES
   */
   @RequestMapping(value="/messages/user/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Iterable<MessageEntity>> getMessages(@RequestParam int id) {
-    Iterable<MessageEntity> messages = messageService.getMessagesByUserId(id);
-    return new ResponseEntity<Iterable<MessageEntity>>(messages, HttpStatus.OK);
+  public ResponseEntity<Iterable<Message>> getMessages(@RequestParam int id) {
+    Iterable<Message> messages = messageService.getMessagesByUserId(id);
+    return new ResponseEntity<Iterable<Message>>(messages, HttpStatus.OK);
   }
 
   //  /*
 //    GET MESSAGE
 //   */
 //  @RequestMapping(value="/messages/:id", method = RequestMethod.GET)
-//  public ResponseEntity<MessageEntity> getMessage(int id) {
+//  public ResponseEntity<Message> getMessage(int id) {
 //    try {
-//      MessageEntity topic = messageService.findOne(id);
+//      Message topic = messageService.findOne(id);
 //      //TODO: throw exception
-//      return new ResponseEntity<MessageEntity>(topic, HttpStatus.OK);
+//      return new ResponseEntity<Message>(topic, HttpStatus.OK);
 //    } catch(Exception e) {
 //      return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 //    }

@@ -1,5 +1,7 @@
 package com.meal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -15,6 +17,7 @@ public class UserEntity {
   private byte stage;
   private String role;
   private String login;
+  @JsonIgnore
   private String password;
 
   @Id

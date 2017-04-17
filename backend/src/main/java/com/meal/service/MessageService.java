@@ -1,11 +1,11 @@
 package com.meal.service;
 
-import com.meal.entity.MessageEntity;
+import com.meal.entity.Message;
 
 public interface MessageService {
 
-  Iterable<MessageEntity> getMessagesByUserId(int id);
-  MessageEntity createMessage(MessageEntity message);
+  Iterable<Message> getMessagesByUserId(int id);
+  Message createMessage(Message message);
   void deleteMessage(int id);
   void deleteMessagesByUserId(int id);
 }

@@ -1,7 +1,7 @@
 package com.meal.controller;
 
 import com.meal.entity.CommentEntity;
-import com.meal.entity.ReportEntity;
+import com.meal.entity.Report;
 
 import com.meal.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,27 +25,27 @@ public class ReportController {
 //   GET ALL REPORTS
 //  */
 //  @RequestMapping(value="/reports", method = RequestMethod.GET)
-//  public ResponseEntity<Iterable<ReportEntity>> getReports() {
-//    Iterable<ReportEntity> reports = reportService.findAll();
-//    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
+//  public ResponseEntity<Iterable<Report>> getReports() {
+//    Iterable<Report> reports = reportService.findAll();
+//    return new ResponseEntity<Iterable<Report>>(reports, HttpStatus.OK);
 //  }
 
   /*
      CREATE REPORT
    */
   @RequestMapping(value="/reports", method = RequestMethod.POST)
-  public ResponseEntity<ReportEntity> createReport(@RequestBody ReportEntity report) {
-    ReportEntity createdReport =  reportService.createReport(report);
-    return new ResponseEntity<ReportEntity>(createdReport, HttpStatus.OK);
+  public ResponseEntity<Report> createReport(@RequestBody Report report) {
+    Report createdReport =  reportService.createReport(report);
+    return new ResponseEntity<Report>(createdReport, HttpStatus.OK);
   }
 
   /*
     UPDATE REPORT
    */
   @RequestMapping(value="/reports", method = RequestMethod.PUT)
-  public ResponseEntity<ReportEntity> updateReport(@RequestBody ReportEntity report) {
-    ReportEntity updatedReport = reportService.updateReport(report);
-    return new ResponseEntity<ReportEntity>(updatedReport, HttpStatus.OK);
+  public ResponseEntity<Report> updateReport(@RequestBody Report report) {
+    Report updatedReport = reportService.updateReport(report);
+    return new ResponseEntity<Report>(updatedReport, HttpStatus.OK);
   }
 
   /*
@@ -61,18 +61,18 @@ public class ReportController {
     GET REPORT
    */
   @RequestMapping(value="/reports/{id}", method = RequestMethod.GET)
-  public ResponseEntity<ReportEntity> getReport(@RequestParam int id) {
-    ReportEntity report = reportService.findOne(id);
-    return new ResponseEntity<ReportEntity>(report, HttpStatus.OK);
+  public ResponseEntity<Report> getReport(@RequestParam int id) {
+    Report report = reportService.findOne(id);
+    return new ResponseEntity<Report>(report, HttpStatus.OK);
   }
 
   /*
    GET ALL USER REPORTS
   */
   @RequestMapping(value="/reports/user/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Iterable<ReportEntity>> getReports(@RequestParam int id) {
-    Iterable<ReportEntity> reports = reportService.getReportsByUserId(id);
-    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
+  public ResponseEntity<Iterable<Report>> getReports(@RequestParam int id) {
+    Iterable<Report> reports = reportService.getReportsByUserId(id);
+    return new ResponseEntity<Iterable<Report>>(reports, HttpStatus.OK);
   }
 
   /*

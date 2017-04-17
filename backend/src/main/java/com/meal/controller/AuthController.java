@@ -1,5 +1,7 @@
 package com.meal.controller;
 
+import com.meal.entity.LoginRequest;
+import com.meal.entity.TokenResponse;
 import com.meal.entity.UserEntity;
 import com.meal.service.AuthService;
 import io.jsonwebtoken.Jwts;
@@ -13,56 +15,39 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 @RestController
-@RequestMapping("/")
 public class AuthController {
 
-  @Autowired
   private AuthService authService;
  // private final ResourceBundle resourceBundle = ResourceBundle.getBundle("jwt");
 
-//  @Autowired
-//  public AuthController(AuthService authService) {
-//    this.authService = authService;
+  @Autowired
+  public AuthController(AuthService authService) {
+    this.authService = authService;
 //    this.resourceBundle = ResourceBundle.getBundle("jwt");
-//  }
+  }
 
-  @RequestMapping(value = "/login/{id}", method = RequestMethod.POST)
-  public ResponseEntity<LoginResponse> login(@RequestBody LoginEntity loginEntity)
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
+  public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginEntity)
           throws ServletException {
 
-    UserEntity user = authService.login(loginEntity.login, loginEntity.password);
+    UserEntity user = authService.login(loginEntity.getLogin(), loginEntity.getPassword());
 
     if (user == null) {
-      return new ResponseEntity<LoginResponse>(HttpStatus.UNAUTHORIZED);
+      return new ResponseEntity<TokenResponse>(HttpStatus.UNAUTHORIZED);
     }
 
-    return new ResponseEntity<LoginResponse>( new LoginResponse(
-            Jwts.builder()
+    TokenResponse token = new TokenResponse();
+    token.setToken(Jwts.builder()
             .setSubject(String.valueOf(user.getId()))
             //.claim("roles", user)
             //.setIssuedAt(new Date())
-            .signWith(SignatureAlgorithm.HS256, "something-secret-you-cannot-keep-it").compact())
-    , HttpStatus.OK);
+            .signWith(SignatureAlgorithm.HS256, "something-secret-you-cannot-keep-it").compact());
+    return new ResponseEntity<TokenResponse>(token, HttpStatus.OK);
   }
 
-  @SuppressWarnings("unused")
-  private class LoginResponse {
-    public String token;
 
-    public LoginResponse(final String token) {
-      this.token = token;
-    }
-  }
-
-  private class LoginEntity {
-    public String login;
-    public String password;
-  }
 }
 
 

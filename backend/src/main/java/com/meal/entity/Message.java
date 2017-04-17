@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "message", schema = "mealdb")
-public class MessageEntity {
+public class Message {
   private int id;
   private String text;
   private int senderId;
@@ -67,7 +67,7 @@ public class MessageEntity {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    MessageEntity that = (MessageEntity) o;
+    Message that = (Message) o;
 
     if (id != that.id) return false;
     if (senderId != that.senderId) return false;

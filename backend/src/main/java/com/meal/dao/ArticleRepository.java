@@ -3,5 +3,5 @@ package com.meal.dao;
 import com.meal.entity.ArticleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ArticleDao extends JpaRepository<ArticleEntity, Integer> {
+public interface ArticleRepository extends JpaRepository<ArticleEntity, Integer> {
 }

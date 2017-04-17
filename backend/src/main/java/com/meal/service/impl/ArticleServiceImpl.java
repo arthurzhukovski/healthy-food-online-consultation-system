@@ -1,31 +1,31 @@
 package com.meal.service.impl;
 
-import com.meal.dao.ArticleDao;
+import com.meal.dao.ArticleRepository;
 import com.meal.entity.ArticleEntity;
 import com.meal.service.ArticleService;
 
 public class ArticleServiceImpl implements ArticleService {
 
-  private ArticleDao articleDao;
+  private ArticleRepository articleRepository;
 
-  public ArticleServiceImpl(ArticleDao articleDao) {
-    this.articleDao = articleDao;
+  public ArticleServiceImpl(ArticleRepository articleRepository) {
+    this.articleRepository = articleRepository;
   }
 
   public ArticleEntity findOne(int id) {
-    return articleDao.findOne(id);
+    return articleRepository.findOne(id);
   }
 
   public ArticleEntity createArticle(ArticleEntity article) {
-    return articleDao.save(article);
+    return articleRepository.save(article);
   }
 
   public ArticleEntity updateArticle(ArticleEntity article) {
-    return articleDao.save(article);
+    return articleRepository.save(article);
   }
 
   public void deleteArticle(int id) {
-    articleDao.delete(id);
+    articleRepository.delete(id);
   }
 
   public Iterable<ArticleEntity> findByPage(int page) {

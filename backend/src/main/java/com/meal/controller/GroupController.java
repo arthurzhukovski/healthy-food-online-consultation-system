@@ -1,7 +1,6 @@
 package com.meal.controller;
 
 import com.meal.entity.GroupEntity;
-import com.meal.entity.MemberEntity;
 import com.meal.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,9 +77,9 @@ public class GroupController {
 //     CREATE MEMBER
 //   */
 //  @RequestMapping(value="/groups/members", method = RequestMethod.POST)
-//  public ResponseEntity<MemberEntity> createMember(@RequestParam int id) {
+//  public ResponseEntity<Member> createMember(@RequestParam int id) {
 //    groupService.createMember(member);
-//    return new ResponseEntity<MemberEntity>(member, HttpStatus.OK);
+//    return new ResponseEntity<Member>(member, HttpStatus.OK);
 //  }
 //
 //  /*

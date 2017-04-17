@@ -1,35 +1,35 @@
 package com.meal.service.impl;
 
-import com.meal.dao.GroupDao;
-import com.meal.dao.MemberDao;
+import com.meal.dao.GroupRepository;
+import com.meal.dao.MemberRepository;
 import com.meal.entity.GroupEntity;
-import com.meal.entity.MemberEntity;
+import com.meal.entity.Member;
 import com.meal.service.GroupService;
 
 public class GroupServiceImpl implements GroupService {
   
-  private GroupDao groupDao;
-  private MemberDao memberDao;
+  private GroupRepository groupRepository;
+  private MemberRepository memberRepository;
 
-  public GroupServiceImpl(GroupDao groupDao, MemberDao memberDao) {
-    this.groupDao = groupDao;
-    this.memberDao = memberDao;
+  public GroupServiceImpl(GroupRepository groupRepository, MemberRepository memberRepository) {
+    this.groupRepository = groupRepository;
+    this.memberRepository = memberRepository;
   }
 
   public Iterable<GroupEntity> findAll() {
-    return groupDao.findAll();
+    return groupRepository.findAll();
   }
 
   public GroupEntity findOne(int id) {
-    return groupDao.findOne(id);
+    return groupRepository.findOne(id);
   }
 
   public GroupEntity createGroup(GroupEntity group) {
-    return groupDao.save(group);
+    return groupRepository.save(group);
   }
 
   public GroupEntity updateGroup(GroupEntity group) {
-    return groupDao.save(group);
+    return groupRepository.save(group);
   }
 
   public void deleteGroup(int id) {
@@ -45,16 +45,16 @@ public class GroupServiceImpl implements GroupService {
   }
 
   public void createMember(int userId, int groupId) {
-    MemberEntity member = new MemberEntity();
+    Member member = new Member();
     member.setUserId(userId);
     member.setGroupId(groupId);
-    memberDao.save(member);
+    memberRepository.save(member);
   }
 
   public void deleteMember(int userId, int groupId) {
-    MemberEntity member = new MemberEntity();
+    Member member = new Member();
     member.setUserId(userId);
     member.setGroupId(groupId);
-    memberDao.delete(member);
+    memberRepository.delete(member);
   }
 }

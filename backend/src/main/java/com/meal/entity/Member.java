@@ -4,13 +4,12 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "report", schema = "mealdb")
-public class ReportEntity {
+@Table(name = "member", schema = "mealdb")
+public class Member {
   private int id;
   private int userId;
+  private int groupId;
   private Timestamp createdAt;
-  private Byte grade;
-  private String content;
 
   @Id
   @Column(name = "id", nullable = false)
@@ -33,6 +32,16 @@ public class ReportEntity {
   }
 
   @Basic
+  @Column(name = "group_id", nullable = false)
+  public int getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(int groupId) {
+    this.groupId = groupId;
+  }
+
+  @Basic
   @Column(name = "created_at", nullable = false)
   public Timestamp getCreatedAt() {
     return createdAt;
@@ -42,38 +51,17 @@ public class ReportEntity {
     this.createdAt = createdAt;
   }
 
-  @Basic
-  @Column(name = "grade", nullable = true)
-  public Byte getGrade() {
-    return grade;
-  }
-
-  public void setGrade(Byte grade) {
-    this.grade = grade;
-  }
-
-  @Basic
-  @Column(name = "content", nullable = true, length = 45)
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    ReportEntity that = (ReportEntity) o;
+    Member that = (Member) o;
 
     if (id != that.id) return false;
     if (userId != that.userId) return false;
+    if (groupId != that.groupId) return false;
     if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
-    if (grade != null ? !grade.equals(that.grade) : that.grade != null) return false;
-    if (content != null ? !content.equals(that.content) : that.content != null) return false;
 
     return true;
   }
@@ -82,9 +70,8 @@ public class ReportEntity {
   public int hashCode() {
     int result = id;
     result = 31 * result + userId;
+    result = 31 * result + groupId;
     result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-    result = 31 * result + (grade != null ? grade.hashCode() : 0);
-    result = 31 * result + (content != null ? content.hashCode() : 0);
     return result;
   }
 }

@@ -12,9 +12,9 @@
         <mapping class="com.meal.entity.ArticleEntity"/>
         <mapping class="com.meal.entity.CommentEntity"/>
         <mapping class="com.meal.entity.GroupEntity"/>
-        <mapping class="com.meal.entity.MemberEntity"/>
-        <mapping class="com.meal.entity.MessageEntity"/>
-        <mapping class="com.meal.entity.ReportEntity"/>
+        <mapping class="com.meal.entity.Member"/>
+        <mapping class="com.meal.entity.Message"/>
+        <mapping class="com.meal.entity.Report"/>
         <mapping class="com.meal.entity.UserEntity"/>
         <mapping class="com.meal.entity.UserDataEntity"/>
     </session-factory>

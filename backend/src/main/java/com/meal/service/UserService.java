@@ -3,12 +3,11 @@ package com.meal.service;
 import com.meal.entity.UserDataEntity;
 import com.meal.entity.UserEntity;
 import com.meal.entity.UserFullEntity;
-import com.meal.service.impl.ServiceException;
 
 public interface UserService {
 
   /*
-    UserData
+    UserDataEntity
    */
 
   Iterable<UserEntity> findAll();
@@ -19,7 +18,7 @@ public interface UserService {
   void deleteUser(int id);
 
   /*
-    UserData
+    UserDataEntity
    */
 
   UserDataEntity findUserData(int id);
@@ -30,7 +29,7 @@ public interface UserService {
   void clearUserData(int id);
 
   /*
-    User with UserData
+    UserEntity with UserDataEntity
    */
   UserFullEntity findUserWithUserData(int userId);
 
