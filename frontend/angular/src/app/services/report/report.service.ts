@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
-import { User } from '../../models/index';
+import { Report } from '../../models/index';
 
 @Injectable()
-export class UserService {
+export class ReportService {
     constructor(private http: Http) { }
 
     getAll() {
@@ -15,20 +15,16 @@ export class UserService {
         return this.http.get('/api/users/' + id, this.jwt()).map((response: Response) => response.json());
     }
 
-    create(user: User) {
-        let headers = new RequestOptions({
-                                            headers: new Headers({ 'Content-Type': 'application/json'})
-                                         });
-        var response = this.http.post('http://192.168.43.148:8080/users', user, headers).map((response: Response) => response.json());
-        console.dir(response);
-        console.dir(user);
-        return response;
+    getAllByUserId(userId: number) {
+        return this.http.get('192.168.43.148/reports/user/' + userId, this.jwt()).map((response: Response) => response.json());
     }
 
-    update(user: User) {
-        return this.http.put('/api/users/' + user.id, user, this.jwt()).map((response: Response) => response.json());
+    create(report: Report) {
+        return this.http.post('/api/users', report, this.jwt()).map((response: Response) => response.json());
     }
-
+    update(report: Report) {
+        return this.http.put('/api/users/' + report.id, report, this.jwt()).map((response: Response) => response.json());
+    }
     delete(id: number) {
         return this.http.delete('/api/users/' + id, this.jwt()).map((response: Response) => response.json());
     }
@@ -42,16 +38,5 @@ export class UserService {
             return new RequestOptions({ headers: headers });
         }
     }
-
-    public static getCurentUser():User{
-        let user = localStorage.getItem('currentUser');
-        if (user) {
-            return JSON.parse(user);
-        } else
-        {
-            return null;
-        }
-    }
-
 
 }

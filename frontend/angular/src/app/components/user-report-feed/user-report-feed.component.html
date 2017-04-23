@@ -1,0 +1,58 @@
+<div class="progress-line-wrapper">
+    <div class="day-container add-new">
+        <div class="day-header">
+            <div class="day-separator"><span class="fa fa-plus-circle"></span></div>
+            <span class="day-date">Добавить отчёт</span>
+        </div>
+
+        <div class="day-content add-new">
+            <div class="user-post-container">
+                <div class="user-header">
+                    <img class="user-avatar" src="{{ AVATAR }}">
+                    <div class="user-name">{{currentUser.login}} <span class="fullname">{{currentUser.name}} {{currentUser.surname}}</span></div>
+                </div>
+                <div>Краткое описание того, что Вы кушали:</div>
+                <textarea  type="text" class="form-control report-text"></textarea>
+                <div>Фото:</div>
+                <div class="photos">
+                    <form method="post" id="fileinfo" name="fileinfo" onsubmit="return uploadFile();">
+                        <input type="file" id="inputDailyReportPhotos" name="file" onchange="return uploadFile();" style="display: none" required multiple/>
+                    </form>
+                    <input type="hidden" id="uploadedPhotos" />
+                    <button class=" btn-add-photo" onclick="document.querySelector('#inputDailyReportPhotos').click();"><span class="fa fa-plus"></span></button>
+
+                </div>
+                <button class="btn-send-report">Отправить отчет</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="day-container {{MARK_CLASS}}" *ngFor="let day of days">
+        <div class="day-header">
+            <div class="day-separator">{{MARK_ICON}}</div>
+            <span class="day-date"><span class="fa fa-calendar"> </span>{{day.createdAt}}</span>
+        </div>
+        <div class="day-content ">
+            <div class="user-post-container">
+                <div class="user-header">
+                    <img class="user-avatar" src="{{AVATAR}}">
+                    <div class="user-name">{{currentUser.login}} <span class="fullname">{{currentUser.name}} {{currentUser.surname}}</span></div>
+                </div>
+                <div class="text">{{day.content}}</div>
+                <div class="photos">
+                    {{PHOTOS}}
+                </div>
+            </div>
+            <div class="comment-container">
+                <div class="day-mark-title">Оценка:</div>
+                <div class="day-mark">
+                    {{MARK_ICON_LARGE}}
+                    <div class="mark-comment">
+                        {{COMMENT}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

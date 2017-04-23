@@ -2,12 +2,12 @@
 
     <div *ngIf="currentUser">
 
-        <h1>Hi {{currentUser.firstName}}!</h1>
+        <h1>Hi {{currentUser.name}}!</h1>
         <p>You're logged in with Angular 2!!</p>
         <h3>All registered users:</h3>
         <ul>
             <li *ngFor="let user of users">
-                {{user.username}} ({{user.firstName}} {{user.lastName}})
+                {{user.login}} ({{user.name}} {{user.surname}})
                 - <a (click)="deleteUser(user.id)">Delete</a>
             </li>
         </ul>

@@ -21,13 +21,15 @@ import { AlertService, AuthenticationService, UserService } from './services/ind
 import { HomeComponent } from './components/home/index';
 import { LoginComponent } from './components/login/index';
 import { RegisterComponent } from './components/register/index';
+import { UserReportFeedComponent } from './components/user-report-feed/index';
+import {ReportService} from "./services/report/report.service";
 
 const appRoutes: Routes = [
   { path: 'user-table', component: UserTableComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-
+  { path: 'feed', component: UserReportFeedComponent, canActivate: [AuthGuard] },
   // otherwise redirect to home
   { path: '*', redirectTo: '' }
 
@@ -42,7 +44,8 @@ const appRoutes: Routes = [
     AlertComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    UserReportFeedComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ const appRoutes: Routes = [
     AlertService,
     AuthenticationService,
     UserService,
+    ReportService,
 
     // providers used to create fake backend
     fakeBackendProvider,
