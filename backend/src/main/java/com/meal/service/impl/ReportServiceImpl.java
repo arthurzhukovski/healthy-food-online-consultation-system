@@ -3,36 +3,46 @@ package com.meal.service.impl;
 import com.meal.dao.CommentRepository;
 import com.meal.dao.ReportRepository;
 import com.meal.entity.CommentEntity;
-import com.meal.entity.Report;
+import com.meal.entity.ReportEntity;
 import com.meal.service.ReportService;
+import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
+@Service
 public class ReportServiceImpl implements ReportService {
 
   private ReportRepository reportRepository;
   private CommentRepository commentRepository;
+  private Date dateTime;
 
   public ReportServiceImpl(ReportRepository reportRepository, CommentRepository commentRepository) {
     this.reportRepository = reportRepository;
     this.commentRepository = commentRepository;
+    this.dateTime = new Date();
   }
 
-  public Report findOne(int id) {
+  public ReportEntity findOne(int id) {
     return reportRepository.findOne(id);
   }
 
-  public Report createReport(Report report) {
-    return reportRepository.save(report);
+  public ReportEntity createReport(ReportEntity reportEntity) {
+    if(!isReportValid(reportEntity)){
+      return null;
+    }
+    reportEntity.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
+    return reportRepository.save(reportEntity);
   }
 
-  public Report updateReport(Report report) {
-    return reportRepository.save(report);
+  public ReportEntity updateReport(ReportEntity reportEntity) {
+    return reportRepository.save(reportEntity);
   }
 
   public void deleteReport(int id) {
     reportRepository.delete(id);
   }
 
-  public Iterable<Report> getReportsByUserId(int userId) {
+  public Iterable<ReportEntity> getReportsByUserId(int userId) {
     return null;
   }
 
@@ -54,5 +64,17 @@ public class ReportServiceImpl implements ReportService {
 
   public void deleteComment(int id) {
     commentRepository.delete(id);
+  }
+
+  private boolean isReportValid(ReportEntity reportEntity){
+    if(reportEntity == null){
+      return false;
+    }
+
+    if (reportEntity.getContent().isEmpty()){
+      return false;
+    }
+
+    return true;
   }
 }

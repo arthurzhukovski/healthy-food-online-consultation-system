@@ -1,7 +1,9 @@
 package com.meal.service;
 
 import com.meal.entity.ArticleEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface ArticleService {
 
   ArticleEntity findOne(int id);

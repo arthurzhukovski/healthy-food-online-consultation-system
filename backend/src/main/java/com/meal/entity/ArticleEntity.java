@@ -14,7 +14,7 @@ public class ArticleEntity {
   private byte free;
 
   @Id
-  @Column(name = "id", nullable = false)
+  @Column(name = "id")
   public int getId() {
     return id;
   }

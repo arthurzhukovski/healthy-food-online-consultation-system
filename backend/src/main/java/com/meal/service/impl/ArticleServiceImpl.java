@@ -3,7 +3,9 @@ package com.meal.service.impl;
 import com.meal.dao.ArticleRepository;
 import com.meal.entity.ArticleEntity;
 import com.meal.service.ArticleService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ArticleServiceImpl implements ArticleService {
 
   private ArticleRepository articleRepository;

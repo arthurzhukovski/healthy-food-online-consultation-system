@@ -1,5 +1,6 @@
 package com.meal.security;
 
+import com.meal.entity.RoleEnum;
 import com.meal.entity.UserEntity;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,15 +21,15 @@ public class SecureBeforeMethod {
   public ResponseEntity doSecure(ProceedingJoinPoint joinPoint) {
     MethodSignature  signature = (MethodSignature)joinPoint.getSignature();
     Method method = signature.getMethod();
-    int methodLevel = method.getAnnotation(Secured.class).value().getValue();
+    String methodLevel = method.getAnnotation(Secured.class).value().toString();
     UserEntity currentUser = ((UserEntity)((HttpServletRequest)joinPoint.getArgs()[0]).getAttribute("user"));
     if(currentUser != null) {
-      //int currentUserLevel = currentUser.getRole().getLevel();
-//      if (currentUserLevel >= needLevel) {
+      String currentUserLevel = currentUser.getRole();
+      if (currentUserLevel.equals(methodLevel)) {
         try {
           return (ResponseEntity) joinPoint.proceed();
         } catch (Throwable exc) {}
-     // }
+      }
     }
     return new ResponseEntity(HttpStatus.UNAUTHORIZED);
   }

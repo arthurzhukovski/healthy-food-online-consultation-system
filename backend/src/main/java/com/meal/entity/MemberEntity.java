@@ -4,12 +4,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "group", schema = "mealdb")
-public class GroupEntity {
+@Table(name = "member", schema = "mealdb")
+public class MemberEntity {
   private int id;
-  private int coachId;
-  private byte stage;
-  private byte active;
+  private int userId;
+  private int groupId;
   private Timestamp createdAt;
 
   @Id
@@ -23,33 +22,23 @@ public class GroupEntity {
   }
 
   @Basic
-  @Column(name = "coach_id", nullable = false)
-  public int getCoachId() {
-    return coachId;
+  @Column(name = "user_id", nullable = false)
+  public int getUserId() {
+    return userId;
   }
 
-  public void setCoachId(int coachId) {
-    this.coachId = coachId;
-  }
-
-  @Basic
-  @Column(name = "stage", nullable = false)
-  public byte getStage() {
-    return stage;
-  }
-
-  public void setStage(byte stage) {
-    this.stage = stage;
+  public void setUserId(int userId) {
+    this.userId = userId;
   }
 
   @Basic
-  @Column(name = "active", nullable = false)
-  public byte getActive() {
-    return active;
+  @Column(name = "group_id", nullable = false)
+  public int getGroupId() {
+    return groupId;
   }
 
-  public void setActive(byte active) {
-    this.active = active;
+  public void setGroupId(int groupId) {
+    this.groupId = groupId;
   }
 
   @Basic
@@ -67,12 +56,11 @@ public class GroupEntity {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    GroupEntity that = (GroupEntity) o;
+    MemberEntity that = (MemberEntity) o;
 
     if (id != that.id) return false;
-    if (coachId != that.coachId) return false;
-    if (stage != that.stage) return false;
-    if (active != that.active) return false;
+    if (userId != that.userId) return false;
+    if (groupId != that.groupId) return false;
     if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
 
     return true;
@@ -81,9 +69,8 @@ public class GroupEntity {
   @Override
   public int hashCode() {
     int result = id;
-    result = 31 * result + coachId;
-    result = 31 * result + (int) stage;
-    result = 31 * result + (int) active;
+    result = 31 * result + userId;
+    result = 31 * result + groupId;
     result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
     return result;
   }

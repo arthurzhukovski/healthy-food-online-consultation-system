@@ -1,15 +1,15 @@
 package com.meal.service;
 
 import com.meal.entity.CommentEntity;
-import com.meal.entity.Report;
+import com.meal.entity.ReportEntity;
 
 public interface ReportService {
 
-  Report findOne(int id);
-  Report createReport(Report report);
-  Report updateReport(Report report);
+  ReportEntity findOne(int id);
+  ReportEntity createReport(ReportEntity reportEntity);
+  ReportEntity updateReport(ReportEntity reportEntity);
   void deleteReport(int id);
-  Iterable<Report> getReportsByUserId(int userId);
+  Iterable<ReportEntity> getReportsByUserId(int userId);
 
   CommentEntity findComment(int id);
   CommentEntity findCommentByReportId(int id);

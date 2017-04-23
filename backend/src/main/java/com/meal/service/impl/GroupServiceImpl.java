@@ -3,9 +3,11 @@ package com.meal.service.impl;
 import com.meal.dao.GroupRepository;
 import com.meal.dao.MemberRepository;
 import com.meal.entity.GroupEntity;
-import com.meal.entity.Member;
+import com.meal.entity.MemberEntity;
 import com.meal.service.GroupService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GroupServiceImpl implements GroupService {
   
   private GroupRepository groupRepository;
@@ -45,16 +47,16 @@ public class GroupServiceImpl implements GroupService {
   }
 
   public void createMember(int userId, int groupId) {
-    Member member = new Member();
-    member.setUserId(userId);
-    member.setGroupId(groupId);
-    memberRepository.save(member);
+    MemberEntity memberEntity = new MemberEntity();
+    memberEntity.setUserId(userId);
+    memberEntity.setGroupId(groupId);
+    memberRepository.save(memberEntity);
   }
 
   public void deleteMember(int userId, int groupId) {
-    Member member = new Member();
-    member.setUserId(userId);
-    member.setGroupId(groupId);
-    memberRepository.delete(member);
+    MemberEntity memberEntity = new MemberEntity();
+    memberEntity.setUserId(userId);
+    memberEntity.setGroupId(groupId);
+    memberRepository.delete(memberEntity);
   }
 }

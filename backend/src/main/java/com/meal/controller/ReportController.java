@@ -1,17 +1,19 @@
 package com.meal.controller;
 
 import com.meal.entity.CommentEntity;
-import com.meal.entity.Report;
+import com.meal.entity.ReportEntity;
 
+import com.meal.entity.RoleEnum;
+import com.meal.security.Secured;
 import com.meal.service.ReportService;
+import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
+@RestController
 public class ReportController {
 
   private final ReportService reportService;
@@ -25,27 +27,28 @@ public class ReportController {
 //   GET ALL REPORTS
 //  */
 //  @RequestMapping(value="/reports", method = RequestMethod.GET)
-//  public ResponseEntity<Iterable<Report>> getReports() {
-//    Iterable<Report> reports = reportService.findAll();
-//    return new ResponseEntity<Iterable<Report>>(reports, HttpStatus.OK);
+//  public ResponseEntity<Iterable<ReportEntity>> getReports() {
+//    Iterable<ReportEntity> reports = reportService.findAll();
+//    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
 //  }
 
   /*
      CREATE REPORT
    */
+  //@Secured(RoleEnum.USER)
   @RequestMapping(value="/reports", method = RequestMethod.POST)
-  public ResponseEntity<Report> createReport(@RequestBody Report report) {
-    Report createdReport =  reportService.createReport(report);
-    return new ResponseEntity<Report>(createdReport, HttpStatus.OK);
+  public ResponseEntity<ReportEntity> createReport(@RequestBody ReportEntity reportEntity) {
+    ReportEntity createdReport =  reportService.createReport(reportEntity);
+    return new ResponseEntity<ReportEntity>(createdReport, HttpStatus.OK);
   }
 
   /*
     UPDATE REPORT
    */
   @RequestMapping(value="/reports", method = RequestMethod.PUT)
-  public ResponseEntity<Report> updateReport(@RequestBody Report report) {
-    Report updatedReport = reportService.updateReport(report);
-    return new ResponseEntity<Report>(updatedReport, HttpStatus.OK);
+  public ResponseEntity<ReportEntity> updateReport(@RequestBody ReportEntity reportEntity) {
+    ReportEntity updatedReport = reportService.updateReport(reportEntity);
+    return new ResponseEntity<ReportEntity>(updatedReport, HttpStatus.OK);
   }
 
   /*
@@ -61,18 +64,18 @@ public class ReportController {
     GET REPORT
    */
   @RequestMapping(value="/reports/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Report> getReport(@RequestParam int id) {
-    Report report = reportService.findOne(id);
-    return new ResponseEntity<Report>(report, HttpStatus.OK);
+  public ResponseEntity<ReportEntity> getReport(@RequestParam int id) {
+    ReportEntity report = reportService.findOne(id);
+    return new ResponseEntity<ReportEntity>(report, HttpStatus.OK);
   }
 
   /*
    GET ALL USER REPORTS
   */
   @RequestMapping(value="/reports/user/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Iterable<Report>> getReports(@RequestParam int id) {
-    Iterable<Report> reports = reportService.getReportsByUserId(id);
-    return new ResponseEntity<Iterable<Report>>(reports, HttpStatus.OK);
+  public ResponseEntity<Iterable<ReportEntity>> getReports(@PathVariable(value = "id") int id) {
+    Iterable<ReportEntity> reports = reportService.getReportsByUserId(id);
+    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
   }
 
   /*

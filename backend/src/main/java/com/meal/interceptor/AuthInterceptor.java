@@ -1,6 +1,8 @@
 package com.meal.interceptor;
 
+import com.meal.entity.UserEntity;
 import com.meal.service.AuthService;
+import com.meal.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
@@ -15,13 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 @CrossOrigin
 @Scope("AuthInterceptor")
 public class AuthInterceptor extends HandlerInterceptorAdapter{
+
   @Autowired
-  private AuthService authService;
+  private UserService userService;
   //ResourceBundle resource = ResourceBundle.getBundle("jwt");
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-    // if (req.getMethod().equals("OPTIONS")) return true;
+    if (request.getMethod().equals("OPTIONS")) return true;
 
     String authHeader = request.getHeader("Authorization");
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -35,8 +38,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
       //claims = Jwts.parser().setSigningKey(resource.getString("token.secret"))
       claims = Jwts.parser().setSigningKey("something-secret-you-cannot-keep-it")
               .parseClaimsJws(token).getBody();
-      //TODO claims -> user
-      request.setAttribute("user", claims);
+      int userId = Integer.parseInt(claims.getSubject());
+      UserEntity user = userService.findOne(userId);
+      if(user == null) {
+        return false;
+      }
+      request.setAttribute("user", user);
+
     } catch (final SignatureException e) {
       response.sendError(401);
       return false;

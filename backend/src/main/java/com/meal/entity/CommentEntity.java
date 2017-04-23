@@ -13,7 +13,7 @@ public class CommentEntity {
   private Timestamp createdAt;
 
   @Id
-  @Column(name = "id", nullable = false)
+  @Column(name = "id")
   public int getId() {
     return id;
   }

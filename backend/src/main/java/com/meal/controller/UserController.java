@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -33,7 +34,7 @@ public class UserController {
    */
   @RequestMapping(value="/users", method = RequestMethod.POST)
   public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-    UserEntity createdUser = userService.createUser(user);
+    UserEntity createdUser = userService.createUser(user);//add user data
     return new ResponseEntity<UserEntity>(createdUser, HttpStatus.OK);
   }
 
@@ -49,17 +50,25 @@ public class UserController {
   /*
     DELETE USER
    */
-  @RequestMapping(value="/users", method = RequestMethod.DELETE)
-  public ResponseEntity deleteUser(int id) {//TODO: id param
+  @RequestMapping(value="/users/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity deleteUser(@PathVariable(value = "id") int id) {
     userService.deleteUser(id);
     return new ResponseEntity(HttpStatus.OK);
   }
 
   /*
+    GET CURRENT USER
+   */
+  @RequestMapping(value="/users/current", method = RequestMethod.GET, params="")
+  public ResponseEntity<UserEntity> getCurrentUser(@RequestAttribute("user") UserEntity user) {
+    return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
+  }
+
+  /*
     GET USER
    */
-  @RequestMapping(value="/users/{id}", method = RequestMethod.GET)
-  public ResponseEntity<UserEntity> getUser(@RequestParam int id) {
+  @RequestMapping(value="/users/{id}", method = RequestMethod.GET, params="")
+  public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") int id) {
     UserEntity user = userService.findOne(id);
     return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
   }
@@ -77,7 +86,7 @@ public class UserController {
     GET USER WITH USER DATA
    */
   @RequestMapping(value="/users/{id}/data", method = RequestMethod.GET)
-  public ResponseEntity<UserFullEntity> updateUser(@RequestParam int id) {
+  public ResponseEntity<UserFullEntity> updateUser(@PathVariable(value = "id") int id) {
     UserFullEntity userFullEntity = userService.findUserWithUserData(id);
     return new ResponseEntity<UserFullEntity>(userFullEntity, HttpStatus.OK);
   }

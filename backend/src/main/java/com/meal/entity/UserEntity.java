@@ -1,6 +1,8 @@
 package com.meal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -17,11 +19,11 @@ public class UserEntity {
   private byte stage;
   private String role;
   private String login;
-  @JsonIgnore
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
 
   @Id
-  @Column(name = "id", nullable = false)
+  @Column(name = "id")
   public int getId() {
     return id;
   }

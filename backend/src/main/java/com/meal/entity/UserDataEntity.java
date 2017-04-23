@@ -13,7 +13,7 @@ public class UserDataEntity {
   private Date birthdate;
 
   @Id
-  @Column(name = "user_id", nullable = false)
+  @Column(name = "user_id")
   public int getUserId() {
     return userId;
   }

@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
   private final UserDataRepository userDataRepository;
   private final BCryptPasswordEncoder passwordEncoder;
   private final Date dateTime;
+
   @Autowired
   public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
     this.userRepository = userRepository;
@@ -73,6 +74,7 @@ public class UserServiceImpl implements UserService {
 
   public void deleteUser(int id) {
     userRepository.delete(id);
+    this.deleteUserDataByUserId(id);
   }
 
   public UserDataEntity findUserData(int id) {
@@ -93,6 +95,10 @@ public class UserServiceImpl implements UserService {
 
   public void deleteUserData(int id) {
     userDataRepository.delete(id);
+  }
+
+  public void deleteUserDataByUserId(int id) {
+    userDataRepository.delete(id);//TODO:
   }
 
   public void clearUserData(int id) { }
