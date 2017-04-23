@@ -3,5 +3,6 @@ export class Report{
     userId: number;
     createdAt: Date;
     grade: number;
+    comment: string;
     content: string;
 }

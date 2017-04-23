@@ -1,3 +1,4 @@
+import {Config} from '../../Config';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 
@@ -12,12 +13,12 @@ export class AuthenticationService {
         let headers = new RequestOptions({
             headers: new Headers({ 'Content-Type': 'application/json'})
         });
-        return this.http.post('http://192.168.43.148:8080/login', JSON.stringify({ login: login, password: password }), headers)
+        return this.http.post(Config.BASE_API_URL + '/login', JSON.stringify({ login: login, password: password }), headers)
             .map((response: Response) => {
-                // login successful if there's a jwt token in the response
+
                 let loginResponse = response.json();
                 if (loginResponse.user && loginResponse.token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+
                     localStorage.setItem('currentUser', JSON.stringify(loginResponse.user));
                     localStorage.setItem('token', JSON.stringify(loginResponse.token.token));
                 }

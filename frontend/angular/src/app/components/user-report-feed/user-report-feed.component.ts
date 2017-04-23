@@ -29,6 +29,6 @@ export class UserReportFeedComponent {
     }
 
     private loadAllReports() {
-        this.reportService.getAllByUserId(this.currentUser.id).subscribe(reports => { this.dailyReports = reports; });
+        this.reportService.getAllByUserId(this.currentUser.id).subscribe(reports => { console.log(reports);this.dailyReports = reports; });
     }
 }

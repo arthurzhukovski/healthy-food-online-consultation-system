@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <div class="day-container {{MARK_CLASS}}" *ngFor="let day of days">
+    <div class="day-container {{MARK_CLASS}}" *ngFor="let day of dailyReports">
         <div class="day-header">
             <div class="day-separator">{{MARK_ICON}}</div>
             <span class="day-date"><span class="fa fa-calendar"> </span>{{day.createdAt}}</span>
@@ -48,7 +48,7 @@
                 <div class="day-mark">
                     {{MARK_ICON_LARGE}}
                     <div class="mark-comment">
-                        {{COMMENT}}
+                        {{day.comment}}
                     </div>
                 </div>
 

@@ -1,3 +1,4 @@
+import {Config} from '../../Config';
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
@@ -19,7 +20,7 @@ export class UserService {
         let headers = new RequestOptions({
                                             headers: new Headers({ 'Content-Type': 'application/json'})
                                          });
-        var response = this.http.post('http://192.168.43.148:8080/users', user, headers).map((response: Response) => response.json());
+        var response = this.http.post(Config.BASE_API_URL + '/users', user, headers).map((response: Response) => response.json());
         console.dir(response);
         console.dir(user);
         return response;

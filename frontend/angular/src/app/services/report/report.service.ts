@@ -1,3 +1,4 @@
+import {Config} from '../../Config';
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 
@@ -16,7 +17,14 @@ export class ReportService {
     }
 
     getAllByUserId(userId: number) {
-        return this.http.get('192.168.43.148/reports/user/' + userId, this.jwt()).map((response: Response) => response.json());
+        return this.http.get('/' /*+ userId*/, this.jwt()).map(
+            (response: Response) =>
+                (
+                    JSON.parse('[{"id":"1", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Хорошо", "createdAt": "0000-00-00"},' +
+                                '{"id":"2", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Молодец!", "createdAt": "0000-00-00"}]')
+                )
+        );
+        //return this.http.get(Config.BASE_API_URL + '/reports/user/' + userId, this.jwt()).map((response: Response) => response.json());
     }
 
     create(report: Report) {
