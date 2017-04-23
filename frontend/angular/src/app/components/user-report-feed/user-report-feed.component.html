@@ -8,7 +8,7 @@
         <div class="day-content add-new">
             <div class="user-post-container">
                 <div class="user-header">
-                    <img class="user-avatar" src="{{ AVATAR }}">
+                    <img class="user-avatar" src="{{imgPlaceholder}}">
                     <div class="user-name">{{currentUser.login}} <span class="fullname">{{currentUser.name}} {{currentUser.surname}}</span></div>
                 </div>
                 <div>Краткое описание того, что Вы кушали:</div>
@@ -27,31 +27,34 @@
         </div>
     </div>
 
-    <div class="day-container {{MARK_CLASS}}" *ngFor="let day of dailyReports">
-        <div class="day-header">
-            <div class="day-separator">{{MARK_ICON}}</div>
-            <span class="day-date"><span class="fa fa-calendar"> </span>{{day.createdAt}}</span>
-        </div>
-        <div class="day-content ">
-            <div class="user-post-container">
-                <div class="user-header">
-                    <img class="user-avatar" src="{{AVATAR}}">
-                    <div class="user-name">{{currentUser.login}} <span class="fullname">{{currentUser.name}} {{currentUser.surname}}</span></div>
-                </div>
-                <div class="text">{{day.content}}</div>
-                <div class="photos">
-                    {{PHOTOS}}
-                </div>
+    <div *ngFor="let day of dailyReports">
+        <div class="day-container {{day.grade}}" >
+            <div class="day-header">
+                <div class="day-separator"><span class="fa fa-{{markViewClass[day.grade]}}"></span></div>
+                <span class="day-date"><span class="fa fa-calendar"> </span>{{day.createdAt}}</span>
             </div>
-            <div class="comment-container">
-                <div class="day-mark-title">Оценка:</div>
-                <div class="day-mark">
-                    {{MARK_ICON_LARGE}}
-                    <div class="mark-comment">
-                        {{day.comment}}
+            <div class="day-content ">
+                <div class="user-post-container">
+                    <div class="user-header">
+                        <img class="user-avatar" src="{{imgPlaceholder}}">
+                        <div class="user-name">{{currentUser.login}} <span class="fullname">{{currentUser.name}} {{currentUser.surname}}</span></div>
+                    </div>
+                    <div class="text">{{day.content}}</div>
+                    <div class="photos">
+                        {{PHOTOS}}
                     </div>
                 </div>
+                <div class="comment-container">
+                    <div class="day-mark-title">Оценка:</div>
+                    <div class="day-mark">
+                        <span *ngIf="day.grade !== 'empty'" class="fa fa-{{markViewClass[day.grade]}}"></span>
+                        <div *ngIf="day.grade === 'empty'">Тренер пока не оставил вам оценку.</div>
+                        <div class="mark-comment">
+                            {{day.comment}}
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>

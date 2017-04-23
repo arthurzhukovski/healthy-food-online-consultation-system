@@ -21,7 +21,8 @@ export class ReportService {
             (response: Response) =>
                 (
                     JSON.parse('[{"id":"1", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Хорошо", "createdAt": "0000-00-00"},' +
-                                '{"id":"2", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Молодец!", "createdAt": "0000-00-00"}]')
+                                '{"id":"2", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Молодец!", "createdAt": "0000-00-00"},' +
+                                '{"id":"3", "userId": "1", "content": "Я покушал", "grade": "empty", "comment": "", "createdAt": "0000-00-00"}]')
                 )
         );
         //return this.http.get(Config.BASE_API_URL + '/reports/user/' + userId, this.jwt()).map((response: Response) => response.json());

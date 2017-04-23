@@ -9,7 +9,36 @@ $separator-width: 30px;
   .day-container{
     margin-left: 10px;
     @include flex(column, flex-start, flex-start);
+    &.good{
+      border-color: $color-green;
+      .day-content{
+        border-color: $color-green;
+      }
+      .day-header .day-separator{
+        color: $color-green;
+        border: none;
+      }
+    }
+    &.neutral{
+      border-color: $color-darkyellow;
+      .day-content{
+        border-color: $color-darkyellow;
 
+      }
+      .day-header .day-separator{
+        color: $color-darkyellow;
+        border: none;
+      }
+    }
+    &.bad{
+      border-color: darkred; .day-content{
+      border-color: darkred;
+    }
+      .day-header .day-separator{
+        color: darkred;
+        border: none;
+      }
+    }
     .day-header{
       width: 100%;
       @include flex(row, center, flex-start);
@@ -124,6 +153,7 @@ $separator-width: 30px;
 
       }
     }
+
   }
 }
 .btn-send-report, .btn-rate-report, .btn-green{
@@ -138,38 +168,6 @@ $separator-width: 30px;
   border-radius: 5px;
   height: 40px;
   cursor: pointer;
-}
-.day-container{
-  &.good{
-    border-color: $color-green;
-    .day-content{
-      border-color: $color-green;
-    }
-    .day-header .day-separator{
-      color: $color-green;
-      border: none;
-    }
-  }
-  &.neutral{
-    border-color: $color-darkyellow;
-    .day-content{
-      border-color: $color-darkyellow;
-
-    }
-    .day-header .day-separator{
-      color: $color-darkyellow;
-      border: none;
-    }
-  }
-  &.bad{
-    border-color: darkred; .day-content{
-    border-color: darkred;
-  }
-    .day-header .day-separator{
-      color: darkred;
-      border: none;
-    }
-  }
 }
 
 .update-mark-header{

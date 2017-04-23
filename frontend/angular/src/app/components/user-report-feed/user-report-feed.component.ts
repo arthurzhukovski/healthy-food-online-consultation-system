@@ -1,3 +1,4 @@
+import {Config} from '../../Config';
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '../../models/index';
@@ -12,10 +13,15 @@ import {ReportService} from "../../services/report/report.service";
 })
 
 export class UserReportFeedComponent {
+    private imgPlaceholder = Config.IMG_PLACEHOLDER;
     private dailyReports: Report[];
     private currentUser: User;
     private newReport: Report;
-
+    private markViewClass = {
+                        "good" :"check-circle",
+                        "neutral" :"minus-circle",
+                        "bad" :"times-circle"
+    };
     constructor(private reportService: ReportService) {
         this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     }
