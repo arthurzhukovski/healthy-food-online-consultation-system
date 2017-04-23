@@ -7,12 +7,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 
-  Iterable<ReportEntity> findByUserId(@Param("userId") int userId);
+  Iterable<ReportEntity> findByUserId(int userId);
 
+  @Query("select r " +
+          "from ReportEntity r " +
+          "join MemberEntity m on r.userId = m.userId " +
+          "join GroupEntity g on m.groupId = g.id " +
+          "where g.id = :groupId")
 
-//  @Query("select r.id, r.content, r.created_at, " +
-//          "r.user_id from mealdb.group g join member m on g.id = m.group_id join " +
-//          "user u on u.id = m.id join report r on u.id = r.user_id where g.id = :groupId")
-//  Iterable<ReportEntity> findByGroupId(@Param("groupId") int groupId);
+  Iterable<ReportEntity> findByGroupId(@Param("groupId") int groupId);
   
 }

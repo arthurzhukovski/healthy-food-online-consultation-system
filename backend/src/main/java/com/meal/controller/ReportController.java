@@ -23,14 +23,14 @@ public class ReportController {
     this.reportService = reportService;
   }
 
-//  /*
-//   GET ALL REPORTS
-//  */
-//  @RequestMapping(value="/reports", method = RequestMethod.GET)
-//  public ResponseEntity<Iterable<ReportEntity>> getReports() {
-//    Iterable<ReportEntity> reports = reportService.findAll();
-//    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
-//  }
+  /*
+   GET ALL REPORTS
+  */
+  @RequestMapping(value="/reports", method = RequestMethod.GET)
+  public ResponseEntity<Iterable<ReportEntity>> getReports() {
+    Iterable<ReportEntity> reports = reportService.findAll();
+    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
+  }
 
   /*
      CREATE REPORT
@@ -64,7 +64,7 @@ public class ReportController {
     GET REPORT
    */
   @RequestMapping(value="/reports/{id}", method = RequestMethod.GET)
-  public ResponseEntity<ReportEntity> getReport(@RequestParam int id) {
+  public ResponseEntity<ReportEntity> getReport(@PathVariable(value = "id") int id) {
     ReportEntity report = reportService.findOne(id);
     return new ResponseEntity<ReportEntity>(report, HttpStatus.OK);
   }
@@ -73,8 +73,17 @@ public class ReportController {
    GET ALL USER REPORTS
   */
   @RequestMapping(value="/reports/user/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Iterable<ReportEntity>> getReports(@PathVariable(value = "id") int id) {
+  public ResponseEntity<Iterable<ReportEntity>> getUserReports(@PathVariable(value = "id") int id) {
     Iterable<ReportEntity> reports = reportService.getReportsByUserId(id);
+    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
+  }
+
+  /*
+   GET ALL GROUP REPORTS
+  */
+  @RequestMapping(value="/reports/group/{id}", method = RequestMethod.GET)
+  public ResponseEntity<Iterable<ReportEntity>> getGroupReports(@PathVariable(value = "id") int id) {
+    Iterable<ReportEntity> reports = reportService.getReportsByGroupId(id);
     return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
   }
 

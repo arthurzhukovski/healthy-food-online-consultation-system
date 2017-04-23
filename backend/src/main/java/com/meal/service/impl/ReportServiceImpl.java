@@ -22,6 +22,8 @@ public class ReportServiceImpl implements ReportService {
     this.dateTime = new Date();
   }
 
+  public Iterable<ReportEntity> findAll() { return reportRepository.findAll(); }
+
   public ReportEntity findOne(int id) {
     return reportRepository.findOne(id);
   }
@@ -43,7 +45,10 @@ public class ReportServiceImpl implements ReportService {
   }
 
   public Iterable<ReportEntity> getReportsByUserId(int userId) {
-    return null;
+    return reportRepository.findByUserId(userId);
+  }
+  public Iterable<ReportEntity> getReportsByGroupId(int groupId) {
+    return reportRepository.findByGroupId(groupId);
   }
 
   public CommentEntity findComment(int id) {

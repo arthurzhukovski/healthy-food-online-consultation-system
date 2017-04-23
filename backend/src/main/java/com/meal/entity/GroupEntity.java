@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "group", schema = "mealdb")
+@Table(name = "groups", schema = "mealdb")
 public class GroupEntity {
   private int id;
   private int coachId;
