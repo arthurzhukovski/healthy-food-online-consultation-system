@@ -12,7 +12,7 @@ import { User } from '../../models/index';
 
 export class NavbarComponent {
 
-    private navbar = {"users":"Пользователи", "main":"Главная", "login":"Вход", "logout":"Выход"};
+    private navbar = {"users":"Пользователи", "main":"Главная", "login":"Вход", "logout":"Выход", "feed":"Прогресс"};
     private currentUser: User;
 
     private userIsLoggedIn(){
@@ -23,5 +23,9 @@ export class NavbarComponent {
         else {
             return false;
         }
+    }
+    toggleDropdown(event){
+        var target = event.target || event.srcElement || event.currentTarget;
+        target.classList.toggle('opened');
     }
 }

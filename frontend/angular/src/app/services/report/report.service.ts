@@ -28,8 +28,9 @@ export class ReportService {
         //return this.http.get(Config.BASE_API_URL + '/reports/user/' + userId, this.jwt()).map((response: Response) => response.json());
     }
 
-    create(report: Report) {
-        return this.http.post('/api/users', report, this.jwt()).map((response: Response) => response.json());
+    create(report: any) {
+        return report;
+        //return this.http.post('/api/users', report, this.jwt()).map((response: Response) => response.json());
     }
     update(report: Report) {
         return this.http.put('/api/users/' + report.id, report, this.jwt()).map((response: Response) => response.json());

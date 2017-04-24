@@ -12,17 +12,19 @@
                     <div class="user-name">{{currentUser.login}} <span class="fullname">{{currentUser.name}} {{currentUser.surname}}</span></div>
                 </div>
                 <div>Краткое описание того, что Вы кушали:</div>
-                <textarea  type="text" class="form-control report-text"></textarea>
-                <div>Фото:</div>
-                <div class="photos">
-                    <form method="post" id="fileinfo" name="fileinfo" onsubmit="return uploadFile();">
-                        <input type="file" id="inputDailyReportPhotos" name="file" onchange="return uploadFile();" style="display: none" required multiple/>
-                    </form>
-                    <input type="hidden" id="uploadedPhotos" />
-                    <button class=" btn-add-photo" onclick="document.querySelector('#inputDailyReportPhotos').click();"><span class="fa fa-plus"></span></button>
+                <form name="form" (ngSubmit)="f.form.valid && addReport()" #f="ngForm" novalidate>
+                    <textarea  class="form-control report-text" name="text" [(ngModel)]="model.text" #text="ngModel" required> </textarea>
+                    <div *ngIf="f.submitted && !text.valid" class="help-block">Report text is required</div>
+                    <p>Фото:</p>
+                    <div class="photos">
+                        <input type="file" id="inputDailyReportPhotos" style="display: none" (change)="uploadPhotos($event)" name="photos" [(ngModel)]="model.photos" #photos="ngModel" />
+                        <div *ngIf="f.submitted && !photos.valid" class="help-block">Photos are required</div>
+                        <button class=" btn-add-photo" onclick="document.querySelector('#inputDailyReportPhotos').click();"><span class="fa fa-plus"></span></button>
 
-                </div>
-                <button class="btn-send-report">Отправить отчет</button>
+                    </div>
+                    <button [disabled]="!f.form.valid" type="submit" class="btn-send-report">Отправить отчет</button>
+                </form>
+
             </div>
         </div>
     </div>

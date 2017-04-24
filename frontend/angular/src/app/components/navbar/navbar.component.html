@@ -1,7 +1,14 @@
 <nav class="navbar">
-    <a class="nav-item" routerLink="" routerLinkActive="active">{{navbar.main}}</a>
-    <a class="nav-item" routerLink="user-table" routerLinkActive="active">{{navbar.users}}</a>
+    <a class="nav-item" routerLink="" routerLinkActive="active"><span class="fa fa-home"></span> {{navbar.main}}</a>
+    <a class="nav-item" routerLink="user-table" routerLinkActive="active"><span class="fa fa-users"></span> {{navbar.users}}</a>
 
-    <a class="nav-item" routerLink="login" routerLinkActive="active" *ngIf="userIsLoggedIn()">{{navbar.logout}} ({{currentUser.name}})</a>
-    <a class="nav-item" routerLink="login" routerLinkActive="active" *ngIf="!userIsLoggedIn()">{{navbar.login}}</a>
+
+    <div class="dropdown" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
+        <span class="fa fa-user"></span>{{currentUser.name}}
+        <div class="dropdown-content">
+            <a class="nav-item" routerLink="feed" routerLinkActive="active" ><span class="fa fa-feed"></span> {{navbar.feed}}</a>
+            <a class="nav-item" routerLink="login" routerLinkActive="active" ><span class="fa fa-sign-out"></span> {{navbar.logout}}</a>
+        </div>
+    </div>
+    <a class="nav-item" routerLink="login" routerLinkActive="active" *ngIf="!userIsLoggedIn()"><span class="fa fa-sign-in"></span> {{navbar.login}}</a>
 </nav>
