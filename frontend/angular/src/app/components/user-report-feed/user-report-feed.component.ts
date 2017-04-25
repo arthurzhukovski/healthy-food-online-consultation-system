@@ -18,7 +18,6 @@ export class UserReportFeedComponent {
     private imgPlaceholder = Config.IMG_PLACEHOLDER;
     private dailyReports: Report[];
     private currentUser: User;
-    private newReport: Report;
     private markViewClass = {
                         "good" :"check-circle",
                         "neutral" :"minus-circle",
@@ -30,6 +29,7 @@ export class UserReportFeedComponent {
 
     ngOnInit() {
         this.loadAllReports();
+        this.model.userId = this.currentUser.id;
     }
 
     addReport() {

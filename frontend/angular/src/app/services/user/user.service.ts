@@ -9,11 +9,11 @@ export class UserService {
     constructor(private http: Http) { }
 
     getAll() {
-        return this.http.get('/api/users', this.jwt()).map((response: Response) => response.json());
+        return this.http.get('/api/users', UserService.jwt()).map((response: Response) => response.json());
     }
 
     getById(id: number) {
-        return this.http.get('/api/users/' + id, this.jwt()).map((response: Response) => response.json());
+        return this.http.get('/api/users/' + id, UserService.jwt()).map((response: Response) => response.json());
     }
 
     create(user: User) {
@@ -25,16 +25,29 @@ export class UserService {
         console.dir(user);
         return response;
     }
-
+    getAllUsersByGroups(groups: any) {
+        var groupIds = [];
+        for (var i=0; i < groups.length; i++)
+            groupIds.push(groups[i].id);
+        return this.http.get('/', UserService.jwt()).map(
+            (response: Response) =>
+                (
+                    JSON.parse('[{"id":"1","groupId":"1","name":"Имя 1", "surname": "Фамилия 1", "email": "test@mail.test"},' +
+                        '{"id":"2","groupId":"2","name":"Имя 2", "surname": "Фамилия 2", "email": "test@mail.test"},' +
+                        '{"id":"3","groupId":"3","name":"Имя 3", "surname": "Фамилия 3", "email": "test@mail.test"}]')
+                )
+        );
+        //return this.http.post(Config.BASE_API_URL +'/users/groups', groupIds,  UserService.jwt()).map((response: Response) => response.json());
+    }
     update(user: User) {
-        return this.http.put('/api/users/' + user.id, user, this.jwt()).map((response: Response) => response.json());
+        return this.http.put('/api/users/' + user.id, user, UserService.jwt()).map((response: Response) => response.json());
     }
 
     delete(id: number) {
-        return this.http.delete('/api/users/' + id, this.jwt()).map((response: Response) => response.json());
+        return this.http.delete('/api/users/' + id, UserService.jwt()).map((response: Response) => response.json());
     }
 
-    private jwt() {
+    public static jwt() {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let token = JSON.parse(localStorage.getItem('token'));
 

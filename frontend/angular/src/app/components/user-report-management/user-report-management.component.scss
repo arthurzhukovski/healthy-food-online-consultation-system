@@ -176,6 +176,26 @@ $separator-width: 30px;
 .report-mark{
   margin: 10px 0 10px 0;
 }
+.accordion {
+
+  &.group, &.user {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    &.active, &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+.accordion-content{
+  display: none;
+}
 .ng-valid[required], .ng-valid.required  {
   border-left: 5px solid #42A948; /* green */
 }

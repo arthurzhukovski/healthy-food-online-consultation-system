@@ -3,12 +3,13 @@
     <a class="nav-item" routerLink="user-table" routerLinkActive="active"><span class="fa fa-users"></span> {{navbar.users}}</a>
 
 
-    <div class="dropdown" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
+    <a class="dropdown" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
         <span class="fa fa-user"></span>{{currentUser.name}}
         <div class="dropdown-content">
             <a class="nav-item" routerLink="feed" routerLinkActive="active" ><span class="fa fa-feed"></span> {{navbar.feed}}</a>
+            <a class="nav-item" routerLink="report-management" routerLinkActive="active" ><span class="fa fa-sign-out"></span> {{navbar.report_management}}</a>
             <a class="nav-item" routerLink="login" routerLinkActive="active" ><span class="fa fa-sign-out"></span> {{navbar.logout}}</a>
         </div>
-    </div>
+    </a>
     <a class="nav-item" routerLink="login" routerLinkActive="active" *ngIf="!userIsLoggedIn()"><span class="fa fa-sign-in"></span> {{navbar.login}}</a>
 </nav>
