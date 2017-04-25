@@ -19,7 +19,7 @@ import * as $ from 'jquery';
 })
 
 export class UserReportManagement {
-    private model: any = {};
+    private ratingReport: any = {};
     private dailyReports: Report[];
     private groups: Group[];
     private users: User[];
@@ -39,7 +39,7 @@ export class UserReportManagement {
         this.loadAllGroupsAndReports();
     }
 
-    rateReport(report: any) {
+    rateReport(report: Report) {
         this.reportService.update(report).subscribe(
             data => {
                 this.alertService.success('Report rated successfully', true);
@@ -48,7 +48,14 @@ export class UserReportManagement {
                 this.alertService.error(error);
             });
     }
+    submitRatingForm(event){
+        var $target = $(event.target || event.srcElement || event.currentTarget);
+        let reportId = $target.siblings('.report-id').val();
+        this.ratingReport.id = reportId;
+        console.log(this.ratingReport);
+        this.rateReport(this.ratingReport);
 
+    }
     private loadAllGroupsAndReports() {
             this.groupService.getAllByCoachId(this.currentUser.id)
                 .subscribe(groups => {

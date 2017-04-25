@@ -53,7 +53,8 @@ export class ReportService {
         //return this.http.post(Config.BASE_API_URL + '/reports/', report, UserService.jwt()).map((response: Response) => response.json());
     }
     update(report: any) {
-        return this.http.put(Config.BASE_API_URL + '/reports/' + report.id, report, UserService.jwt()).map((response: Response) => response.json());
+        return this.http.put('/', UserService.jwt()).map((response: Response) => JSON.parse('success'));
+        //return this.http.put(Config.BASE_API_URL + '/reports/' + report.id, report, UserService.jwt()).map((response: Response) => response.json());
     }
     delete(id: number) {
         return this.http.delete(Config.BASE_API_URL + '/reports/' + id, UserService.jwt()).map((response: Response) => response.json());

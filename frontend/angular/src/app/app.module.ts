@@ -23,6 +23,8 @@ import { LoginComponent } from './components/login/index';
 import { RegisterComponent } from './components/register/index';
 import { UserReportFeedComponent } from './components/user-report-feed/index';
 import { UserReportManagement } from './components/user-report-management/index';
+import { UserSettingsComponent } from './components/user-settings/index';
+
 import {NgForFilter} from "./pipes/ngfor-filter.pipe";
 
 const appRoutes: Routes = [
@@ -32,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'feed', component: UserReportFeedComponent, canActivate: [AuthGuard] },
   { path: 'report-management', component: UserReportManagement, canActivate: [AuthGuard] },
+  { path: 'user-settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
   // otherwise redirect to home
   { path: '*', redirectTo: '' }
 
@@ -49,6 +52,7 @@ const appRoutes: Routes = [
     RegisterComponent,
     UserReportFeedComponent,
     UserReportManagement,
+    UserSettingsComponent,
     NgForFilter
   ],
   imports: [

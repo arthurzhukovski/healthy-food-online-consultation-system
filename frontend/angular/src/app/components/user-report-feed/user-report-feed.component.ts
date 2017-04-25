@@ -5,7 +5,7 @@ import {AlertService} from  '../../services/index';
 import { User } from '../../models/index';
 import { Report } from '../../models/index';
 import {ReportService} from "../../services/report/report.service";
-import { FormsModule }        from '@angular/forms';
+
 @Component({
     moduleId: module.id,
     selector: 'user-report-feed',

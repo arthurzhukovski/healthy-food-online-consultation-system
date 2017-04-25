@@ -12,7 +12,13 @@ import { User } from '../../models/index';
 
 export class NavbarComponent {
 
-    private navbar = {"users":"Пользователи", "main":"Главная", "login":"Вход", "logout":"Выход", "feed":"Моё питание", "report_management":"Отчёты пользователей"};
+    private navbar = {"users":"Пользователи",
+                      "main":"Главная",
+                      "login":"Вход",
+                      "logout":"Выход",
+                      "feed":"Моё питание",
+                      "report_management":"Отчёты пользователей",
+                      "settings":"Настройки"};
     private currentUser: User;
 
     private userIsLoggedIn(){

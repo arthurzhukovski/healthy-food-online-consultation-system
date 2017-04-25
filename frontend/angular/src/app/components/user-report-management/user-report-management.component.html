@@ -8,10 +8,10 @@
                 <div class="progress-line-wrapper">
                     <div *ngFor="let day of dailyReports | filter : 'userId' : user.id">
                         <div class="day-container {{day.grade}}" >
+                            <input type="hidden" class="report-id" value="{{day.id}}"  />
                             <div class="day-header">
                                 <div class="day-separator"><span class="fa fa-{{markViewClass[day.grade]}}"></span></div>
                                 <span class="day-date"><span class="fa fa-calendar"> </span>{{day.createdAt}}</span>
-                                <input type="hidden" class="day-id" value="{{day.id}}"/>
                             </div>
                             <div class="day-content ">
                                 <div class="user-post-container">
@@ -35,18 +35,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="update-mark">
+                            <form class="update-mark" name="form" (ngSubmit)="f.form.valid && submitRatingForm($event)" #f="ngForm" novalidate>
                                 <p class="update-mark-header">Как вы оцениваете этот отчёт?</p>
-                                <select class="report-mark form-control">
+                                <select class="report-mark form-control" name="mark" [(ngModel)]="ratingReport.mark" #mark="ngModel" required>
                                     <option value="empty">Без оценки</option>
                                     <option value="good">Хорошо</option>
                                     <option value="neutral">Нейтрально</option>
                                     <option value="bad">Плохо</option>
                                 </select>
-                                <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке"></textarea>
-
+                                <div *ngIf="f.submitted && !mark.valid" class="help-block">Mark is required</div>
+                                <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="ratingReport.text" #text="ngModel" required></textarea>
+                                <div *ngIf="f.submitted && !text.valid" class="help-block">Comment text is required</div>
                                 <button class="btn-rate-report">Применить</button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
