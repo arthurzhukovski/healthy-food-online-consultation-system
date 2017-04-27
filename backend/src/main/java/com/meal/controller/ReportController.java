@@ -55,7 +55,7 @@ public class ReportController {
     DELETE REPORT
    */
   @RequestMapping(value="/reports/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity deleteReport(@RequestParam int id) {
+  public ResponseEntity deleteReport(@PathVariable(value = "id") int id) {
     reportService.deleteReport(id);
     return new ResponseEntity(HttpStatus.OK);
   }
@@ -88,40 +88,15 @@ public class ReportController {
   }
 
   /*
-     CREATE COMMENT
-   */
-  @RequestMapping(value="/report/{id}/comments", method = RequestMethod.POST)
-  public ResponseEntity<CommentEntity> createComment(@RequestBody CommentEntity comment) {
-    CommentEntity createdComment =  reportService.createComment(comment);
-    return new ResponseEntity<CommentEntity>(createdComment, HttpStatus.OK);
+   GET REPORTS BY USERS ID
+  */
+  @RequestMapping(value="/reports/users", method = RequestMethod.POST)
+  public ResponseEntity<Iterable<ReportEntity>> getReportsByUsersId(@RequestBody int[] usersId) {
+    Iterable<ReportEntity> reports = reportService.findByUsersId((usersId));
+    return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
   }
 
-  /*
-    UPDATE COMMENT
-   */
-  @RequestMapping(value="/report/{id}/comments", method = RequestMethod.PUT)
-  public ResponseEntity<CommentEntity> updateComment(@RequestBody CommentEntity comment) {
-    CommentEntity updatedComment = reportService.updateComment(comment);
-    return new ResponseEntity<CommentEntity>(updatedComment, HttpStatus.OK);
-  }
 
-  /*
-    DELETE COMMENT
-   */
-  @RequestMapping(value="/report/{id}/comments{commentId}", method = RequestMethod.DELETE)
-  public ResponseEntity deleteComment(@RequestParam int commentId) {
-    reportService.deleteComment(commentId);
-    return new ResponseEntity(HttpStatus.OK);
-  }
-
-  /*
-    GET COMMENT
-   */
-  @RequestMapping(value="/report/{id}/comments{commentId}", method = RequestMethod.GET)
-  public ResponseEntity<CommentEntity> getComment(@RequestParam int commentId) {
-    CommentEntity comment = reportService.findComment(commentId);
-    return new ResponseEntity<CommentEntity>(comment, HttpStatus.OK);
-  }
 
 //  /*
 //   GET ALL COACH COMMENTS

@@ -1,19 +1,33 @@
 package com.meal.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name = "user_data", schema = "mealdb")
 public class UserDataEntity {
-  private int userId;
+  private Integer userId;
   private Integer weight;
   private Integer height;
-  private String gender;
+  private Gender gender;
   private Date birthdate;
+
+  private UserEntity user;
+
+  @OneToOne(mappedBy = "userData")
+  public UserEntity getUser() {
+    return user;
+  }
+
+  public void setUser(UserEntity user) {
+    this.user = user;
+  }
 
   @Id
   @Column(name = "user_id")
+  //@GeneratedValue
   public int getUserId() {
     return userId;
   }
@@ -43,12 +57,13 @@ public class UserDataEntity {
   }
 
   @Basic
-  @Column(name = "gender", nullable = true)
-  public String getGender() {
+  @Column(name = "gender", nullable = true, columnDefinition = "enum")
+  @Enumerated(EnumType.STRING)
+  public Gender getGender() {
     return gender;
   }
 
-  public void setGender(String gender) {
+  public void setGender(Gender gender) {
     this.gender = gender;
   }
 

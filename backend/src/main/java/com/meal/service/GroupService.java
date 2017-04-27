@@ -1,6 +1,7 @@
 package com.meal.service;
 
 import com.meal.entity.GroupEntity;
+import com.meal.entity.UserEntity;
 
 public interface GroupService {
 
@@ -11,8 +12,8 @@ public interface GroupService {
   void deleteGroup(int id);
 
   GroupEntity getUserGroup(int userId);
-  Iterable<GroupEntity> getCoachGroups(int coachId);
-
-  void createMember(int userId, int groupId);
-  void deleteMember(int userId, int groupId);
+  Iterable<GroupEntity> findGroupsByCoachId (int coachId);
+  Iterable<GroupEntity> findGroupsByUsersId (int[] usersId);
+  GroupEntity addUserToGroup(int groupId, int userId);
+  GroupEntity deleteUserFromGroup(int groupId, int  userId);
 }

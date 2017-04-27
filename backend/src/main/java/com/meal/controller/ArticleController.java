@@ -49,7 +49,7 @@ public class ArticleController {
     DELETE ARTICLE
    */
   @RequestMapping(value="/articles/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity deleteArticle(@RequestParam int id) {
+  public ResponseEntity deleteArticle(@PathVariable(value = "id") int id) {
     articleService.deleteArticle(id);
     return new ResponseEntity(HttpStatus.OK);
   }
@@ -58,18 +58,9 @@ public class ArticleController {
     GET ARTICLE
    */
   @RequestMapping(value="/articles/{id}", method = RequestMethod.GET)
-  public ResponseEntity<ArticleEntity> getArticle(@RequestParam int id) {
+  public ResponseEntity<ArticleEntity> getArticle(@PathVariable(value = "id") int id) {
     ArticleEntity article = articleService.findOne(id);
     return new ResponseEntity<ArticleEntity>(article, HttpStatus.OK);
   }
-
-//  /*
-//    GET ARTICLE
-//   */
-//  @RequestMapping(value="/articles/{id}", method = RequestMethod.GET)
-//  public ResponseEntity<Iterable<ArticleEntity>> getArticleByCoachId(@RequestParam int id) {
-//    Iterable<ArticleEntity> articles = articleService.getArticlesByCoachId(id);
-//    return new ResponseEntity<Iterable<ArticleEntity>>(articles, HttpStatus.OK);
-//  }
 
 }

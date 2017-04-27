@@ -5,16 +5,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Set;
+
 public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 
   Iterable<ReportEntity> findByUserId(int userId);
 
   @Query("select r " +
           "from ReportEntity r " +
-          "join MemberEntity m on r.userId = m.userId " +
-          "join GroupEntity g on m.groupId = g.id " +
+          "join GroupEntity g on r.user.groupId = g.id " +
           "where g.id = :groupId")
-
   Iterable<ReportEntity> findByGroupId(@Param("groupId") int groupId);
-  
+
+
+  @Query("select r " +
+          "from ReportEntity r " +
+          "where r.user.id IN :usersId")
+  Iterable<ReportEntity> findByUsersId(@Param("usersId") List<Integer> usersId);
+
 }

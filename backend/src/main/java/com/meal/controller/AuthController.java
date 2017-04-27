@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
+
 
 @CrossOrigin
 @RestController
@@ -28,7 +28,7 @@ public class AuthController {
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
   public ResponseEntity<UserWithToken> login(@RequestBody LoginRequest loginEntity)
-          throws ServletException {
+           {
 
     UserEntity user = authService.login(loginEntity.getLogin(), loginEntity.getPassword());
     ///WAT

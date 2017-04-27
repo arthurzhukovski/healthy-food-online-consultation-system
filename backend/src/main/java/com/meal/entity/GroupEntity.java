@@ -7,29 +7,31 @@ import java.sql.Timestamp;
 @Table(name = "groups", schema = "mealdb")
 public class GroupEntity {
   private int id;
-  private int coachId;
   private byte stage;
-  private byte active;
+  private Boolean active;
   private Timestamp createdAt;
+
+  private UserEntity coach;
+
+  @ManyToOne
+  @JoinColumn(name = "coach_id")
+  public UserEntity getCoach() {
+    return coach;
+  }
+
+  public void setCoach(UserEntity coach) {
+    this.coach = coach;
+  }
 
   @Id
   @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   public int getId() {
     return id;
   }
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  @Basic
-  @Column(name = "coach_id", nullable = false)
-  public int getCoachId() {
-    return coachId;
-  }
-
-  public void setCoachId(int coachId) {
-    this.coachId = coachId;
   }
 
   @Basic
@@ -44,11 +46,11 @@ public class GroupEntity {
 
   @Basic
   @Column(name = "active", nullable = false)
-  public byte getActive() {
+  public Boolean getActive() {
     return active;
   }
 
-  public void setActive(byte active) {
+  public void setActive(Boolean active) {
     this.active = active;
   }
 
@@ -70,7 +72,6 @@ public class GroupEntity {
     GroupEntity that = (GroupEntity) o;
 
     if (id != that.id) return false;
-    if (coachId != that.coachId) return false;
     if (stage != that.stage) return false;
     if (active != that.active) return false;
     if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
@@ -81,9 +82,7 @@ public class GroupEntity {
   @Override
   public int hashCode() {
     int result = id;
-    result = 31 * result + coachId;
     result = 31 * result + (int) stage;
-    result = 31 * result + (int) active;
     result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
     return result;
   }

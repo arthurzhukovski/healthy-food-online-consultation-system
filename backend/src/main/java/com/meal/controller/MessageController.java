@@ -44,19 +44,5 @@ public class MessageController {
     Iterable<MessageEntity> messages = messageService.getMessagesByReceiverId(id);
     return new ResponseEntity<Iterable<MessageEntity>>(messages, HttpStatus.OK);
   }
-
-  //  /*
-//    GET MESSAGE
-//   */
-//  @RequestMapping(value="/messages/:id", method = RequestMethod.GET)
-//  public ResponseEntity<MessageEntity> getMessage(int id) {
-//    try {
-//      MessageEntity topic = messageService.findOne(id);
-//      //TODO: throw exception
-//      return new ResponseEntity<MessageEntity>(topic, HttpStatus.OK);
-//    } catch(Exception e) {
-//      return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//  }
   
 }

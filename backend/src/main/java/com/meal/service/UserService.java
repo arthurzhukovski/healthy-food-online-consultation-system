@@ -20,18 +20,13 @@ public interface UserService {
   /*
     UserDataEntity
    */
-
   UserDataEntity findUserData(int id);
-  UserDataEntity findUserDataByUserId(int id);
-  UserDataEntity createUserData(UserDataEntity userData);
   UserDataEntity updateUserData(UserDataEntity userData);
-  void deleteUserData(int id);
-  void clearUserData(int id);
 
   /*
     UserEntity with UserDataEntity
    */
-  UserFullEntity findUserWithUserData(int userId);
+  UserFullEntity findUserWithUserData(int userId);// TODO delete
 
 }
 

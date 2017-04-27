@@ -12,7 +12,6 @@
         <mapping class="com.meal.entity.ArticleEntity"/>
         <mapping class="com.meal.entity.CommentEntity"/>
         <mapping class="com.meal.entity.GroupEntity"/>
-        <mapping class="com.meal.entity.MemberEntity"/>
         <mapping class="com.meal.entity.MessageEntity"/>
         <mapping class="com.meal.entity.ReportEntity"/>
         <mapping class="com.meal.entity.UserEntity"/>

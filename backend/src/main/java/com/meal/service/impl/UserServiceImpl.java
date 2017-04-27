@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.meal.dao.UserDataRepository;
 import com.meal.dao.UserRepository;
+import com.meal.entity.RoleEnum;
 import com.meal.entity.UserEntity;
 import com.meal.entity.UserDataEntity;
 import com.meal.entity.UserFullEntity;
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
     user.setPassword(passwordHash);
     user.setStage((byte)0);
-    user.setRole("USER");
+    user.setRole(RoleEnum.USER);
     user.setRegisteredAt(new java.sql.Timestamp(dateTime.getTime()));
 
     try {
@@ -81,27 +82,13 @@ public class UserServiceImpl implements UserService {
     return userDataRepository.findOne(id);
   }
 
-  public UserDataEntity findUserDataByUserId(int id) {
-    return null; //TODO: userDataRepository.findOne(id);
-  }
-
-  public UserDataEntity createUserData(UserDataEntity userData) {
-    return userDataRepository.save(userData);
-  }
-
   public UserDataEntity updateUserData(UserDataEntity userData) {
     return userDataRepository.save(userData);
-  }
-
-  public void deleteUserData(int id) {
-    userDataRepository.delete(id);
   }
 
   public void deleteUserDataByUserId(int id) {
     userDataRepository.delete(id);//TODO:
   }
-
-  public void clearUserData(int id) { }
 
   public UserFullEntity findUserWithUserData(int userId) {
     return null;

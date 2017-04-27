@@ -8,12 +8,24 @@ import java.sql.Timestamp;
 public class MessageEntity {
   private int id;
   private String text;
-  private int senderId;
   private int receiverId;
   private Timestamp createdAt;
 
+  private UserEntity sender;
+
+  @ManyToOne
+  @JoinColumn(name = "sender_id")
+  public UserEntity getSender() {
+    return sender;
+  }
+
+  public void setSender(UserEntity sender) {
+    this.sender = sender;
+  }
+
   @Id
   @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   public int getId() {
     return id;
   }
@@ -30,16 +42,6 @@ public class MessageEntity {
 
   public void setText(String text) {
     this.text = text;
-  }
-
-  @Basic
-  @Column(name = "sender_id", nullable = false)
-  public int getSenderId() {
-    return senderId;
-  }
-
-  public void setSenderId(int senderId) {
-    this.senderId = senderId;
   }
 
   @Basic
@@ -70,7 +72,6 @@ public class MessageEntity {
     MessageEntity that = (MessageEntity) o;
 
     if (id != that.id) return false;
-    if (senderId != that.senderId) return false;
     if (receiverId != that.receiverId) return false;
     if (text != null ? !text.equals(that.text) : that.text != null) return false;
     if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
@@ -82,7 +83,6 @@ public class MessageEntity {
   public int hashCode() {
     int result = id;
     result = 31 * result + (text != null ? text.hashCode() : 0);
-    result = 31 * result + senderId;
     result = 31 * result + receiverId;
     result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
     return result;

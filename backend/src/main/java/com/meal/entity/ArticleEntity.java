@@ -10,10 +10,21 @@ public class ArticleEntity {
   private String title;
   private String content;
   private Timestamp createdAt;
-  private int coachId;
-  private byte free;
+  private UserEntity coach;
+
+  @ManyToOne
+  @JoinColumn(name = "coach_id")
+  public UserEntity getCoach() {
+    return coach;
+  }
+
+  public void setCoach(UserEntity coach) {
+    this.coach = coach;
+  }
+
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   public int getId() {
     return id;
@@ -34,7 +45,7 @@ public class ArticleEntity {
   }
 
   @Basic
-  @Column(name = "content", nullable = false, length = -1)
+  @Column(name = "content", nullable = false, columnDefinition = "text")
   public String getContent() {
     return content;
   }
@@ -53,25 +64,6 @@ public class ArticleEntity {
     this.createdAt = createdAt;
   }
 
-  @Basic
-  @Column(name = "coach_id", nullable = false)
-  public int getCoachId() {
-    return coachId;
-  }
-
-  public void setCoachId(int coachId) {
-    this.coachId = coachId;
-  }
-
-  @Basic
-  @Column(name = "free", nullable = false)
-  public byte getFree() {
-    return free;
-  }
-
-  public void setFree(byte free) {
-    this.free = free;
-  }
 
   @Override
   public boolean equals(Object o) {
@@ -81,8 +73,6 @@ public class ArticleEntity {
     ArticleEntity that = (ArticleEntity) o;
 
     if (id != that.id) return false;
-    if (coachId != that.coachId) return false;
-    if (free != that.free) return false;
     if (title != null ? !title.equals(that.title) : that.title != null) return false;
     if (content != null ? !content.equals(that.content) : that.content != null) return false;
     if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
@@ -96,8 +86,6 @@ public class ArticleEntity {
     result = 31 * result + (title != null ? title.hashCode() : 0);
     result = 31 * result + (content != null ? content.hashCode() : 0);
     result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
-    result = 31 * result + coachId;
-    result = 31 * result + (int) free;
     return result;
   }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.management.relation.Role;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -14,16 +15,39 @@ public class UserEntity {
   private String name;
   private String surname;
   private String email;
-  private byte confirmed;
   private Timestamp registeredAt;
   private byte stage;
-  private String role;
+  private RoleEnum role;
   private String login;
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
+  private Integer groupId;
+
+  private UserDataEntity userData;
+
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @PrimaryKeyJoinColumn
+  public UserDataEntity getUserData() {
+    return userData;
+  }
+
+  public void setUserData(UserDataEntity userData) {
+    this.userData = userData;
+  }
+
+  @Basic
+  @Column(name = "group_id")
+  public Integer getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(Integer groupId) {
+    this.groupId = groupId;
+  }
 
   @Id
   @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   public int getId() {
     return id;
   }
@@ -63,16 +87,6 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "confirmed", nullable = false)
-  public byte getConfirmed() {
-    return confirmed;
-  }
-
-  public void setConfirmed(byte confirmed) {
-    this.confirmed = confirmed;
-  }
-
-  @Basic
   @Column(name = "registered_at", nullable = false)
   public Timestamp getRegisteredAt() {
     return registeredAt;
@@ -93,12 +107,13 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "role", nullable = false)
-  public String getRole() {
+  @Column(name = "role", nullable = false, columnDefinition = "enum")
+  @Enumerated(EnumType.STRING)
+  public RoleEnum getRole() {
     return role;
   }
 
-  public void setRole(String role) {
+  public void setRole(RoleEnum role) {
     this.role = role;
   }
 
@@ -130,7 +145,6 @@ public class UserEntity {
     UserEntity that = (UserEntity) o;
 
     if (id != that.id) return false;
-    if (confirmed != that.confirmed) return false;
     if (stage != that.stage) return false;
     if (name != null ? !name.equals(that.name) : that.name != null) return false;
     if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
@@ -149,7 +163,6 @@ public class UserEntity {
     result = 31 * result + (name != null ? name.hashCode() : 0);
     result = 31 * result + (surname != null ? surname.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
-    result = 31 * result + (int) confirmed;
     result = 31 * result + (registeredAt != null ? registeredAt.hashCode() : 0);
     result = 31 * result + (int) stage;
     result = 31 * result + (role != null ? role.hashCode() : 0);

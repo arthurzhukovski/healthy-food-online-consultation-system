@@ -24,7 +24,7 @@ public class SecureBeforeMethod {
     String methodLevel = method.getAnnotation(Secured.class).value().toString();
     UserEntity currentUser = ((UserEntity)((HttpServletRequest)joinPoint.getArgs()[0]).getAttribute("user"));
     if(currentUser != null) {
-      String currentUserLevel = currentUser.getRole();
+      String currentUserLevel = currentUser.getRole().toString();
       if (currentUserLevel.equals(methodLevel)) {
         try {
           return (ResponseEntity) joinPoint.proceed();
