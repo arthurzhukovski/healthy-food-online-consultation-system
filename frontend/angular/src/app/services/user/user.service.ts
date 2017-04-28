@@ -9,7 +9,8 @@ export class UserService {
     constructor(private http: Http) { }
 
     getAll() {
-        return this.http.get('/api/users', UserService.jwt()).map((response: Response) => response.json());
+        return this.http.get(Config.BASE_API_URL + '/users', UserService.jwt()).map((response: Response) => JSON.parse('[{"groupId":"2", "id":7,"name":"Lenny","surname":"Carl","email":"lennyCarl@yandex.ru","confirmed":0,"registeredAt":1492355585000,"stage":0,"role":"USER","login":"Roman"},{"groupId":"3","id":11,"name":"123","surname":"123","email":"123","confirmed":0,"registeredAt":1492783626000,"stage":0,"role":"USER","login":"123"}]') );
+        //return this.http.get(Config.BASE_API_URL + '/users', UserService.jwt()).map((response: Response) => response.json());
     }
 
     getById(id: number) {

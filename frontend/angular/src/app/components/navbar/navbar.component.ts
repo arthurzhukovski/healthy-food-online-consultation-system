@@ -18,7 +18,8 @@ export class NavbarComponent {
                       "logout":"Выход",
                       "feed":"Моё питание",
                       "report_management":"Отчёты пользователей",
-                      "settings":"Настройки"};
+                      "settings":"Настройки",
+                        "group_assignment":"Группы"};
     private currentUser: User;
 
     private userIsLoggedIn(){

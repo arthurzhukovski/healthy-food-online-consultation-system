@@ -24,6 +24,8 @@ import { RegisterComponent } from './components/register/index';
 import { UserReportFeedComponent } from './components/user-report-feed/index';
 import { UserReportManagement } from './components/user-report-management/index';
 import { UserSettingsComponent } from './components/user-settings/index';
+import { GroupAssignmentComponent } from './components/group-assignment/index';
+import { GroupSelectComponent } from './components/group-select/index';
 
 import {NgForFilter} from "./pipes/ngfor-filter.pipe";
 
@@ -35,6 +37,7 @@ const appRoutes: Routes = [
   { path: 'feed', component: UserReportFeedComponent, canActivate: [AuthGuard] },
   { path: 'report-management', component: UserReportManagement, canActivate: [AuthGuard] },
   { path: 'user-settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
+  { path: 'group-assignment', component: GroupAssignmentComponent, canActivate: [AuthGuard] },
   // otherwise redirect to home
   { path: '*', redirectTo: '' }
 
@@ -53,6 +56,8 @@ const appRoutes: Routes = [
     UserReportFeedComponent,
     UserReportManagement,
     UserSettingsComponent,
+    GroupAssignmentComponent,
+    GroupSelectComponent,
     NgForFilter
   ],
   imports: [

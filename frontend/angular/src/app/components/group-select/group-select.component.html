@@ -1,0 +1,7 @@
+<select (change)="notifyGroupChanged()" [(ngModel)]="selectedGroupId">
+    <option *ngFor="let group of groups"
+            value="{{group.id}}"
+            [attr.selected]="group.id == selectedGroupId ? true : null" ngDefaultControl>
+        Группа {{group.id}}
+    </option>
+</select>

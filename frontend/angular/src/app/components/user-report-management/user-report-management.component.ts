@@ -19,7 +19,7 @@ import * as $ from 'jquery';
 })
 
 export class UserReportManagement {
-    private ratingReport: any = {};
+    private ratingReport: any = [];
     private dailyReports: Report[];
     private groups: Group[];
     private users: User[];
@@ -48,12 +48,14 @@ export class UserReportManagement {
                 this.alertService.error(error);
             });
     }
-    submitRatingForm(event){
-        var $target = $(event.target || event.srcElement || event.currentTarget);
-        let reportId = $target.siblings('.report-id').val();
-        this.ratingReport.id = reportId;
-        console.log(this.ratingReport);
-        this.rateReport(this.ratingReport);
+    submitRatingForm(day){
+        var ratedDay = Object.assign({}, day);
+        ratedDay.mark = ratedDay.shadowMark;
+        ratedDay.comment = ratedDay.shadowText;
+        delete ratedDay.shadowMark;
+        delete ratedDay.shadowText;
+        console.log(ratedDay);
+        this.rateReport(ratedDay);
 
     }
     private loadAllGroupsAndReports() {

@@ -35,16 +35,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <form class="update-mark" name="form" (ngSubmit)="f.form.valid && submitRatingForm($event)" #f="ngForm" novalidate>
+                            <form class="update-mark" name="form" (ngSubmit)="f.form.valid && submitRatingForm(day)" #f="ngForm" novalidate>
                                 <p class="update-mark-header">Как вы оцениваете этот отчёт?</p>
-                                <select class="report-mark form-control" name="mark" [(ngModel)]="ratingReport.mark" #mark="ngModel" required>
+                                <select class="report-mark form-control" name="mark" [(ngModel)]="day.shadowMark" #mark="ngModel" required>
                                     <option value="empty">Без оценки</option>
                                     <option value="good">Хорошо</option>
                                     <option value="neutral">Нейтрально</option>
                                     <option value="bad">Плохо</option>
                                 </select>
                                 <div *ngIf="f.submitted && !mark.valid" class="help-block">Mark is required</div>
-                                <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="ratingReport.text" #text="ngModel" required></textarea>
+                                <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="day.shadowText" #text="ngModel" required></textarea>
                                 <div *ngIf="f.submitted && !text.valid" class="help-block">Comment text is required</div>
                                 <button class="btn-rate-report">Применить</button>
                             </form>
