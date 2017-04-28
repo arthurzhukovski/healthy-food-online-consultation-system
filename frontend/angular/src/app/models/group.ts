@@ -1,7 +1,7 @@
 export class Group{
-    private id: number;
-    private coachId: number;
-    private stage: number;
-    private active: number;
-    private createdAt: Date;
+    id: number;
+    coachId: number;
+    stage: number;
+    active: number;
+    createdAt: Date;
 }

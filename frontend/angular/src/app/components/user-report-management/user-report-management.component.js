@@ -7,13 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 var Config_1 = require('../../Config');
 var core_1 = require('@angular/core');
+var $ = require('jquery');
 var UserReportManagement = (function () {
     function UserReportManagement(reportService, groupService, userService, alertService) {
         this.reportService = reportService;
         this.groupService = groupService;
         this.userService = userService;
         this.alertService = alertService;
-        this.model = {};
+        this.ratingReport = [];
         this.imgPlaceholder = Config_1.Config.IMG_PLACEHOLDER;
         this.markViewClass = {
             "good": "check-circle",
@@ -33,6 +34,15 @@ var UserReportManagement = (function () {
             _this.alertService.error(error);
         });
     };
+    UserReportManagement.prototype.submitRatingForm = function (day) {
+        var ratedDay = Object.assign({}, day);
+        ratedDay.mark = ratedDay.shadowMark;
+        ratedDay.comment = ratedDay.shadowText;
+        delete ratedDay.shadowMark;
+        delete ratedDay.shadowText;
+        console.log(ratedDay);
+        this.rateReport(ratedDay);
+    };
     UserReportManagement.prototype.loadAllGroupsAndReports = function () {
         var _this = this;
         this.groupService.getAllByCoachId(this.currentUser.id)
@@ -50,11 +60,13 @@ var UserReportManagement = (function () {
         });
     };
     UserReportManagement.prototype.toggleContent = function (event) {
-        console.log(this);
-        $(this).classList.toggle('active');
-        var content = $(this).siblings('.progress-line-wrapper');
-        $(this).children('.fa').toggleClass('fa-angle-down');
-        $(this).children('.fa').toggleClass('fa-angle-right');
+        var $target = $(event.target || event.srcElement || event.currentTarget);
+        console.log($target);
+        $target.toggleClass('active');
+        var content = $target.siblings('.accordion-content');
+        console.log(content);
+        $target.children('.fa').toggleClass('fa-angle-down');
+        $target.children('.fa').toggleClass('fa-angle-right');
         content.toggle(300);
     };
     UserReportManagement = __decorate([

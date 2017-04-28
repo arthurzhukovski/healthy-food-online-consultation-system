@@ -38,11 +38,14 @@ var ReportService = (function () {
         //return this.http.post(Config.BASE_API_URL +'/reports/groups', groupIds,  UserService.jwt()).map((response: Response) => response.json());
     };
     ReportService.prototype.create = function (report) {
-        return report;
-        //return this.http.post('/api/users', report, UserService.jwt()).map((response: Response) => response.json());
+        return this.http.get('/', index_1.UserService.jwt()).map(function (response) {
+            return (JSON.parse('{"status": "OK"}'));
+        });
+        //return this.http.post(Config.BASE_API_URL + '/reports/', report, UserService.jwt()).map((response: Response) => response.json());
     };
     ReportService.prototype.update = function (report) {
-        return this.http.put(Config_1.Config.BASE_API_URL + '/reports/' + report.id, report, index_1.UserService.jwt()).map(function (response) { return response.json(); });
+        return this.http.put('/', index_1.UserService.jwt()).map(function (response) { return JSON.parse('success'); });
+        //return this.http.put(Config.BASE_API_URL + '/reports/' + report.id, report, UserService.jwt()).map((response: Response) => response.json());
     };
     ReportService.prototype.delete = function (id) {
         return this.http.delete(Config_1.Config.BASE_API_URL + '/reports/' + id, index_1.UserService.jwt()).map(function (response) { return response.json(); });

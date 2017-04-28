@@ -1,0 +1,6 @@
+<select (change)="notifyCoachChanged()" [(ngModel)]="selectedCoachId">
+    <option *ngFor="let coach of coaches"
+            value="{{coach.id}}"  ngDefaultControl>
+        {{coach.name}} {{coach.surname}} {{coach.id}}
+    </option>
+</select>

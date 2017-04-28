@@ -29,7 +29,12 @@ export class GroupService {
     }
 
     create(group: any) {
-
+        return this.http.get('/', UserService.jwt()).map(
+            (response: Response) =>
+                (
+                    JSON.parse('{"status": "ok"}')
+                )
+        );
     }
 
     update(group: any) {

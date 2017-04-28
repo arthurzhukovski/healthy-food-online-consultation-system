@@ -26,6 +26,10 @@ import { UserReportManagement } from './components/user-report-management/index'
 import { UserSettingsComponent } from './components/user-settings/index';
 import { GroupAssignmentComponent } from './components/group-assignment/index';
 import { GroupSelectComponent } from './components/group-select/index';
+import { GroupCreatorComponent } from './components/group-creator/index';
+import { CoachSelectComponent } from './components/coach-select/index';
+import { ArticleFeedComponent } from './components/article-feed/index';
+import { ArticleCreatorComponent } from './components/article-creator/index';
 
 import {NgForFilter} from "./pipes/ngfor-filter.pipe";
 
@@ -38,6 +42,8 @@ const appRoutes: Routes = [
   { path: 'report-management', component: UserReportManagement, canActivate: [AuthGuard] },
   { path: 'user-settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
   { path: 'group-assignment', component: GroupAssignmentComponent, canActivate: [AuthGuard] },
+  { path: 'articles', component: ArticleFeedComponent },
+  { path: 'create-article', component: ArticleCreatorComponent },
   // otherwise redirect to home
   { path: '*', redirectTo: '' }
 
@@ -58,6 +64,10 @@ const appRoutes: Routes = [
     UserSettingsComponent,
     GroupAssignmentComponent,
     GroupSelectComponent,
+    GroupCreatorComponent,
+    CoachSelectComponent,
+    ArticleFeedComponent,
+    ArticleCreatorComponent,
     NgForFilter
   ],
   imports: [
