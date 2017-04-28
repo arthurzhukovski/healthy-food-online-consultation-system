@@ -1,14 +1,16 @@
 package com.meal.service.impl;
 
 import com.meal.dao.CommentRepository;
+import com.meal.dao.ImageRepository;
 import com.meal.dao.ReportRepository;
-import com.meal.entity.CommentEntity;
-import com.meal.entity.Grade;
-import com.meal.entity.ReportEntity;
+import com.meal.dao.UserRepository;
+import com.meal.entity.*;
 import com.meal.service.ReportService;
 import com.meal.utils.HelpUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Basic;
+import javax.persistence.Lob;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -19,12 +21,18 @@ public class ReportServiceImpl implements ReportService {
 
   private ReportRepository reportRepository;
   private CommentRepository commentRepository;
+  private UserRepository userRepository;
+  private ImageRepository imageRepository;
   private Date dateTime;
 
-  public ReportServiceImpl(ReportRepository reportRepository, CommentRepository commentRepository) {
+  public ReportServiceImpl(ReportRepository reportRepository, CommentRepository commentRepository,
+                           UserRepository userRepository, ImageRepository imageRepository) {
     this.reportRepository = reportRepository;
     this.commentRepository = commentRepository;
+    this.userRepository = userRepository;
+    this.imageRepository = imageRepository;
     this.dateTime = new Date();
+
   }
 
   public Iterable<ReportEntity> findAll() { return reportRepository.findAll(); }
@@ -41,6 +49,7 @@ public class ReportServiceImpl implements ReportService {
       return null;
     }
     reportEntity.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
+    reportEntity.setGrade(Grade.EMPTY);
     return reportRepository.save(reportEntity);
   }
 
@@ -52,6 +61,7 @@ public class ReportServiceImpl implements ReportService {
         return null;
       }
       comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
+      commentRepository.save(comment);
     }
     ReportEntity newReport = updateReportFields(oldReport, report);
     if(newReport == null){
@@ -88,7 +98,7 @@ public class ReportServiceImpl implements ReportService {
       return false;
     }
 
-    if (reportEntity.getContent().isEmpty()){
+    if (HelpUtils.isNullOrEmpty(reportEntity.getContent()) ){
       return false;
     }
 
@@ -120,7 +130,21 @@ public class ReportServiceImpl implements ReportService {
     if(!isReportValid(report)){
       return null;
     }
+    report.setUser(oldReport.getUser());
+    report.setCreatedAt(oldReport.getCreatedAt());
     return report;
+  }
+
+  public void saveImage(int id, byte[] image){
+    ImageEntity entity = new ImageEntity();
+    entity.setImage(image);
+    entity.setReportId(id);
+    imageRepository.save(entity);
+  }
+
+  public byte[] findImage(int id){
+    ImageEntity entity = imageRepository.findByReportId(id);
+    return entity.getImage();
   }
 
 }

@@ -2,6 +2,8 @@ package com.meal.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -16,24 +18,29 @@ public class UserDataEntity {
 
   private UserEntity user;
 
-  @OneToOne(mappedBy = "userData")
-  public UserEntity getUser() {
-    return user;
-  }
-
-  public void setUser(UserEntity user) {
-    this.user = user;
-  }
-
   @Id
+  //@GeneratedValue(generator = "foreigngen")
+//  @GenericGenerator(strategy = "foreign", name="foreigngen",
+//          parameters = @Parameter(name = "property", value="user"))
   @Column(name = "user_id")
-  //@GeneratedValue
   public int getUserId() {
     return userId;
   }
 
   public void setUserId(int userId) {
     this.userId = userId;
+  }
+
+  //@MapsId
+  //@Id
+//  @OneToOne
+//  //@JoinColumn(name = "user_id")
+//  public UserEntity getUser() {
+//    return user;
+//  }
+
+  public void setUser(UserEntity user) {
+    this.user = user;
   }
 
   @Basic

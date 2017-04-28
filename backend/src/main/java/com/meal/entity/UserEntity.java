@@ -24,9 +24,8 @@ public class UserEntity {
   private Integer groupId;
 
   private UserDataEntity userData;
-
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @PrimaryKeyJoinColumn
+  @OneToOne(cascade = CascadeType.ALL)
   public UserDataEntity getUserData() {
     return userData;
   }

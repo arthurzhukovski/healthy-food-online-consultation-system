@@ -13,4 +13,6 @@ public interface ReportService {
   Iterable<ReportEntity> getReportsByUserId(int userId);
   Iterable<ReportEntity> getReportsByGroupId(int userId);
   Iterable<ReportEntity> findByUsersId(int[] usersId);
+  void saveImage(int id, byte[] image);
+  byte[] findImage(int id);
 }

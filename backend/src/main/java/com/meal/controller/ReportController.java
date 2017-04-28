@@ -8,9 +8,12 @@ import com.meal.security.Secured;
 import com.meal.service.ReportService;
 import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @CrossOrigin
 @RestController
@@ -95,6 +98,36 @@ public class ReportController {
     Iterable<ReportEntity> reports = reportService.findByUsersId((usersId));
     return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
   }
+
+  @RequestMapping("/report/image/{id}")
+  public ResponseEntity uploadFile(@PathVariable(value = "id") int id,
+                                           @RequestParam("image") MultipartFile image) {
+    try {
+      reportService.saveImage(3, image.getBytes());
+    } catch (Exception e){
+
+    }
+    return new ResponseEntity(HttpStatus.OK);
+  }
+
+  @RequestMapping("report/image/{id}")
+  public ResponseEntity<byte[]> loadFile(@PathVariable(value = "id") int id) {
+    byte[] image = reportService.findImage(id);
+    return new ResponseEntity<byte[]>(image, HttpStatus.OK);
+  }
+//
+//  /*
+//   UPLOAD IMAGE
+//  */
+//  @RequestMapping(value="/upload", method=RequestMethod.POST)
+//  public String handleFileUpload(@RequestParam("file") MultipartFile file,
+//                                            RedirectAttributes redirectAttributes) {
+//    storageService.store(file);
+//    redirectAttributes.addFlashAttribute("message",
+//            "You successfully uploaded " + file.getOriginalFilename() + "!");
+//
+//    return "redirect:/";
+//  }
 
 
 

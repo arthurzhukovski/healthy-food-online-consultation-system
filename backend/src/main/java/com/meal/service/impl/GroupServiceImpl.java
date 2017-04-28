@@ -47,16 +47,16 @@ public class GroupServiceImpl implements GroupService {
   }
 
   public Iterable<GroupEntity> findGroupsByCoachId(int coachId) {
-    return null;
+    return groupRepository.findByCoachId(coachId);
   }
 
-  public Iterable<GroupEntity> findGroupsByUsersId (int[] usersId){
+  public Iterable<UserEntity> findUsersByGroupsId (int[] groupsId){
     List<Integer> ids = new ArrayList<Integer>();
-    for(int i=0; i<usersId.length; i++) {
-      ids.add(usersId[i]);
+    for(int i=0; i<groupsId.length; i++) {
+      ids.add(groupsId[i]);
     }
     if (ids != null && !ids.isEmpty()) {
-      return groupRepository.findGroupsByUsersId(ids);
+      return groupRepository.findUsersByGroupsId(ids);
     } else {
       return null;
     }

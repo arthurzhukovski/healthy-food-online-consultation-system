@@ -78,9 +78,9 @@ public class GroupController {
     GET GROUPS BY USERS ID
    */
   @RequestMapping(value="/groups/users", method = RequestMethod.POST)
-  public ResponseEntity<Iterable<GroupEntity>> getGroupsByUsersId(@RequestBody int[] usersId) {
-    Iterable<GroupEntity> groups = groupService.findGroupsByUsersId((usersId));
-    return new ResponseEntity<Iterable<GroupEntity>>(groups, HttpStatus.OK);
+  public ResponseEntity<Iterable<UserEntity>> getUsersByGroupsId(@RequestBody int[] groupsId) {
+    Iterable<UserEntity> users = groupService.findUsersByGroupsId((groupsId));
+    return new ResponseEntity<Iterable<UserEntity>>(users, HttpStatus.OK);
   }
 
 

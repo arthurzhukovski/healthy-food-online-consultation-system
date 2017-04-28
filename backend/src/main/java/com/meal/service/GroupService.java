@@ -13,7 +13,7 @@ public interface GroupService {
 
   GroupEntity getUserGroup(int userId);
   Iterable<GroupEntity> findGroupsByCoachId (int coachId);
-  Iterable<GroupEntity> findGroupsByUsersId (int[] usersId);
+  Iterable<UserEntity> findUsersByGroupsId (int[] usersId);
   GroupEntity addUserToGroup(int groupId, int userId);
   GroupEntity deleteUserFromGroup(int groupId, int  userId);
 }

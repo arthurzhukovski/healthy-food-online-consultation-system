@@ -12,6 +12,12 @@ public class CommentEntity {
 
   private UserEntity coach;
 
+  public CommentEntity(){}
+
+  public CommentEntity(String jsonString){
+    this.setText(jsonString);
+  }
+
   @ManyToOne
   @JoinColumn(name = "coach_id", nullable = false)
   public UserEntity getCoach() {

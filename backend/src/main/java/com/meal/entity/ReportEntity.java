@@ -15,8 +15,20 @@ public class ReportEntity {
 
   private CommentEntity comment;
   private UserEntity user;
+//  private byte[] image;
+//
+//  @Basic(fetch = FetchType.LAZY)
+//  @Lob
+//  @Column(name = "image")
+//  public byte[] getImage(){
+//    return this.image;
+//  }
+//
+//  public void setImage(byte[] image){
+//    this.image = image;
+//  }
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
   @JoinColumn(name = "user_id")
   public UserEntity getUser() {
     return user;
@@ -26,7 +38,7 @@ public class ReportEntity {
     this.user = user;
   }
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "comment_id")
   public CommentEntity getComment() {
     return comment;
