@@ -6,7 +6,7 @@
             <button class="accordion user" (click)="toggleContent($event)" ><span class="fa fa-angle-right"></span> {{user.login}} ({{user.name}} {{user.surname}})</button>
             <div class="accordion-content">
                 <div class="progress-line-wrapper">
-                    <div *ngFor="let day of dailyReports | filter : 'userId' : user.id">
+                    <div *ngFor="let day of dailyReports | filter : 'user.id' : user.id">
                         <div class="day-container {{day.grade}}" >
                             <input type="hidden" class="report-id" value="{{day.id}}"  />
                             <div class="day-header">
@@ -21,27 +21,30 @@
                                     </div>
                                     <div class="text">{{day.content}}</div>
                                     <div class="photos">
-                                        {{PHOTOS}}
+                                        <img src="{{imgPath}}{{day.imageId}}">
                                     </div>
                                 </div>
                                 <div class="comment-container">
                                     <div class="day-mark-title">Оценка:</div>
-                                    <div class="day-mark">
-                                        <span *ngIf="day.grade !== 'empty'" class="fa fa-{{markViewClass[day.grade]}}"></span>
-                                        <div *ngIf="day.grade === 'empty'">Тренер пока не оставил вам оценку.</div>
+                                    <div *ngIf="day.grade !== 'EMPTY'" class="day-mark">
+                                        <span class="fa fa-{{markViewClass[day.grade]}}"></span>
                                         <div class="mark-comment">
-                                            {{day.comment}}
+                                            {{day.comment.text}}
                                         </div>
+                                    </div>
+
+                                    <div class="day-mark" *ngIf="day.grade === 'EMPTY'">
+                                        <div >Оценка отсутствует.</div>
                                     </div>
                                 </div>
                             </div>
                             <form class="update-mark" name="form" (ngSubmit)="f.form.valid && submitRatingForm(day)" #f="ngForm" novalidate>
                                 <p class="update-mark-header">Как вы оцениваете этот отчёт?</p>
                                 <select class="report-mark form-control" name="mark" [(ngModel)]="day.shadowMark" #mark="ngModel" required>
-                                    <option value="empty">Без оценки</option>
-                                    <option value="good">Хорошо</option>
-                                    <option value="neutral">Нейтрально</option>
-                                    <option value="bad">Плохо</option>
+                                    <option value="EMPTY">Без оценки</option>
+                                    <option value="GOOD">Хорошо</option>
+                                    <option value="NEUTRAL">Нейтрально</option>
+                                    <option value="BAD">Плохо</option>
                                 </select>
                                 <div *ngIf="f.submitted && !mark.valid" class="help-block">Mark is required</div>
                                 <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="day.shadowText" #text="ngModel" required></textarea>

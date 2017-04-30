@@ -3,6 +3,7 @@ export class Report{
     userId: number;
     createdAt: Date;
     grade: string;
-    comment: string;
+    comment: any;
     content: string;
+    imageId: number;
 }

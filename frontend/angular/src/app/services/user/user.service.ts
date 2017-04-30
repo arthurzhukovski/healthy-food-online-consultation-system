@@ -30,15 +30,8 @@ export class UserService {
         var groupIds = [];
         for (var i=0; i < groups.length; i++)
             groupIds.push(groups[i].id);
-        return this.http.get('/', UserService.jwt()).map(
-            (response: Response) =>
-                (
-                    JSON.parse('[{"id":"1","groupId":"1","name":"Имя 1", "surname": "Фамилия 1", "email": "test@mail.test"},' +
-                        '{"id":"2","groupId":"2","name":"Имя 2", "surname": "Фамилия 2", "email": "test@mail.test"},' +
-                        '{"id":"3","groupId":"3","name":"Имя 3", "surname": "Фамилия 3", "email": "test@mail.test"}]')
-                )
-        );
-        //return this.http.post(Config.BASE_API_URL +'/users/groups', groupIds,  UserService.jwt()).map((response: Response) => response.json());
+
+        return this.http.post(Config.BASE_API_URL +'/groups/users', groupIds,  UserService.jwt()).map((response: Response) => response.json());
     }
     update(user: User) {
         return this.http.put('/api/users/' + user.id, user, UserService.jwt()).map((response: Response) => response.json());
@@ -48,12 +41,16 @@ export class UserService {
         return this.http.delete('/api/users/' + id, UserService.jwt()).map((response: Response) => response.json());
     }
 
-    public static jwt() {
+    public static jwt(noContentType:boolean=false) {
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let token = JSON.parse(localStorage.getItem('token'));
 
         if (currentUser && token) {
-            let headers = new Headers({ 'Authorization': 'Bearer ' + token, 'Content-Type':'application/json' });
+            let headers;
+            if (noContentType)
+                headers = new Headers({ 'Authorization': 'Bearer ' + token });
+            else
+                headers = new Headers({ 'Authorization': 'Bearer ' + token, 'Content-Type':'application/json'});
             return new RequestOptions({ headers: headers });
         }
     }

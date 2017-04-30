@@ -14,14 +14,16 @@ import {ReportService} from "../../services/report/report.service";
 })
 
 export class UserReportFeedComponent {
-    private model: any = {};
+    private model: any = {text: '', userId:0};
     private imgPlaceholder = Config.IMG_PLACEHOLDER;
+    private imageToUpload;
+    private imgPath = Config.BASE_API_URL+'/report/image/'
     private dailyReports: Report[];
     private currentUser: User;
     private markViewClass = {
-                        "good" :"check-circle",
-                        "neutral" :"minus-circle",
-                        "bad" :"times-circle"
+                        "GOOD" :"check-circle",
+                        "NEUTRAL" :"minus-circle",
+                        "BAD" :"times-circle"
     };
     constructor(private reportService: ReportService, private alertService: AlertService) {
         this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -36,6 +38,7 @@ export class UserReportFeedComponent {
         this.reportService.create(this.model).subscribe(
             data => {
                 this.alertService.success('Upload successful', true);
+                this.loadAllReports();
             },
             error => {
                 this.alertService.error(error);
@@ -43,17 +46,26 @@ export class UserReportFeedComponent {
     }
 
     private loadAllReports() {
-        this.reportService.getAllByUserId(this.currentUser.id).subscribe(reports => { console.log(reports); this.dailyReports = reports; });
+        this.reportService.getAllByUserId(this.currentUser.id).subscribe(
+            data => { console.log(data); this.dailyReports = data; },
+            error => {
+                    this.alertService.error(error);
+            });
     }
 
-    private uploadPhotos(event){
+    private uploadImage(event){
         var files = event.srcElement.files;
-        var fileArray = [];
-        if (this.model.files === undefined)
-            this.model.files = [];
-        for (var i = 0; i < files.length; i++) {
-            this.model.files.push(files[i]);
-        }
-        console.log(this.model.files);
+        this.imageToUpload = files[0];
+        console.log(this.imageToUpload);
+
+        this.reportService.uploadImage(this.imageToUpload).subscribe(
+            data => {
+                this.model.imageId = data;
+                console.log(this.model.imageId);
+            },
+            error => {
+                this.alertService.error(error);
+            });
+
     }
 }

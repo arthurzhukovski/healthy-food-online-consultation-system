@@ -17,24 +17,12 @@ export class GroupService {
     }
 
     getAllByCoachId(coachId: number) {
-        return this.http.get('/', UserService.jwt()).map(
-            (response: Response) =>
-                (
-                    JSON.parse('[{"id":"1", "coachId": "1", "stage": "1", "active": "1", "createdAt": "0000-00-00"},' +
-                                '{"id":"2", "coachId": "1", "stage": "2", "active": "1", "createdAt": "0000-00-00"},' +
-                                '{"id":"3", "coachId": "1", "stage": "1", "active": "1", "createdAt": "0000-00-00"}]')
-                )
-        );
-        //return this.http.get(Config.BASE_API_URL + '/groups/coach/' + coachId, UserService.jwt()).map((response: Response) => response.json());
+        console.log(coachId);
+        return this.http.get(Config.BASE_API_URL + '/groups/coach/' + coachId, UserService.jwt()).map((response: Response) => response.json());
     }
 
     create(group: any) {
-        return this.http.get('/', UserService.jwt()).map(
-            (response: Response) =>
-                (
-                    JSON.parse('{"status": "ok"}')
-                )
-        );
+        return this.http.put(Config.BASE_API_URL + '/groups/', group, UserService.jwt()).map((response: Response) => response.json());
     }
 
     update(group: any) {

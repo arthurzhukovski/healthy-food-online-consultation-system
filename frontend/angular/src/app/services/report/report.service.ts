@@ -18,42 +18,36 @@ export class ReportService {
     }
 
     getAllByUserId(userId: number) {
-        return this.http.get('/' /*+ userId*/, UserService.jwt()).map(
+        /*return this.http.get('/' , UserService.jwt()).map(
             (response: Response) =>
                 (
                     JSON.parse('[{"id":"1", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Хорошо", "createdAt": "0000-00-00"},' +
                                 '{"id":"2", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Молодец!", "createdAt": "0000-00-00"},' +
                                 '{"id":"3", "userId": "1", "content": "Я покушал", "grade": "empty", "comment": "", "createdAt": "0000-00-00"}]')
                 )
-        );
-        //return this.http.get(Config.BASE_API_URL + '/reports/user/' + userId, UserService.jwt()).map((response: Response) => response.json());
+        );*/
+        return this.http.get(Config.BASE_API_URL + '/reports/user/' + userId, UserService.jwt()).map((response: Response) => response.json());
     }
     getAllByUsers(users: any) {
         var userIds = [];
         for (var i=0; i < users.length; i++)
             userIds.push(users[i].id);
-        return this.http.get('/' /*+ userId*/, UserService.jwt()).map(
-            (response: Response) =>
-                (
-                    JSON.parse('[{"id":"1", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Хорошо", "createdAt": "0000-00-00"},' +
-                        '{"id":"2", "userId": "2", "content": "Я покушал", "grade": "good", "comment": "Молодец!", "createdAt": "0000-00-00"},' +
-                        '{"id":"3", "userId": "3", "content": "Я покушал", "grade": "empty", "comment": "", "createdAt": "0000-00-00"}]')
-                )
-        );
-        //return this.http.post(Config.BASE_API_URL +'/reports/groups', groupIds,  UserService.jwt()).map((response: Response) => response.json());
+        return this.http.post(Config.BASE_API_URL +'/reports/users', userIds,  UserService.jwt()).map((response: Response) => response.json());
     }
 
-    create(report: any) {
-        return this.http.get('/' , UserService.jwt()).map(
-            (response: Response) =>
-                (
-                    JSON.parse('{"status": "OK"}')
-                )
-        );
-        //return this.http.post(Config.BASE_API_URL + '/reports/', report, UserService.jwt()).map((response: Response) => response.json());
+    uploadImage(imageFile: any){
+        var data = new FormData();
+        data.append('file', imageFile);
+        return this.http.post(Config.BASE_API_URL +'/report/image', data,  UserService.jwt(true)).map((response: Response) => response.json());
+    }
+    create(reportData: any) {
+        let reportObj = {user: {id: reportData.userId}, content: reportData.text, imageId:reportData.imageId};
+        console.log(reportObj);
+        return this.http.post(Config.BASE_API_URL + '/reports/', reportObj, UserService.jwt()).map((response: Response) => response.json());
     }
     update(report: any) {
-        return this.http.put('/', UserService.jwt()).map((response: Response) => JSON.parse('success'));
+        console.log(report);
+        return this.http.put(Config.BASE_API_URL + '/reports/', report, UserService.jwt()).map((response: Response) => response.json());
         //return this.http.put(Config.BASE_API_URL + '/reports/' + report.id, report, UserService.jwt()).map((response: Response) => response.json());
     }
     delete(id: number) {

@@ -18,7 +18,7 @@ export class GroupCreatorComponent {
 
     }
     onSelectNotification(selectedCoach: number){
-        this.newGroup.coachId = selectedCoach;
+        this.newGroup["coach"].id = selectedCoach;
         console.log('coach id: ' + selectedCoach);
     }
 
@@ -33,3 +33,4 @@ export class GroupCreatorComponent {
             });
     }
 }
+

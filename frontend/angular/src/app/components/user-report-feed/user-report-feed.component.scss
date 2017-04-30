@@ -9,7 +9,7 @@ $separator-width: 30px;
   .day-container{
     margin-left: 10px;
     @include flex(column, flex-start, flex-start);
-    &.good{
+    &.GOOD{
       border-color: $color-green;
       .day-content{
         border-color: $color-green;
@@ -19,7 +19,7 @@ $separator-width: 30px;
         border: none;
       }
     }
-    &.neutral{
+    &.NEUTRAL{
       border-color: $color-darkyellow;
       .day-content{
         border-color: $color-darkyellow;
@@ -30,7 +30,7 @@ $separator-width: 30px;
         border: none;
       }
     }
-    &.bad{
+    &.BAD{
       border-color: darkred; .day-content{
       border-color: darkred;
     }

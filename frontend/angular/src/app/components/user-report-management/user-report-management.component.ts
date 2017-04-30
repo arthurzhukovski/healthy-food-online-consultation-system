@@ -24,12 +24,12 @@ export class UserReportManagement {
     private groups: Group[];
     private users: User[];
     private currentUser: User;
-
+    private imgPath = Config.BASE_API_URL+'/report/image/'
     private imgPlaceholder = Config.IMG_PLACEHOLDER;
     private markViewClass = {
-                        "good" :"check-circle",
-                        "neutral" :"minus-circle",
-                        "bad" :"times-circle"
+                        "GOOD" :"check-circle",
+                        "NEUTRAL" :"minus-circle",
+                        "BAD" :"times-circle"
     };
     constructor(private reportService: ReportService, private groupService: GroupService, private userService: UserService, private alertService: AlertService) {
         this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -43,6 +43,7 @@ export class UserReportManagement {
         this.reportService.update(report).subscribe(
             data => {
                 this.alertService.success('Report rated successfully', true);
+                this.loadReports();
             },
             error => {
                 this.alertService.error(error);
@@ -50,16 +51,18 @@ export class UserReportManagement {
     }
     submitRatingForm(day){
         var ratedDay = Object.assign({}, day);
-        ratedDay.mark = ratedDay.shadowMark;
+        ratedDay.grade = ratedDay.shadowMark;
         ratedDay.comment = ratedDay.shadowText;
         delete ratedDay.shadowMark;
         delete ratedDay.shadowText;
+        ratedDay.comment = {coach:{id: this.currentUser.id}, text: ratedDay.comment};
         console.log(ratedDay);
         this.rateReport(ratedDay);
 
     }
     private loadAllGroupsAndReports() {
-            this.groupService.getAllByCoachId(this.currentUser.id)
+            //this.groupService.getAllByCoachId(this.currentUser.id)
+            this.groupService.getAllByCoachId(7)
                 .subscribe(groups => {
                     console.log(groups);
                     this.groups = groups;
@@ -71,8 +74,18 @@ export class UserReportManagement {
                             console.log(reports);
                             this.dailyReports = reports;
                         });
+                    }, error => {
+                        this.alertService.error(error);
                     });
                 });
+    }
+    private loadReports(){
+        this.reportService.getAllByUsers(this.users).subscribe(reports => {
+            console.log(reports);
+            this.dailyReports = reports;
+        },error => {
+            this.alertService.error(error);
+        });
     }
 
     toggleContent(event){
