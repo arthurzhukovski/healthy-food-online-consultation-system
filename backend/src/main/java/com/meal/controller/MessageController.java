@@ -1,6 +1,8 @@
 package com.meal.controller;
 
 import com.meal.entity.MessageEntity;
+import com.meal.entity.RoleEnum;
+import com.meal.security.Secured;
 import com.meal.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,7 @@ public class MessageController {
   /*
      CREATE MESSAGE
    */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value="/messages", method = RequestMethod.POST)
   public ResponseEntity<MessageEntity> createMessage(@RequestBody MessageEntity messageEntity) {
     messageService.createMessage(messageEntity);
@@ -30,6 +33,7 @@ public class MessageController {
   /*
    GET OUTCOMING MESSAGES
   */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value="/messages/outgoing/{id}", method = RequestMethod.GET)
   public ResponseEntity<Iterable<MessageEntity>> getOutgoingMessages(@PathVariable(value = "id") int id) {
     Iterable<MessageEntity> messages = messageService.getMessagesBySenderId(id);
@@ -39,6 +43,7 @@ public class MessageController {
   /*
    GET ALL USER MESSAGES
   */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value="/messages/incoming/{id}", method = RequestMethod.GET)
   public ResponseEntity<Iterable<MessageEntity>> getIncomingMessages(@PathVariable(value = "id") int id) {
     Iterable<MessageEntity> messages = messageService.getMessagesByReceiverId(id);

@@ -1,6 +1,8 @@
 package com.meal.controller;
 
 
+import com.meal.entity.RoleEnum;
+import com.meal.security.Secured;
 import com.meal.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ public class ImageController {
     this.imageService = imageService;
   }
 
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value = "/report/image/{id}", method = RequestMethod.POST, consumes = "multipart/form-data")
   public ResponseEntity uploadFile(@PathVariable(value = "id") int id,
                                    @RequestParam("file") MultipartFile image) {
@@ -31,6 +34,7 @@ public class ImageController {
     return new ResponseEntity(HttpStatus.OK);
   }
 
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value = "/report/image/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE,
           MediaType.IMAGE_JPEG_VALUE})
   public ResponseEntity<byte[]> loadFile(@PathVariable(value = "id") int id) {

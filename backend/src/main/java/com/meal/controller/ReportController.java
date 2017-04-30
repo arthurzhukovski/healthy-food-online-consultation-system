@@ -29,6 +29,7 @@ public class ReportController {
   /*
    GET ALL REPORTS
   */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/reports", method = RequestMethod.GET)
   public ResponseEntity<Iterable<ReportEntity>> getReports() {
     Iterable<ReportEntity> reports = reportService.findAll();
@@ -38,7 +39,7 @@ public class ReportController {
   /*
      CREATE REPORT
    */
-  @Secured(RoleEnum.USER)
+  @Secured({RoleEnum.USER})
   @RequestMapping(value="/reports", method = RequestMethod.POST)
   public ResponseEntity<ReportEntity> createReport(@RequestBody ReportEntity reportEntity) {
     ReportEntity createdReport =  reportService.createReport(reportEntity);
@@ -48,6 +49,7 @@ public class ReportController {
   /*
     UPDATE REPORT
    */
+  @Secured({RoleEnum.ADMIN})
   @RequestMapping(value="/reports", method = RequestMethod.PUT)
   public ResponseEntity<ReportEntity> updateReport(@RequestBody ReportEntity reportEntity) {
     ReportEntity updatedReport = reportService.updateReport(reportEntity);
@@ -57,6 +59,7 @@ public class ReportController {
   /*
     DELETE REPORT
    */
+  @Secured({RoleEnum.ADMIN})
   @RequestMapping(value="/reports/{id}", method = RequestMethod.DELETE)
   public ResponseEntity deleteReport(@PathVariable(value = "id") int id) {
     reportService.deleteReport(id);
@@ -66,6 +69,7 @@ public class ReportController {
   /*
     GET REPORT
    */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/reports/{id}", method = RequestMethod.GET)
   public ResponseEntity<ReportEntity> getReport(@PathVariable(value = "id") int id) {
     ReportEntity report = reportService.findOne(id);
@@ -75,6 +79,7 @@ public class ReportController {
   /*
    GET ALL USER REPORTS
   */
+  @Secured({RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/reports/user/{id}", method = RequestMethod.GET)
   public ResponseEntity<Iterable<ReportEntity>> getUserReports(@PathVariable(value = "id") int id) {
     Iterable<ReportEntity> reports = reportService.getReportsByUserId(id);
@@ -84,6 +89,7 @@ public class ReportController {
   /*
    GET ALL GROUP REPORTS
   */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/reports/group/{id}", method = RequestMethod.GET)
   public ResponseEntity<Iterable<ReportEntity>> getGroupReports(@PathVariable(value = "id") int id) {
     Iterable<ReportEntity> reports = reportService.getReportsByGroupId(id);
@@ -93,6 +99,7 @@ public class ReportController {
   /*
    GET REPORTS BY USERS ID
   */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/reports/users", method = RequestMethod.POST)
   public ResponseEntity<Iterable<ReportEntity>> getReportsByUsersId(@RequestBody int[] usersId) {
     Iterable<ReportEntity> reports = reportService.findByUsersId((usersId));

@@ -1,6 +1,8 @@
 package com.meal.controller;
 
 import com.meal.entity.ArticleEntity;
+import com.meal.entity.RoleEnum;
+import com.meal.security.Secured;
 import com.meal.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class ArticleController {
   /*
      CREATE ARTICLE
    */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/articles", method = RequestMethod.POST)
   public ResponseEntity<ArticleEntity> createArticle(@RequestBody ArticleEntity article) {
     ArticleEntity createdArticle =  articleService.createArticle(article);
@@ -39,6 +42,7 @@ public class ArticleController {
   /*
     UPDATE ARTICLE
    */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/articles", method = RequestMethod.PUT)
   public ResponseEntity<ArticleEntity> updateArticle(@RequestBody ArticleEntity article) {
     ArticleEntity updatedArticle = articleService.updateArticle(article);
@@ -48,6 +52,7 @@ public class ArticleController {
   /*
     DELETE ARTICLE
    */
+  @Secured({RoleEnum.ADMIN})
   @RequestMapping(value="/articles/{id}", method = RequestMethod.DELETE)
   public ResponseEntity deleteArticle(@PathVariable(value = "id") int id) {
     articleService.deleteArticle(id);
@@ -57,6 +62,7 @@ public class ArticleController {
   /*
     GET ARTICLE
    */
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value="/articles/{id}", method = RequestMethod.GET)
   public ResponseEntity<ArticleEntity> getArticle(@PathVariable(value = "id") int id) {
     ArticleEntity article = articleService.findOne(id);
