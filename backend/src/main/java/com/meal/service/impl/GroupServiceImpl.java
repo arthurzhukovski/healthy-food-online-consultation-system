@@ -39,7 +39,11 @@ public class GroupServiceImpl implements GroupService {
   }
 
   public GroupEntity updateGroup(GroupEntity group) {
-    return groupRepository.save(group);
+    GroupEntity oldGroup = groupRepository.findOne(group.getId());
+    oldGroup.setActive(group.getActive());
+    oldGroup.setCoach(group.getCoach());
+    oldGroup.setStage(group.getStage());
+    return groupRepository.save(oldGroup);
   }
 
   public void deleteGroup(int id) {
