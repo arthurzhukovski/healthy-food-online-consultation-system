@@ -22,7 +22,7 @@ export class GroupService {
     }
 
     create(group: any) {
-        return this.http.put(Config.BASE_API_URL + '/groups/', group, UserService.jwt()).map((response: Response) => response.json());
+        return this.http.post(Config.BASE_API_URL + '/groups/', group, UserService.jwt()).map((response: Response) => response.json());
     }
 
     update(group: any) {

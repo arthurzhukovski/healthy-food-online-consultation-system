@@ -25,7 +25,7 @@ export class CoachSelectComponent {
     }
 
     private loadActiveGroups() {
-        this.userService.getAll()
+        this.userService.getCoaches()
             .subscribe(coaches => {
                 console.log('Loaded from service: ' + coaches);
                 this.coaches = coaches;

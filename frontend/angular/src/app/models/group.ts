@@ -4,4 +4,5 @@ export class Group{
     stage: number;
     active: number;
     createdAt: Date;
+    coach: any = {};
 }

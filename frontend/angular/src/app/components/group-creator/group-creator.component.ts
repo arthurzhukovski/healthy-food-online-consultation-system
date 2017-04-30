@@ -12,20 +12,24 @@ import {Group} from "../../models/group";
 
 export class GroupCreatorComponent {
     private newGroup: Group = new Group;
+    @Output() notify: EventEmitter<string> = new EventEmitter<string>();
+
     constructor(private userService: UserService, private alertService: AlertService, private groupService: GroupService) {
     }
     ngOnInit(){
 
     }
     onSelectNotification(selectedCoach: number){
-        this.newGroup["coach"].id = selectedCoach;
+        this.newGroup.coach.id = selectedCoach;
         console.log('coach id: ' + selectedCoach);
     }
 
     createNewGroup(){
+        console.log(this.newGroup);
         this.groupService.create(this.newGroup).subscribe(
             data => {
                 this.alertService.success('Группа создана', true);
+                this.notify.emit('New group has been added to the group list.');
                 console.log(this.newGroup);
             },
             error => {

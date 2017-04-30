@@ -11,7 +11,7 @@ import { UserService, AlertService, GroupService } from '../../services/index';
 
 export class GroupSelectComponent {
     @Output() notify: EventEmitter<number> = new EventEmitter<number>();
-    private groups = [];
+    @Input() groups = [];
     @Input()  selectedGroupId: number = 0;
     constructor(private userService: UserService, private alertService: AlertService, private groupService: GroupService) {
     }
@@ -25,7 +25,7 @@ export class GroupSelectComponent {
     }
 
     private loadActiveGroups() {
-        this.groupService.getAllByCoachId(1)
+        this.groupService.getAll()
             .subscribe(groups => {
                 console.log('Loaded from service: ' + groups);
                 this.groups = groups;
