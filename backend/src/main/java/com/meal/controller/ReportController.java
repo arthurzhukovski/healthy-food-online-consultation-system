@@ -38,7 +38,7 @@ public class ReportController {
   /*
      CREATE REPORT
    */
-  //@Secured(RoleEnum.USER)
+  @Secured(RoleEnum.USER)
   @RequestMapping(value="/reports", method = RequestMethod.POST)
   public ResponseEntity<ReportEntity> createReport(@RequestBody ReportEntity reportEntity) {
     ReportEntity createdReport =  reportService.createReport(reportEntity);
@@ -99,22 +99,6 @@ public class ReportController {
     return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
   }
 
-  @RequestMapping("/report/image/{id}")
-  public ResponseEntity uploadFile(@PathVariable(value = "id") int id,
-                                           @RequestParam("image") MultipartFile image) {
-    try {
-      reportService.saveImage(3, image.getBytes());
-    } catch (Exception e){
-
-    }
-    return new ResponseEntity(HttpStatus.OK);
-  }
-
-  @RequestMapping("report/image/{id}")
-  public ResponseEntity<byte[]> loadFile(@PathVariable(value = "id") int id) {
-    byte[] image = reportService.findImage(id);
-    return new ResponseEntity<byte[]>(image, HttpStatus.OK);
-  }
 //
 //  /*
 //   UPLOAD IMAGE

@@ -22,15 +22,13 @@ public class ReportServiceImpl implements ReportService {
   private ReportRepository reportRepository;
   private CommentRepository commentRepository;
   private UserRepository userRepository;
-  private ImageRepository imageRepository;
   private Date dateTime;
 
   public ReportServiceImpl(ReportRepository reportRepository, CommentRepository commentRepository,
-                           UserRepository userRepository, ImageRepository imageRepository) {
+                           UserRepository userRepository) {
     this.reportRepository = reportRepository;
     this.commentRepository = commentRepository;
     this.userRepository = userRepository;
-    this.imageRepository = imageRepository;
     this.dateTime = new Date();
 
   }
@@ -133,18 +131,6 @@ public class ReportServiceImpl implements ReportService {
     report.setUser(oldReport.getUser());
     report.setCreatedAt(oldReport.getCreatedAt());
     return report;
-  }
-
-  public void saveImage(int id, byte[] image){
-    ImageEntity entity = new ImageEntity();
-    entity.setImage(image);
-    entity.setReportId(id);
-    imageRepository.save(entity);
-  }
-
-  public byte[] findImage(int id){
-    ImageEntity entity = imageRepository.findByReportId(id);
-    return entity.getImage();
   }
 
 }
