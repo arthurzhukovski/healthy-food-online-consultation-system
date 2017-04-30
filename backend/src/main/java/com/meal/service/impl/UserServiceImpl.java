@@ -72,7 +72,23 @@ public class UserServiceImpl implements UserService {
   }
 
   public UserEntity updateUser(UserEntity user) {
-    return userRepository.save(user);
+    UserEntity oldUser = userRepository.findOne(user.getId());
+    if(oldUser == null){
+      return null;
+    }
+    if(user.getGroupId() != null){
+      oldUser.setGroupId(user.getGroupId());
+    }
+    if(user.getRole() != null) {
+      oldUser.setRole(user.getRole());
+    }
+    if(user.getName() != null) {
+      oldUser.setName(user.getName());
+    }
+    if(user.getSurname() != null) {
+      oldUser.setSurname(user.getSurname());
+    }
+    return userRepository.save(oldUser);
   }
 
   public void deleteUser(int id) {

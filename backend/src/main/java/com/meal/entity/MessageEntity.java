@@ -1,5 +1,7 @@
 package com.meal.entity;
 
+import org.apache.catalina.User;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -8,9 +10,9 @@ import java.sql.Timestamp;
 public class MessageEntity {
   private int id;
   private String text;
-  private int receiverId;
   private Timestamp createdAt;
 
+  private UserEntity receiver;
   private UserEntity sender;
 
   @ManyToOne
@@ -44,14 +46,14 @@ public class MessageEntity {
     this.text = text;
   }
 
-  @Basic
-  @Column(name = "receiver_id", nullable = false)
-  public int getReceiverId() {
-    return receiverId;
+  @ManyToOne
+  @JoinColumn(name = "receiver_id")
+  public UserEntity getReceiver() {
+    return receiver;
   }
 
-  public void setReceiverId(int receiverId) {
-    this.receiverId = receiverId;
+  public void setReceiver(UserEntity receiver) {
+    this.receiver = receiver;
   }
 
   @Basic
@@ -72,7 +74,6 @@ public class MessageEntity {
     MessageEntity that = (MessageEntity) o;
 
     if (id != that.id) return false;
-    if (receiverId != that.receiverId) return false;
     if (text != null ? !text.equals(that.text) : that.text != null) return false;
     if (createdAt != null ? !createdAt.equals(that.createdAt) : that.createdAt != null) return false;
 
@@ -83,7 +84,6 @@ public class MessageEntity {
   public int hashCode() {
     int result = id;
     result = 31 * result + (text != null ? text.hashCode() : 0);
-    result = 31 * result + receiverId;
     result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
     return result;
   }

@@ -56,7 +56,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "name", nullable = false, length = 255)
+  @Column(name = "name", length = 255)
   public String getName() {
     return name;
   }
@@ -66,7 +66,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "surname", nullable = false, length = 255)
+  @Column(name = "surname", length = 255)
   public String getSurname() {
     return surname;
   }
@@ -76,7 +76,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "email", nullable = false, length = 255)
+  @Column(name = "email", length = 255)
   public String getEmail() {
     return email;
   }
@@ -86,7 +86,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "registered_at", nullable = false)
+  @Column(name = "registered_at")
   public Timestamp getRegisteredAt() {
     return registeredAt;
   }
@@ -96,7 +96,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "stage", nullable = false)
+  @Column(name = "stage")
   public byte getStage() {
     return stage;
   }
@@ -106,7 +106,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "role", nullable = false, columnDefinition = "enum")
+  @Column(name = "role", columnDefinition = "enum")
   @Enumerated(EnumType.STRING)
   public RoleEnum getRole() {
     return role;
@@ -117,7 +117,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "login", nullable = false, length = 255)
+  @Column(name = "login", length = 255)
   public String getLogin() {
     return login;
   }
@@ -127,7 +127,7 @@ public class UserEntity {
   }
 
   @Basic
-  @Column(name = "password", nullable = false, length = 255)
+  @Column(name = "password", length = 255)
   public String getPassword() {
     return password;
   }

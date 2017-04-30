@@ -47,7 +47,7 @@ public class MessageServiceImpl implements MessageService {
     if(userService.findOne(message.getSender().getId()) == null){
       return false;
     }
-    if(userService.findOne(message.getReceiverId()) == null){
+    if(userService.findOne(message.getReceiver().getId()) == null){
       return false;
     }
     return true;
