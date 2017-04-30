@@ -90,7 +90,7 @@ public class UserController {
     return new ResponseEntity<UserDataEntity>(updatedUserData, HttpStatus.OK);
   }
 
-  @Secured({RoleEnum.ADMIN})
+  //@Secured({RoleEnum.ADMIN})
   @RequestMapping(value="/users/coach", method = RequestMethod.GET)
   public ResponseEntity<Iterable<UserEntity>> findCoachs() {
     Iterable<UserEntity> coach = userService.findCoachs();
