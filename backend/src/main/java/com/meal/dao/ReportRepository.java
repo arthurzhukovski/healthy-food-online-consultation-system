@@ -16,12 +16,12 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
           "from ReportEntity r " +
           "join GroupEntity g on r.user.groupId = g.id " +
           "where g.id = :groupId")
-  Iterable<ReportEntity> findByGroupId(@Param("groupId") int groupId);
+  Iterable<ReportEntity> findByGroupIdByOrderByCreatedAtAsc(@Param("groupId") int groupId);
 
 
   @Query("select r " +
           "from ReportEntity r " +
           "where r.user.id IN :usersId")
-  Iterable<ReportEntity> findByUsersId(@Param("usersId") List<Integer> usersId);
+  Iterable<ReportEntity> findByUsersIdByOrderByCreatedAtAsc(@Param("usersId") List<Integer> usersId);
 
 }

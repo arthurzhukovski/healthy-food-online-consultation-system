@@ -15,6 +15,7 @@ public class ReportEntity {
 
   private CommentEntity comment;
   private UserEntity user;
+  private int imageId;
 //  private byte[] image;
 //
 //  @Basic(fetch = FetchType.LAZY)
@@ -27,6 +28,15 @@ public class ReportEntity {
 //  public void setImage(byte[] image){
 //    this.image = image;
 //  }
+
+  @Column(name = "image_id")
+  public int getImageId() {
+    return imageId;
+  }
+
+  public void setImageId(int imageId) {
+    this.imageId = imageId;
+  }
 
   @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
   @JoinColumn(name = "user_id")

@@ -33,6 +33,8 @@ public class UserServiceImpl implements UserService {
   public Iterable<UserEntity> findAll() {
     return userRepository.findAll();
   }
+  public Iterable<UserEntity> findCoachs(){ return userRepository.findByRole(RoleEnum.COACH.toString()); }
+
 
   public UserEntity findOne(int id) {
     return userRepository.findOne(id);

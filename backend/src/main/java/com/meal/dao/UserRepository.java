@@ -9,4 +9,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
   UserEntity findByLogin(@Param("login")String login);
 
+  @Query("select u " +
+          "from UserEntity u " +
+          "where u.role = :role")
+  Iterable<UserEntity> findByRole(@Param("role")String role);
+
+
 }

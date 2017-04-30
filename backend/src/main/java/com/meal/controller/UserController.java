@@ -90,6 +90,13 @@ public class UserController {
     return new ResponseEntity<UserDataEntity>(updatedUserData, HttpStatus.OK);
   }
 
+  @Secured({RoleEnum.ADMIN})
+  @RequestMapping(value="/users/coach", method = RequestMethod.GET)
+  public ResponseEntity<Iterable<UserEntity>> findCoachs() {
+    Iterable<UserEntity> coach = userService.findCoachs();
+    return new ResponseEntity<Iterable<UserEntity>>(coach, HttpStatus.OK);
+  }
+
 //  /*
 //    GET USER WITH USER DATA
 //   */

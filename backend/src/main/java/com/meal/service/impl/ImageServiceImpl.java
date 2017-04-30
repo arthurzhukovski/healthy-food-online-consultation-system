@@ -1,6 +1,7 @@
 package com.meal.service.impl;
 
 import com.meal.dao.ImageRepository;
+import com.meal.dao.ReportRepository;
 import com.meal.entity.ImageEntity;
 import com.meal.service.ImageService;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,15 @@ public class ImageServiceImpl implements ImageService {
     this.imageRepository = imageRepository;
   }
 
-  public void saveImage(int id, byte[] image){
+  public int saveImage(byte[] image){
     ImageEntity entity = new ImageEntity();
     entity.setImage(image);
-    entity.setReportId(id);
-    imageRepository.save(entity);
+    ImageEntity imageEntity = imageRepository.save(entity);
+    return imageEntity.getId();
   }
 
   public byte[] findImage(int id){
-    ImageEntity entity = imageRepository.findByReportId(id);
+    ImageEntity entity = imageRepository.findOne(id);
     return entity.getImage();
   }
 

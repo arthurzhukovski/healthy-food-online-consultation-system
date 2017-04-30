@@ -11,6 +11,7 @@ public interface UserService {
    */
 
   Iterable<UserEntity> findAll();
+  Iterable<UserEntity> findCoachs();
   UserEntity findOne(int id);
   UserEntity findByLogin(String login);
   UserEntity createUser(UserEntity user);// throws ServiceException;

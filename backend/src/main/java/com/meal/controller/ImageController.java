@@ -23,15 +23,15 @@ public class ImageController {
   }
 
   @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
-  @RequestMapping(value = "/report/image/{id}", method = RequestMethod.POST, consumes = "multipart/form-data")
-  public ResponseEntity uploadFile(@PathVariable(value = "id") int id,
-                                   @RequestParam("file") MultipartFile image) {
+  @RequestMapping(value = "/report/image", method = RequestMethod.POST, consumes = "multipart/form-data")
+  public ResponseEntity<Integer> uploadFile(@RequestParam("file") MultipartFile image) {
+    Integer id = null;
     try {
-      imageService.saveImage(3, image.getBytes());
+      id = imageService.saveImage(image.getBytes());
     } catch (Exception e){
 
     }
-    return new ResponseEntity(HttpStatus.OK);
+    return new ResponseEntity<Integer>(id, HttpStatus.OK);
   }
 
   @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})

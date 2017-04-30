@@ -7,7 +7,6 @@ import java.util.Arrays;
 @Table(name = "image", schema = "mealdb")
 public class ImageEntity {
   private int id;
-  private int reportId;
   private byte[] image;
 
   @Id
@@ -19,15 +18,6 @@ public class ImageEntity {
 
   public void setId(int id) {
     this.id = id;
-  }
-
-  @Column(name = "report_id")
-  public int getReportId() {
-    return this.reportId;
-  }
-
-  public void setReportId(int reportId) {
-    this.reportId = reportId;
   }
 
   @Basic

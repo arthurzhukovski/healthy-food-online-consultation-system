@@ -78,7 +78,7 @@ public class ReportServiceImpl implements ReportService {
       ids.add(usersId[i]);
     }
     if (ids != null && !ids.isEmpty()){
-      return reportRepository.findByUsersId(ids);
+      return reportRepository.findByUsersIdByOrderByCreatedAtAsc(ids);
     } else {
       return null;
     }
@@ -88,7 +88,7 @@ public class ReportServiceImpl implements ReportService {
     return reportRepository.findByUserId(userId);
   }
   public Iterable<ReportEntity> getReportsByGroupId(int groupId) {
-    return reportRepository.findByGroupId(groupId);
+    return reportRepository.findByGroupIdByOrderByCreatedAtAsc(groupId);
   }
 
   private boolean isReportValid(ReportEntity reportEntity){
