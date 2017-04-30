@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,10 +17,12 @@ public class GroupServiceImpl implements GroupService {
   
   private GroupRepository groupRepository;
   private UserRepository userRepository;
+  private final Date dateTime;
 
   public GroupServiceImpl(GroupRepository groupRepository, UserRepository userRepository) {
     this.groupRepository = groupRepository;
     this.userRepository = userRepository;
+    this.dateTime = new Date();
   }
 
   public Iterable<GroupEntity> findAll() {
@@ -31,6 +34,7 @@ public class GroupServiceImpl implements GroupService {
   }
 
   public GroupEntity createGroup(GroupEntity group) {
+    group.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
     return groupRepository.save(group);
   }
 
