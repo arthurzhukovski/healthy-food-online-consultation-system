@@ -1,10 +1,14 @@
 package com.meal.service.impl;
 
 import com.meal.dao.ArticleRepository;
+import com.meal.entity.ArticleDTO;
 import com.meal.entity.ArticleEntity;
 import com.meal.service.ArticleService;
 import com.meal.service.Exception.ServiceException;
 import com.meal.utils.HelpUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -43,8 +47,14 @@ public class ArticleServiceImpl implements ArticleService {
     articleRepository.delete(id);
   }
 
-  public Iterable<ArticleEntity> findByPage(int page) {
-    return null;
+  public ArticleDTO findAll(int page, int pageSize) {
+    PageRequest pageRequest = new PageRequest(page, pageSize, Sort.Direction.DESC, "startTime");
+    Page<ArticleEntity> articles = articleRepository.findAll(pageRequest);
+    ArticleDTO articleDTO = new ArticleDTO();
+    articleDTO.setArticle(articles);
+    articleDTO.setCurrentPage(articles.getNumber());
+    articleDTO.setPageCount(articles.getTotalPages());
+    return articleDTO;
   }
 
   public Iterable<ArticleEntity> getArticlesByCoachId(int id) {

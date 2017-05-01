@@ -1,5 +1,6 @@
 package com.meal.controller;
 
+import com.meal.entity.ArticleDTO;
 import com.meal.entity.ArticleEntity;
 import com.meal.entity.RoleEnum;
 import com.meal.security.Secured;
@@ -20,14 +21,14 @@ public class ArticleController {
     this.articleService = articleService;
   }
 
-//  /*
-//     GET ALL ARTICLE
-//    */
-//  @RequestMapping(value="/articles", method = RequestMethod.GET)
-//  public ResponseEntity<Iterable<ArticleEntity>> getArticles() {
-//    Iterable<ArticleEntity> articles = articleService.findAll();
-//    return new ResponseEntity<Iterable<ArticleEntity>>(articles, HttpStatus.OK);
-//  }
+  /*
+     GET ALL ARTICLE
+    */
+  @RequestMapping(value="/articles/{pageSize}/{page}", method = RequestMethod.GET)
+  public ResponseEntity<ArticleDTO> getArticles(@PathVariable int pageSize, @PathVariable int page) {
+    ArticleDTO articles = articleService.findAll(page, pageSize);
+    return new ResponseEntity<ArticleDTO>(articles, HttpStatus.OK);
+  }
 
   /*
      CREATE ARTICLE
