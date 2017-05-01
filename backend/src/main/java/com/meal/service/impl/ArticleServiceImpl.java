@@ -48,7 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   public ArticleDTO findAll(int page, int pageSize) {
-    PageRequest pageRequest = new PageRequest(page, pageSize, Sort.Direction.DESC, "startTime");
+    PageRequest pageRequest = new PageRequest(page, pageSize);
     Page<ArticleEntity> articles = articleRepository.findAllByOrderByCreatedAtDesc(pageRequest);
     ArticleDTO articleDTO = new ArticleDTO();
     articleDTO.setArticle(articles);

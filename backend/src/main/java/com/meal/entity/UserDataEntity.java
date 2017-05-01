@@ -27,24 +27,6 @@ public class UserDataEntity {
     this.id = id;
   }
 
-//  @OneToOne
-//  @JoinColumn(name = "user_id")
-//  public Integer getUserId() {
-//    return this.userId;
-//  }
-//
-//  public void setUserId(Integer userId) {
-//    this.userId = userId;
-//  }
-
-  //  public UserEntity getUser() {
-//    return user;
-//  }
-//
-//  public void setUser(UserEntity user) {
-//    this.user = user;
-//  }
-
   @Basic
   @Column(name = "weight", nullable = true)
   public Integer getWeight() {
