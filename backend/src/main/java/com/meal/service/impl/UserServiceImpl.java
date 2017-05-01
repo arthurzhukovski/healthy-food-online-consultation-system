@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   public UserEntity createUser(UserEntity user) throws ServiceException {
+    //500
     validateUser(user);
 
     String passwordHash = user.getPassword();
@@ -68,7 +69,8 @@ public class UserServiceImpl implements UserService {
     user.setRole(RoleEnum.USER);
     user.setRegisteredAt(new java.sql.Timestamp(dateTime.getTime()));
     UserDataEntity userData = new UserDataEntity();
-    userData.setUserId(user.getId());
+ //   userData = userDataRepository.save(userData);
+   // userData.setUserId(user.getId());
     user.setUserData(userData);
     user = userRepository.save(user);
     return user;
@@ -138,16 +140,16 @@ public class UserServiceImpl implements UserService {
       UserDataEntity newUserData = newUser.getUserData();
       UserDataEntity userData = user.getUserData();
       if(newUserData.getWeight() != null){
-        userData.setWeight(userData.getWeight());
+        userData.setWeight(newUserData.getWeight());
       }
       if(newUserData.getHeight() != null){
-        userData.setHeight(userData.getHeight());
+        userData.setHeight(newUserData.getHeight());
       }
       if(newUserData.getBirthdate() != null){
-        userData.setBirthdate(userData.getBirthdate());
+        userData.setBirthdate(newUserData.getBirthdate());
       }
       if(newUserData.getGender() != null){
-        userData.setGender(userData.getGender());
+        userData.setGender(newUserData.getGender());
       }
       user.setUserData(userData);
     }

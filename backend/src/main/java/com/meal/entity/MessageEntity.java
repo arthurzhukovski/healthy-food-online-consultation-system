@@ -11,7 +11,6 @@ public class MessageEntity {
   private int id;
   private String text;
   private Timestamp createdAt;
-
   private UserEntity receiver;
   private UserEntity sender;
 

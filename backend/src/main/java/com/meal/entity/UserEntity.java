@@ -3,6 +3,7 @@ package com.meal.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
@@ -24,8 +25,9 @@ public class UserEntity {
   private Integer groupId;
 
   private UserDataEntity userData;
-  @PrimaryKeyJoinColumn
+
   @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "data_id")
   public UserDataEntity getUserData() {
     return userData;
   }

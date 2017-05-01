@@ -10,38 +10,40 @@ import java.sql.Date;
 @Entity
 @Table(name = "user_data", schema = "mealdb")
 public class UserDataEntity {
-  private Integer userId;
+  private Integer id;
   private Integer weight;
   private Integer height;
   private Gender gender;
   private Date birthdate;
 
-  private UserEntity user;
-
   @Id
-  //@GeneratedValue(generator = "foreigngen")
-//  @GenericGenerator(strategy = "foreign", name="foreigngen",
-//          parameters = @Parameter(name = "property", value="user"))
-  @Column(name = "user_id")
-  public int getUserId() {
-    return userId;
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  public Integer getId() {
+    return this.id;
   }
 
-  public void setUserId(int userId) {
-    this.userId = userId;
+  public void setId(Integer id) {
+    this.id = id;
   }
 
-  //@MapsId
-  //@Id
 //  @OneToOne
-//  //@JoinColumn(name = "user_id")
-//  public UserEntity getUser() {
-//    return user;
+//  @JoinColumn(name = "user_id")
+//  public Integer getUserId() {
+//    return this.userId;
+//  }
+//
+//  public void setUserId(Integer userId) {
+//    this.userId = userId;
 //  }
 
-  public void setUser(UserEntity user) {
-    this.user = user;
-  }
+  //  public UserEntity getUser() {
+//    return user;
+//  }
+//
+//  public void setUser(UserEntity user) {
+//    this.user = user;
+//  }
 
   @Basic
   @Column(name = "weight", nullable = true)
@@ -91,7 +93,6 @@ public class UserDataEntity {
 
     UserDataEntity that = (UserDataEntity) o;
 
-    if (userId != that.userId) return false;
     if (weight != null ? !weight.equals(that.weight) : that.weight != null) return false;
     if (height != null ? !height.equals(that.height) : that.height != null) return false;
     if (gender != null ? !gender.equals(that.gender) : that.gender != null) return false;
@@ -102,7 +103,7 @@ public class UserDataEntity {
 
   @Override
   public int hashCode() {
-    int result = userId;
+    int result = id;
     result = 31 * result + (weight != null ? weight.hashCode() : 0);
     result = 31 * result + (height != null ? height.hashCode() : 0);
     result = 31 * result + (gender != null ? gender.hashCode() : 0);
