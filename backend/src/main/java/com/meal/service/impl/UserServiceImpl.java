@@ -8,11 +8,13 @@ import com.meal.entity.RoleEnum;
 import com.meal.entity.UserEntity;
 import com.meal.entity.UserDataEntity;
 import com.meal.entity.UserFullEntity;
+import com.meal.service.Exception.ServiceException;
 import com.meal.service.UserService;
 import com.meal.utils.HelpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,20 +42,20 @@ public class UserServiceImpl implements UserService {
     return userRepository.findOne(id);
   }
 
-  public UserEntity findByLogin(String login) {
-    if(HelpUtils.isNullOrEmpty(login)){
-      return null;
-    }
+  public UserEntity findByLogin(String login) throws ServiceException {
+    Assert.notNull(login, "login can't be null");
+    if(login.isEmpty()) { throw new IllegalArgumentException("login can't be empty"); }
 
     UserEntity user =  userRepository.findByLogin(login);
+
+    if(user == null) {
+      throw new ServiceException("User with login " + login + " doesn't exists");
+    }
     return user;
   }
 
- // public UserEntity createUser(UserEntity user) throws ServiceException {
-  public UserEntity createUser(UserEntity user) {
-    if(!userIsValid(user)){
-      return null;
-    }
+  public UserEntity createUser(UserEntity user) throws ServiceException {
+    validateUser(user);
 
     String passwordHash = user.getPassword();
     passwordHash = passwordEncoder.encode(passwordHash);
@@ -63,32 +65,20 @@ public class UserServiceImpl implements UserService {
     user.setRole(RoleEnum.USER);
     user.setRegisteredAt(new java.sql.Timestamp(dateTime.getTime()));
 
-    try {
-      user = userRepository.save(user);
-    } catch(Exception e){
-     // throw new ServiceException(e);
-    }
+    user = userRepository.save(user);
     return user;
   }
 
-  public UserEntity updateUser(UserEntity user) {
+  public UserEntity updateUser(UserEntity user) throws ServiceException {
+    Assert.notNull(user);
     UserEntity oldUser = userRepository.findOne(user.getId());
-    if(oldUser == null){
-      return null;
+    if(oldUser == null) {
+      throw new ServiceException("no user with " + user.getId() + " id");
     }
-    if(user.getGroupId() != null){
-      oldUser.setGroupId(user.getGroupId());
-    }
-    if(user.getRole() != null) {
-      oldUser.setRole(user.getRole());
-    }
-    if(user.getName() != null) {
-      oldUser.setName(user.getName());
-    }
-    if(user.getSurname() != null) {
-      oldUser.setSurname(user.getSurname());
-    }
-    return userRepository.save(oldUser);
+
+    user = updateUserFields(oldUser, user);
+
+    return userRepository.save(user);
   }
 
   public void deleteUser(int id) {
@@ -105,32 +95,81 @@ public class UserServiceImpl implements UserService {
   }
 
   public void deleteUserDataByUserId(int id) {
-    userDataRepository.delete(id);//TODO:
+    userDataRepository.delete(id);
   }
 
-  public UserFullEntity findUserWithUserData(int userId) {
-    return null;
-  }
+//  public UserFullEntity findUserWithUserData(int userId) {
+//    return null;
+//  }
 
-  private boolean userIsValid(UserEntity user){
+  private UserEntity updateUserFields(UserEntity user, UserEntity newUser) throws ServiceException {
+    Assert.notNull(user, "user can't be null");
+    Assert.notNull(newUser, "new user can't be null");
+
+    if(newUser.getGroupId() != null){
+      user.setGroupId(newUser.getGroupId());
+    }
+    if(newUser.getRole() != null) {
+      user.setRole(newUser.getRole());
+    }
+    if(newUser.getName() != null) {
+      if(newUser.getName().isEmpty()) {
+        throw new ServiceException("user name can't be null");
+      }
+      user.setName(newUser.getName());
+    }
+    if(newUser.getSurname() != null) {
+      if(newUser.getSurname().isEmpty()) {
+        throw new ServiceException("user name can't be null");
+      }
+      user.setSurname(newUser.getSurname());
+    }
+
+    return user;
+  }
+  private UserEntity updateUserDataFields(UserEntity user, UserEntity newUser) throws ServiceException {
+    Assert.notNull(user, "user can't be null");
+    Assert.notNull(newUser, "new user can't be null");
+
+    if(newUser.getGroupId() != null){
+      user.setGroupId(newUser.getGroupId());
+    }
+    if(newUser.getRole() != null) {
+      user.setRole(newUser.getRole());
+    }
+    if(newUser.getName() != null) {
+      if(newUser.getName().isEmpty()) {
+        throw new ServiceException("user name can't be null");
+      }
+      user.setName(newUser.getName());
+    }
+    if(newUser.getSurname() != null) {
+      if(newUser.getSurname().isEmpty()) {
+        throw new ServiceException("user name can't be null");
+      }
+      user.setSurname(newUser.getSurname());
+    }
+
+    return user;
+  }
+  private void validateUser(UserEntity user) throws ServiceException{
     if(user == null){
-      return false;
+      throw new ServiceException("user can't be null");
     }
     if(HelpUtils.isNullOrEmpty(user.getEmail())){
-      return false;
+      throw new ServiceException("user email is invalid");
     }
     if(HelpUtils.isNullOrEmpty(user.getName())){
-      return false;
+      throw new ServiceException("user name is invalid");
     }
     if(HelpUtils.isNullOrEmpty(user.getSurname())){
-      return false;
+      throw new ServiceException("user surname is invalid");
     }
     if(HelpUtils.isNullOrEmpty(user.getLogin())){
-      return false;
+      throw new ServiceException("user login is invalid");
     }
     if(HelpUtils.isNullOrEmpty(user.getPassword())){
-      return false;
+      throw new ServiceException("user password is invalid");
     }
-    return true;
   }
 }

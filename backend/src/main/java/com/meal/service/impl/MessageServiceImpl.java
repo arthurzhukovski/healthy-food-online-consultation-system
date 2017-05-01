@@ -2,6 +2,7 @@ package com.meal.service.impl;
 
 import com.meal.dao.MessageRepository;
 import com.meal.entity.MessageEntity;
+import com.meal.service.Exception.ServiceException;
 import com.meal.service.MessageService;
 import com.meal.service.UserService;
 import com.meal.utils.HelpUtils;
@@ -32,24 +33,21 @@ public class MessageServiceImpl implements MessageService {
     return messageRepository.findByReceiverId(id);
   }
 
-  public MessageEntity createMessage(MessageEntity message) {
-    if(!messageIsValid(message)){
-      return null;
-    }
+  public MessageEntity createMessage(MessageEntity message) throws ServiceException {
+    messageIsValid(message);
     message.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
     return messageRepository.save(message);
   }
 
-  public boolean messageIsValid(MessageEntity message){
+  public void messageIsValid(MessageEntity message) throws ServiceException{
     if(HelpUtils.isNullOrEmpty(message.getText())){
-      return false;
+      throw new ServiceException("message text is invalid");
     }
     if(userService.findOne(message.getSender().getId()) == null){
-      return false;
+      throw new ServiceException("no such user-sender");
     }
     if(userService.findOne(message.getReceiver().getId()) == null){
-      return false;
+      throw new ServiceException("no such user-receiver");
     }
-    return true;
   }
 }

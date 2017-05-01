@@ -2,6 +2,7 @@ package com.meal.service.impl;
 
 import com.meal.entity.UserEntity;
 import com.meal.service.AuthService;
+import com.meal.service.Exception.ServiceException;
 import com.meal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,7 +20,7 @@ public class AuthServiceImpl implements AuthService {
     this.passwordEncoder = new BCryptPasswordEncoder();
   }
 
-  public UserEntity login(String login, String password) {
+  public UserEntity login(String login, String password) throws ServiceException {
     UserEntity user = userService.findByLogin(login);
 
     if(passwordEncoder.matches(password, user.getPassword())){

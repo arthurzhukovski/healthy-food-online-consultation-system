@@ -2,7 +2,7 @@ package com.meal.service;
 
 import com.meal.entity.UserDataEntity;
 import com.meal.entity.UserEntity;
-import com.meal.entity.UserFullEntity;
+import com.meal.service.Exception.ServiceException;
 
 public interface UserService {
 
@@ -12,22 +12,18 @@ public interface UserService {
 
   Iterable<UserEntity> findAll();
   Iterable<UserEntity> findCoachs();
-  UserEntity findOne(int id);
-  UserEntity findByLogin(String login);
-  UserEntity createUser(UserEntity user);// throws ServiceException;
-  UserEntity updateUser(UserEntity user);
-  void deleteUser(int id);
+  UserEntity findOne(int id) throws ServiceException;
+  UserEntity findByLogin(String login) throws ServiceException;
+  UserEntity createUser(UserEntity user) throws ServiceException;
+  UserEntity updateUser(UserEntity user) throws ServiceException;
+  void deleteUser(int id) throws ServiceException;
 
   /*
     UserDataEntity
    */
-  UserDataEntity findUserData(int id);
+
   UserDataEntity updateUserData(UserDataEntity userData);
 
-  /*
-    UserEntity with UserDataEntity
-   */
-  UserFullEntity findUserWithUserData(int userId);// TODO delete
 
 }
 
