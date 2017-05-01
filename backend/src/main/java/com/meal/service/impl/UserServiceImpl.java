@@ -124,7 +124,23 @@ public class UserServiceImpl implements UserService {
       }
       user.setSurname(newUser.getSurname());
     }
-
+    if(newUser.getUserData() != null) {
+      UserDataEntity newUserData = newUser.getUserData();
+      UserDataEntity userData = user.getUserData();
+      if(newUserData.getWeight() != null){
+        userData.setWeight(userData.getWeight());
+      }
+      if(newUserData.getHeight() != null){
+        userData.setHeight(userData.getHeight());
+      }
+      if(newUserData.getBirthdate() != null){
+        userData.setBirthdate(userData.getBirthdate());
+      }
+      if(newUserData.getGender() != null){
+        userData.setGender(userData.getGender());
+      }
+      user.setUserData(userData);
+    }
     return user;
   }
   private UserEntity updateUserDataFields(UserEntity user, UserEntity newUser) throws ServiceException {
