@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 public interface MessageRepository extends JpaRepository<MessageEntity, Integer> {
 
   //@Query("select m from Message m where m.sender_id = :id")
-  Iterable<MessageEntity> findBySenderId(@Param("sender_id")int sender_id);
+  Iterable<MessageEntity> findBySenderIdOrderByCreatedAtDesc(@Param("sender_id")int sender_id);
 
   //@Query("select m from Message m where m.receiver_id = :id")
-  Iterable<MessageEntity> findByReceiverId(@Param("receiver_id")int receiver_id);
+  Iterable<MessageEntity> findByReceiverIdOrderByCreatedAtDesc(@Param("receiver_id")int receiver_id);
 }

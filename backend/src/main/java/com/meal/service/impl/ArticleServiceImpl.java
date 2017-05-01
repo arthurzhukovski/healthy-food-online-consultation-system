@@ -49,7 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
 
   public ArticleDTO findAll(int page, int pageSize) {
     PageRequest pageRequest = new PageRequest(page, pageSize, Sort.Direction.DESC, "startTime");
-    Page<ArticleEntity> articles = articleRepository.findAll(pageRequest);
+    Page<ArticleEntity> articles = articleRepository.findAllByOrderByCreatedAtDesc(pageRequest);
     ArticleDTO articleDTO = new ArticleDTO();
     articleDTO.setArticle(articles);
     articleDTO.setCurrentPage(articles.getNumber());
@@ -58,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   public Iterable<ArticleEntity> getArticlesByCoachId(int id) {
-    return articleRepository.findByCoachId(id);
+    return articleRepository.findByCoachIdOrderByCreatedAtDesc(id);
   }
 
   private ArticleEntity updateArticleFields(ArticleEntity oldArticle, ArticleEntity article) {

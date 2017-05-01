@@ -26,11 +26,11 @@ public class MessageServiceImpl implements MessageService {
   }
 
   public Iterable<MessageEntity> getMessagesBySenderId(int id) {
-    return messageRepository.findBySenderId(id);
+    return messageRepository.findBySenderIdOrderByCreatedAtDesc(id);
   }
 
   public Iterable<MessageEntity> getMessagesByReceiverId(int id) {
-    return messageRepository.findByReceiverId(id);
+    return messageRepository.findByReceiverIdOrderByCreatedAtDesc(id);
   }
 
   public MessageEntity createMessage(MessageEntity message) throws ServiceException {

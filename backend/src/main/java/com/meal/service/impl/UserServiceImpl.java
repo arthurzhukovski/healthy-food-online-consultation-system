@@ -14,6 +14,7 @@ import com.meal.utils.HelpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 @Service
@@ -37,11 +38,12 @@ public class UserServiceImpl implements UserService {
   }
   public Iterable<UserEntity> findCoachs(){ return userRepository.findByRole(RoleEnum.COACH); }
 
-
+  @Transactional
   public UserEntity findOne(int id) {
     return userRepository.findOne(id);
   }
 
+  @Transactional
   public UserEntity findByLogin(String login) throws ServiceException {
     Assert.notNull(login, "login can't be null");
     if(login.isEmpty()) { throw new IllegalArgumentException("login can't be empty"); }
@@ -54,6 +56,7 @@ public class UserServiceImpl implements UserService {
     return user;
   }
 
+  @Transactional
   public UserEntity createUser(UserEntity user) throws ServiceException {
     validateUser(user);
 
@@ -64,7 +67,9 @@ public class UserServiceImpl implements UserService {
     user.setStage((byte)0);
     user.setRole(RoleEnum.USER);
     user.setRegisteredAt(new java.sql.Timestamp(dateTime.getTime()));
-
+    UserDataEntity userData = new UserDataEntity();
+    userData.setUserId(user.getId());
+    user.setUserData(userData);
     user = userRepository.save(user);
     return user;
   }
@@ -81,19 +86,24 @@ public class UserServiceImpl implements UserService {
     return userRepository.save(user);
   }
 
+  @Transactional
   public void deleteUser(int id) {
+    userDataRepository.delete(id);
     userRepository.delete(id);
     this.deleteUserDataByUserId(id);
   }
 
+  @Transactional
   public UserDataEntity findUserData(int id) {
     return userDataRepository.findOne(id);
   }
 
+  @Transactional
   public UserDataEntity updateUserData(UserDataEntity userData) {
     return userDataRepository.save(userData);
   }
 
+  @Transactional
   public void deleteUserDataByUserId(int id) {
     userDataRepository.delete(id);
   }
