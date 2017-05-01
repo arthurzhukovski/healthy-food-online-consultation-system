@@ -1,0 +1,5 @@
+@import "../../../assets/styles/mixins";
+.article-list{
+  @include flex(row, center, center);
+  flex-wrap: wrap;
+}

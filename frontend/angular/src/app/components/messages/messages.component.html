@@ -1,0 +1,37 @@
+<button class="button-bordered" type="button" (click)="modal.show()"><span class="fa fa-envelope"></span> Новое сообщение</button>
+<modal>
+    <div class="m-header">
+        <h3>Новое сообщение</h3>
+    </div>
+    <div class="m-body">
+        <form name="form" (ngSubmit)="f.form.valid && sendMessage()" #f="ngForm" novalidate>
+            <textarea  class="input-field report-text" name="text" [(ngModel)]="newMessage.text" #text="ngModel" required> </textarea>
+
+            <div>
+                <span>Получатель: </span>
+                <user-select name="receiver" (notify)="onSelectNotification($event)" [users]="receivers"></user-select>
+            </div>
+
+            <button [disabled]="!f.form.valid" type="submit" class="button-bordered">Отправить</button>
+        </form>
+    </div>
+</modal>
+
+
+<div>
+    <div *ngFor="let message of incomingMessages" class="message-list">
+        <div class="message-preview">
+            <div>
+                <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, H:m:s'}}</span>
+                <p class="message-sender">{{message.sender.login}} ({{message.sender.name}} {{message.sender.surname}})</p>
+            </div>
+            <p>{{message.text}}</p>
+        </div>
+    </div>
+    <div *ngFor="let message of outgoingMessages" class="message-list">
+        <div class="message-preview">
+            <p class="message-receiver">{{message.receiver.id}}</p>
+            <p>{{message.text}}</p>
+        </div>
+    </div>
+</div>

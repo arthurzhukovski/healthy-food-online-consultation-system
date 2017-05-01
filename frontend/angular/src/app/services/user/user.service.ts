@@ -38,7 +38,7 @@ export class UserService {
         return this.http.post(Config.BASE_API_URL +'/groups/users', groupIds,  UserService.jwt()).map((response: Response) => response.json());
     }
     update(user: User) {
-        return this.http.put('/api/users/' + user.id, user, UserService.jwt()).map((response: Response) => response.json());
+        return this.http.put(Config.BASE_API_URL +'/users/', user, UserService.jwt()).map((response: Response) => response.json());
     }
 
     delete(id: number) {

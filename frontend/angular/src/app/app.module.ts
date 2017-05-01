@@ -27,11 +27,14 @@ import { UserSettingsComponent } from './components/user-settings/index';
 import { GroupAssignmentComponent } from './components/group-assignment/index';
 import { GroupSelectComponent } from './components/group-select/index';
 import { GroupCreatorComponent } from './components/group-creator/index';
-import { CoachSelectComponent } from './components/coach-select/index';
+import { UserSelectComponent } from './components/user-select/index';
 import { ArticleFeedComponent } from './components/article-feed/index';
 import { ArticleCreatorComponent } from './components/article-creator/index';
+import { ModalComponent } from './components/modal/index';
 
 import {NgForFilter} from "./pipes/ngfor-filter.pipe";
+import {MessagesComponent} from "./components/messages/messages.component";
+import {MessageService} from "./services/message/message.service";
 
 const appRoutes: Routes = [
   { path: 'user-table', component: UserTableComponent, canActivate: [AuthGuard]},
@@ -44,6 +47,7 @@ const appRoutes: Routes = [
   { path: 'group-assignment', component: GroupAssignmentComponent, canActivate: [AuthGuard] },
   { path: 'articles', component: ArticleFeedComponent },
   { path: 'create-article', component: ArticleCreatorComponent },
+  { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
   // otherwise redirect to home
   { path: '*', redirectTo: '' }
 
@@ -65,9 +69,11 @@ const appRoutes: Routes = [
     GroupAssignmentComponent,
     GroupSelectComponent,
     GroupCreatorComponent,
-    CoachSelectComponent,
+    UserSelectComponent,
     ArticleFeedComponent,
     ArticleCreatorComponent,
+    MessagesComponent,
+    ModalComponent,
     NgForFilter
   ],
   imports: [
@@ -84,7 +90,7 @@ const appRoutes: Routes = [
     UserService,
     ReportService,
     GroupService,
-
+    MessageService,
     // providers used to create fake backend
     fakeBackendProvider,
     MockBackend,

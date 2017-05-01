@@ -19,7 +19,7 @@
         </div>
         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !active.valid }">
             <label for="coach">Тренер</label>
-            <coach-select name="coach" (notify)="onSelectNotification($event)"></coach-select>
+            <user-select name="coach" (notify)="onSelectNotification($event)" [users]="coaches"></user-select>
         </div>
         <button type="'submit" class="btn btn-primary">Создать группу</button>
     </form>
