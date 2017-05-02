@@ -62,7 +62,7 @@ public class GroupServiceImpl implements GroupService {
       user.setGroupId(null);
       userRepository.save(user);
     }
-    deleteGroup(id);
+    groupRepository.delete(id);
   }
 
   public Iterable<GroupEntity> findGroupsByCoachId(int coachId) {
