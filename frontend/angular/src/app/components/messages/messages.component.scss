@@ -1,5 +1,19 @@
 @import "../../../assets/styles/mixins";
-.article-list{
-  @include flex(row, center, center);
-  flex-wrap: wrap;
+.message-split-container{
+  @include flex(row, flex-start, stretch);
+
+  width: 100%;
+  .messages-incoming, .messages-outgoing{
+    width: 50%;
+    .message-list{
+      overflow: auto;
+      max-height: 80vh;
+      border-left: 1px solid grey;
+      padding: 20px;
+      .message-preview{
+        border-bottom: 1px solid grey;
+      }
+    }
+  }
+
 }

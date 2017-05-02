@@ -6,4 +6,6 @@ export class User {
     surname: string;
     email: string;
     groupId: number;
+    role: string;
+    userData: any = {};
 }

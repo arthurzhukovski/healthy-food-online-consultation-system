@@ -41,7 +41,7 @@ export class GroupCreatorComponent {
     private loadCoaches() {
         this.userService.getCoaches()
             .subscribe(coaches => {
-                console.log('Loaded from service: ' + coaches);
+                console.log('Loaded coaches from service: ' + coaches);
                 this.coaches = coaches;
             })
     }

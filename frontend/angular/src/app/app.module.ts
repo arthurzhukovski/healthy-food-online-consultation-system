@@ -30,11 +30,14 @@ import { GroupCreatorComponent } from './components/group-creator/index';
 import { UserSelectComponent } from './components/user-select/index';
 import { ArticleFeedComponent } from './components/article-feed/index';
 import { ArticleCreatorComponent } from './components/article-creator/index';
+import {ArticleService} from "./services/article/article.service";
+
 import { ModalComponent } from './components/modal/index';
 
 import {NgForFilter} from "./pipes/ngfor-filter.pipe";
 import {MessagesComponent} from "./components/messages/messages.component";
 import {MessageService} from "./services/message/message.service";
+
 
 const appRoutes: Routes = [
   { path: 'user-table', component: UserTableComponent, canActivate: [AuthGuard]},
@@ -90,6 +93,7 @@ const appRoutes: Routes = [
     UserService,
     ReportService,
     GroupService,
+    ArticleService,
     MessageService,
     // providers used to create fake backend
     fakeBackendProvider,

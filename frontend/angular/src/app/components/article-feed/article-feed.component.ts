@@ -4,6 +4,7 @@ import { UserService, AlertService } from '../../services/index';
 import { User } from '../../models/index';
 import  {GroupSelectComponent} from  '../group-select/index';
 import {Article} from '../../models/article';
+import {ArticleService} from "../../services/article/article.service";
 
 @Component({
     moduleId: module.id,
@@ -13,15 +14,15 @@ import {Article} from '../../models/article';
 })
 
 export class ArticleFeedComponent {
-    private articles: Article[];
-    constructor(private userService: UserService, private alertService: AlertService) {
+    private articles: Article[] = [];
+    constructor(private userService: UserService, private alertService: AlertService, private articleService: ArticleService) {
 
     }
     ngOnInit(){
         this.loadArticles();
     }
     private loadArticles() {
-        this.userService.getAll().subscribe(
+        this.articleService.getAll(1, 10).subscribe(
             data => {
                 console.log(data);
                 this.articles = data;

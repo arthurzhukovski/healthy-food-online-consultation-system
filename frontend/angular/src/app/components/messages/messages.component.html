@@ -18,20 +18,30 @@
 </modal>
 
 
-<div>
-    <div *ngFor="let message of incomingMessages" class="message-list">
-        <div class="message-preview">
-            <div>
-                <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, H:m:s'}}</span>
-                <p class="message-sender">{{message.sender.login}} ({{message.sender.name}} {{message.sender.surname}})</p>
+<div class="message-split-container">
+    <div class="messages-outgoing">
+        <h3>Входящие сообщения</h3>
+        <div  class="message-list">
+            <div class="message-preview" *ngFor="let message of incomingMessages">
+                <div>
+                    <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
+                    <p class="message-sender">Сообщение от {{message.sender.login}} ({{message.sender.name}} {{message.sender.surname}})</p>
+                </div>
+                <p>{{message.text}}</p>
             </div>
-            <p>{{message.text}}</p>
         </div>
     </div>
-    <div *ngFor="let message of outgoingMessages" class="message-list">
-        <div class="message-preview">
-            <p class="message-receiver">{{message.receiver.id}}</p>
-            <p>{{message.text}}</p>
+    <div class="messages-incoming">
+        <h3>Исходящие сообщения</h3>
+        <div  class="message-list">
+            <div class="message-preview" *ngFor="let message of outgoingMessages">
+                <div>
+                    <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
+                    <p class="message-sender">Сообщение для {{message.receiver.login}} ({{message.receiver.name}} {{message.receiver.surname}})</p>
+                </div>
+                <p>{{message.text}}</p>
+            </div>
         </div>
     </div>
+
 </div>

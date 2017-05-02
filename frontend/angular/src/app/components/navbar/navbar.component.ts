@@ -14,6 +14,7 @@ export class NavbarComponent {
 
     private navbar = {"users":"Пользователи",
                       "main":"Главная",
+                      "articles":"Статьи",
                       "login":"Вход",
                       "logout":"Выход",
                       "feed":"Моё питание",

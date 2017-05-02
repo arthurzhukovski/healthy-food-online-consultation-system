@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {UserTableDataService} from "../../services/user-table-data/user-table-data.service";
-import {UserDataItemComponent} from "../user-data-item/user-data-item.component";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {User} from "../../models/user";
+import {ModalComponent} from "../modal/modal.component";
+import {UserService} from "../../services/user/user.service";
+import {AlertService} from "../../services/alert/alert.service";
 
 
 @Component({
   selector: 'app-user-table',
-  providers: [UserTableDataService],
   templateUrl: 'user-table.component.html',
   styleUrls: ['user-table.component.scss']
 })
@@ -13,18 +14,42 @@ import {UserDataItemComponent} from "../user-data-item/user-data-item.component"
 
 
 export class UserTableComponent implements OnInit {
-  errorMessage: string;
-  users: UserDataItemComponent[];
+  @ViewChild(ModalComponent)
+  public readonly editUserModal: ModalComponent;
+  private users: User[] = [];
   mode = 'Observable';
+  private selectedUser: User = new User;
+  constructor (private userService: UserService, private alertService: AlertService) {
 
-  constructor (private userDataService: UserTableDataService) {}
+  }
 
-  ngOnInit() { this.getUsers(); }
-  getUsers() {
-    this.userDataService.getUsers()
+  ngOnInit() { this.loadUsers(); }
+  loadUsers() {
+    this.userService.getAll()
         .subscribe(
+            users => {this.users = users;  console.log(this.users);},
+            error =>  this.alertService.error(error));
+  }
+  roleSelected(user: User){
+      console.log(user);
+  }
+  applyChangesToUser(){
+    console.log(this.selectedUser);
+    this.userService.update(this.selectedUser).subscribe(
+        success =>{
+          this.alertService.success('Изменения сохранены.');
+          this.loadUsers();
+        },
+        error => {
+          this.alertService.error(error);
+        }
+    );
+    this.editUserModal.hide();
+  }
+  editUser(user: User){
 
-            users => this.users = users,
-            error =>  this.errorMessage = <any>error);
+      this.selectedUser = Object.assign({}, user);
+
+    this.editUserModal.show();
   }
 }

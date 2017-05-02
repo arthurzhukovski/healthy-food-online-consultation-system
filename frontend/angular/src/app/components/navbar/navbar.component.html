@@ -1,6 +1,6 @@
 <nav class="navbar">
     <a class="nav-item" routerLink="" routerLinkActive="active"><span class="fa fa-home"></span> {{navbar.main}}</a>
-    <a class="nav-item" routerLink="user-table" routerLinkActive="active"><span class="fa fa-address-card-o"></span> {{navbar.users}}</a>
+    <a class="nav-item" routerLink="articles" routerLinkActive="active"><span class="fa fa-newspaper-o"></span> {{navbar.articles}}</a>
 
 
     <a class="dropdown" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
@@ -11,6 +11,7 @@
             <a class="nav-item" routerLink="report-management" routerLinkActive="active" ><span class="fa fa-list"></span> {{navbar.report_management}}</a>
             <a class="nav-item" routerLink="user-settings" routerLinkActive="active" ><span class="fa fa-cog"></span> {{navbar.settings}}</a>
             <a class="nav-item" routerLink="group-assignment" routerLinkActive="active" ><span class="fa fa-users"></span> {{navbar.group_assignment}}</a>
+            <a class="nav-item" routerLink="user-table" routerLinkActive="active"><span class="fa fa-address-card-o"></span> {{navbar.users}}</a>
             <a class="nav-item" routerLink="login" routerLinkActive="active" ><span class="fa fa-sign-out"></span> {{navbar.logout}}</a>
         </div>
     </a>

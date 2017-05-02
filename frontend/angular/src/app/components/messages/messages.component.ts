@@ -4,6 +4,8 @@ import { UserService, AlertService } from '../../services/index';
 import { User, Message } from '../../models/index';
 import {MessageService} from "../../services/message/message.service";
 import {ModalComponent} from "../modal/modal.component";
+import {Observable} from "rxjs";
+import {AnonymousSubscription} from "rxjs/Subscription";
 
 @Component({
     moduleId: module.id,
@@ -15,7 +17,7 @@ import {ModalComponent} from "../modal/modal.component";
 export class MessagesComponent {
     @ViewChild(ModalComponent)
     public readonly modal: ModalComponent;
-
+    private timerSubscription: AnonymousSubscription;
     private currentUser: User;
     private receivers: User[] = []
     private newMessage: Message = new Message();
@@ -31,16 +33,28 @@ export class MessagesComponent {
         this.loadOutgoingMessages();
         this.loadUsers();
     }
+    public ngOnDestroy(): void {
+        if (this.timerSubscription) {
+            this.timerSubscription.unsubscribe();
+        }
+    }
+
     private loadIncomingMessages() {
-        this.messageService.getIncoming(this.currentUser.id).subscribe(
+         this.messageService.getIncoming(this.currentUser.id).subscribe(
             data => {
                 console.log(data);
                 this.incomingMessages = data;
+                this.subscribeToIncomingMessages();
             },
             error => {
                 this.alertService.error(error);
             });
     }
+
+    private subscribeToIncomingMessages(): void {
+        this.timerSubscription = Observable.timer(3000).first().subscribe(() => this.loadIncomingMessages());
+    }
+
     private loadOutgoingMessages() {
         this.messageService.getOutgoing(this.currentUser.id).subscribe(
             data => {
