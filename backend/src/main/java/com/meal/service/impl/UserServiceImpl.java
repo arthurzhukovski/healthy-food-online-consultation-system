@@ -118,13 +118,14 @@ public class UserServiceImpl implements UserService {
     Assert.notNull(user, "user can't be null");
     Assert.notNull(newUser, "new user can't be null");
 
-    if(newUser.getEmail() != null && newUser.getEmail() != user.getEmail()) {
-      if(userRepository.findByEmail(newUser.getEmail()) != null){
+    if(newUser.getEmail() != null && !newUser.getEmail().equals(user.getEmail())) {
+      UserEntity  a = userRepository.findByEmail(newUser.getEmail());
+      if(a != null){
         throw new ServiceException("user with such email already exists");
       }
       user.setEmail(newUser.getEmail());
     }
-    if(newUser.getLogin() != null && newUser.getLogin() != user.getLogin()) {
+    if(newUser.getLogin() != null && !newUser.getLogin().equals(user.getLogin())) {
       if(userRepository.findByLogin(newUser.getLogin()) != null){
         throw new ServiceException("user with such login already exists");
       }

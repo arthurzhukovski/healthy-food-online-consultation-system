@@ -57,6 +57,16 @@ public class ReportController {
   }
 
   /*
+    COMMENTE AND RATE REPORT
+   */
+  @Secured({RoleEnum.ADMIN})
+  @RequestMapping(value="/reports/comment", method = RequestMethod.PUT)
+  public ResponseEntity<ReportEntity> commentReport(@RequestBody ReportEntity reportEntity) {
+    ReportEntity updatedReport = reportService.updateReport(reportEntity);
+    return new ResponseEntity<ReportEntity>(updatedReport, HttpStatus.OK);
+  }
+
+  /*
     DELETE REPORT
    */
   @Secured({RoleEnum.ADMIN})
