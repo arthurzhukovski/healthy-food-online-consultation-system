@@ -1,11 +1,11 @@
 package com.meal.controller;
 
-import com.meal.entity.ArticleDTO;
 import com.meal.entity.ArticleEntity;
 import com.meal.entity.RoleEnum;
 import com.meal.security.Secured;
 import com.meal.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +25,9 @@ public class ArticleController {
      GET ALL ARTICLE
     */
   @RequestMapping(value="/articles/{pageSize}/{page}", method = RequestMethod.GET)
-  public ResponseEntity<ArticleDTO> getArticles(@PathVariable int pageSize, @PathVariable int page) {
-    ArticleDTO articles = articleService.findAll(page, pageSize);
-    return new ResponseEntity<ArticleDTO>(articles, HttpStatus.OK);
+  public ResponseEntity<Page<ArticleEntity>> getArticles(@PathVariable int pageSize, @PathVariable int page) {
+    Page<ArticleEntity> articles = articleService.findAll(page, pageSize);
+    return new ResponseEntity<Page<ArticleEntity>>(articles, HttpStatus.OK);
   }
 
   /*

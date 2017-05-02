@@ -1,7 +1,6 @@
 package com.meal.service.impl;
 
-import com.meal.dao.ArticleRepository;
-import com.meal.entity.ArticleDTO;
+import com.meal.dao.ArticleRepository;;
 import com.meal.entity.ArticleEntity;
 import com.meal.service.ArticleService;
 import com.meal.service.Exception.ServiceException;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -47,14 +47,11 @@ public class ArticleServiceImpl implements ArticleService {
     articleRepository.delete(id);
   }
 
-  public ArticleDTO findAll(int page, int pageSize) {
-    PageRequest pageRequest = new PageRequest(page, pageSize);
-    Page<ArticleEntity> articles = articleRepository.findAllByOrderByCreatedAtDesc(pageRequest);
-    ArticleDTO articleDTO = new ArticleDTO();
-    articleDTO.setArticle(articles);
-    articleDTO.setCurrentPage(articles.getNumber());
-    articleDTO.setPageCount(articles.getTotalPages());
-    return articleDTO;
+  public Page<ArticleEntity> findAll(int page, int pageSize) {
+    PageRequest pageRequest = new PageRequest(page, pageSize, Sort.Direction.DESC, "createdAt");
+    Page<ArticleEntity> articles = articleRepository.findAll(pageRequest);
+    List<ArticleEntity> a = articles.getContent();
+    return articles;
   }
 
   public Iterable<ArticleEntity> getArticlesByCoachId(int id) {

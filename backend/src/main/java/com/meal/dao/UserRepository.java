@@ -8,12 +8,14 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-  UserEntity findByLogin(@Param("login")String login);
+  UserEntity findByLogin(@Param("login") String login);
+  UserEntity findByEmail(@Param("email") String email);
 
   @Query("select u " +
           "from UserEntity u " +
           "where u.role = :role")
-  Iterable<UserEntity> findByRole(@Param("role")RoleEnum role);
+  Iterable<UserEntity> findByRole(@Param("role") RoleEnum role);
+
 
 
 }

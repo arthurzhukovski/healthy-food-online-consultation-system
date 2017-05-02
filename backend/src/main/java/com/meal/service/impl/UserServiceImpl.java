@@ -118,6 +118,17 @@ public class UserServiceImpl implements UserService {
     Assert.notNull(user, "user can't be null");
     Assert.notNull(newUser, "new user can't be null");
 
+//    if(userRepository.findOne())
+    if(user.getEmail() != newUser.getEmail()) {
+      if(userRepository.findByEmail(user.getEmail()) != null){
+        throw new ServiceException("user with such email already exists");
+      }
+    }
+    if(user.getLogin() != newUser.getLogin()) {
+      if(userRepository.findByLogin(user.getLogin()) != null){
+        throw new ServiceException("user with such login already exists");
+      }
+    }
     if(newUser.getGroupId() != null){
       user.setGroupId(newUser.getGroupId());
     }
@@ -180,12 +191,16 @@ public class UserServiceImpl implements UserService {
 
     return user;
   }
+  @Transactional
   private void validateUser(UserEntity user) throws ServiceException{
     if(user == null){
       throw new ServiceException("user can't be null");
     }
     if(HelpUtils.isNullOrEmpty(user.getEmail())){
       throw new ServiceException("user email is invalid");
+    }
+    if(userRepository.findByEmail(user.getEmail()) != null){
+      throw new ServiceException("user with such email already exists");
     }
     if(HelpUtils.isNullOrEmpty(user.getName())){
       throw new ServiceException("user name is invalid");
@@ -195,6 +210,9 @@ public class UserServiceImpl implements UserService {
     }
     if(HelpUtils.isNullOrEmpty(user.getLogin())){
       throw new ServiceException("user login is invalid");
+    }
+    if(userRepository.findByLogin(user.getLogin()) != null){
+      throw new ServiceException("user with such login already exists");
     }
     if(HelpUtils.isNullOrEmpty(user.getPassword())){
       throw new ServiceException("user password is invalid");
