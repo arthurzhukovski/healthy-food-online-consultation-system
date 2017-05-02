@@ -26,7 +26,7 @@
             <textarea type="text" class="input-field" name="content" [(ngModel)]="editedArticle.content" #content="ngModel" required> </textarea>
             <div *ngIf="f.submitted && !content.valid" class="help-block">Введите содержимое статьи.</div>
 
-            <button  type="submit" class="button-bordered">Опубликовать</button>
+            <button  type="submit" class="button-bordered">Сохранить</button>
         </form>
     </div>
 </modal>

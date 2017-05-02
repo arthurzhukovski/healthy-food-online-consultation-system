@@ -52,4 +52,15 @@ export class UserTableComponent implements OnInit {
 
     this.editUserModal.show();
   }
+  deleteUser(id) {
+    this.userService.delete(id).subscribe(
+        success => {
+          this.alertService.success('Пользователь удалён.');
+          this.loadUsers();
+        },
+        error => {
+          this.alertService.error(error);
+        }
+    );
+  }
 }

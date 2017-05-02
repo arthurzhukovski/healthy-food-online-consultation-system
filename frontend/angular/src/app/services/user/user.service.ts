@@ -21,7 +21,7 @@ export class UserService {
         let headers = new RequestOptions({
                                             headers: new Headers({ 'Content-Type': 'application/json'})
                                          });
-        var response = this.http.post(Config.BASE_API_URL + '/users', user, headers).map((response: Response) => response.json());
+        var response = this.http.post(Config.BASE_API_URL + '/register', user, headers).map((response: Response) => response.json());
         console.dir(response);
         console.dir(user);
         return response;
@@ -42,7 +42,7 @@ export class UserService {
     }
 
     delete(id: number) {
-        return this.http.delete('/api/users/' + id, UserService.jwt()).map((response: Response) => response.json());
+        return this.http.delete(Config.BASE_API_URL +'/users/' + id, UserService.jwt()).map((response: Response) => response.json());
     }
 
     public static jwt(noContentType:boolean=false) {

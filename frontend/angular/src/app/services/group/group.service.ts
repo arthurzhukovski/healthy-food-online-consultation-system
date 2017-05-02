@@ -26,10 +26,10 @@ export class GroupService {
     }
 
     update(group: any) {
-
+        return this.http.put(Config.BASE_API_URL +'/groups/', group, UserService.jwt()).map((response: Response) => response.json());
     }
     delete(id: number) {
-
+        return this.http.delete(Config.BASE_API_URL +'/groups/' + id, UserService.jwt()).map((response: Response) => response.json());
     }
 
 }

@@ -33,6 +33,7 @@ import { ArticleCreatorComponent } from './components/article-creator/index';
 import {ArticleService} from "./services/article/article.service";
 
 import { ModalComponent } from './components/modal/index';
+import { GroupEditorComponent } from './components/group-editor/index';
 
 import {NgForFilter} from "./pipes/ngfor-filter.pipe";
 import {MessagesComponent} from "./components/messages/messages.component";
@@ -77,6 +78,7 @@ const appRoutes: Routes = [
     ArticleCreatorComponent,
     MessagesComponent,
     ModalComponent,
+    GroupEditorComponent,
     NgForFilter
   ],
   imports: [
