@@ -13,6 +13,10 @@ public class ServiceException extends RuntimeException {
     message = msg;
   }
 
+  public ServiceException(Exception ex) {
+    super(ex);
+  }
+
   @Override
   public String getMessage() {
     return message;

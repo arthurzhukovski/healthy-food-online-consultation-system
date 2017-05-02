@@ -1,16 +1,19 @@
 package com.meal.service.Exception;
 
-public class SecureException extends RuntimeException {
+public class ForbiddenException extends ServiceException {
 
   private String message;
 
-  public SecureException(String msg) {
+  public ForbiddenException(String msg) {
     super(msg);
     message = msg;
   }
-  public SecureException(String msg, Exception ex) {
+  public ForbiddenException(String msg, Exception ex) {
     super(msg, ex);
     message = msg;
+  }
+  public ForbiddenException(Exception ex) {
+    super(ex);
   }
 
   @Override

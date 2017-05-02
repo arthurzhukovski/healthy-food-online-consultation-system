@@ -7,8 +7,7 @@ import com.meal.dao.UserRepository;
 import com.meal.entity.RoleEnum;
 import com.meal.entity.UserEntity;
 import com.meal.entity.UserDataEntity;
-import com.meal.entity.UserFullEntity;
-import com.meal.service.Exception.SecureException;
+import com.meal.service.Exception.ForbiddenException;
 import com.meal.service.Exception.ServiceException;
 import com.meal.service.UserService;
 import com.meal.utils.HelpUtils;
@@ -34,23 +33,23 @@ public class UserServiceImpl implements UserService {
     this.dateTime = new Date();
   }
 
-  public void hasPermission(int id, UserEntity currentUser, RoleEnum checkRole) throws SecureException {
+  public void hasPermission(int id, UserEntity currentUser, RoleEnum checkRole) throws ForbiddenException {
     if(currentUser == null || currentUser.getRole() == null) {
-        throw new SecureException("Forbidden");
+        throw new ForbiddenException("Forbidden");
     } else {
       if(currentUser.getRole() == checkRole && currentUser.getId() != id){
-        throw new SecureException("Forbidden");
+        throw new ForbiddenException("Forbidden");
       }
     }
   }
-  public void hasPermission(UserEntity user, UserEntity currentUser, RoleEnum checkRole) throws SecureException,
+  public void hasPermission(UserEntity user, UserEntity currentUser, RoleEnum checkRole) throws ForbiddenException,
           ServiceException {
     Assert.notNull(user);
     if(currentUser == null || currentUser.getRole() == null) {
-      throw new SecureException("Forbidden");
+      throw new ForbiddenException("Forbidden");
     } else {
       if(currentUser.getRole() == checkRole && currentUser.getId() != user.getId()){
-        throw new SecureException("Forbidden");
+        throw new ForbiddenException("Forbidden");
       }
     }
   }
@@ -110,21 +109,16 @@ public class UserServiceImpl implements UserService {
   @Transactional
   public void deleteUser(int id) {
     UserEntity user = userRepository.findOne(id);
+
     if(user != null && user.getUserData() != null) {
       userDataRepository.delete(user.getUserData().getId());
     }
     userRepository.delete(id);
-    this.deleteUserDataByUserId(id);
   }
 
   @Transactional
   public UserDataEntity updateUserData(UserDataEntity userData) {
     return userDataRepository.save(userData);
-  }
-
-  @Transactional
-  public void deleteUserDataByUserId(int id) {
-    userDataRepository.delete(id);
   }
 
   private UserEntity updateUserFields(UserEntity user, UserEntity newUser) throws ServiceException {

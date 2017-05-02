@@ -47,11 +47,12 @@ public class UserController {
   /*
     UPDATE USER
    */
-  @Secured({RoleEnum.USER, RoleEnum.ADMIN})
+  @Secured({RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/users", method = RequestMethod.PUT)
   public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user,
                                                @RequestAttribute("user") UserEntity currentUser) {
     userService.hasPermission(user, currentUser, RoleEnum.USER);
+    userService.hasPermission(user, currentUser, RoleEnum.COACH);
     UserEntity updatedUser = userService.updateUser(user);
     return new ResponseEntity<UserEntity>(updatedUser, HttpStatus.OK);
   }
@@ -87,30 +88,11 @@ public class UserController {
     return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
   }
 
-//  /*
-//    UPDATE USER DATA
-//   */
-//  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
-//  @RequestMapping(value="/users/{id}/data", method = RequestMethod.PUT)
-//  public ResponseEntity<UserDataEntity> updateUser(@RequestBody UserDataEntity userData) {
-//    UserDataEntity updatedUserData = userService.updateUserData(userData);
-//    return new ResponseEntity<UserDataEntity>(updatedUserData, HttpStatus.OK);
-//  }
-
   @Secured({RoleEnum.ADMIN})
   @RequestMapping(value="/users/coach", method = RequestMethod.GET)
   public ResponseEntity<Iterable<UserEntity>> findCoachs() {
     Iterable<UserEntity> coach = userService.findCoachs();
     return new ResponseEntity<Iterable<UserEntity>>(coach, HttpStatus.OK);
   }
-
-//  /*
-//    GET USER WITH USER DATA
-//   */
-//  @RequestMapping(value="/users/{id}/data", method = RequestMethod.GET)
-//  public ResponseEntity<UserFullEntity> updateUser(@PathVariable(value = "id") int id) {
-//    UserFullEntity userFullEntity = userService.findUserWithUserData(id);
-//    return new ResponseEntity<UserFullEntity>(userFullEntity, HttpStatus.OK);
-//  }
 
 }

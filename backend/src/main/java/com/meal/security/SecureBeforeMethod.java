@@ -2,7 +2,8 @@ package com.meal.security;
 
 import com.meal.entity.RoleEnum;
 import com.meal.entity.UserEntity;
-import com.meal.service.Exception.SecureException;
+import com.meal.service.Exception.ForbiddenException;
+import com.meal.service.Exception.ServiceException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -22,7 +23,7 @@ import java.lang.reflect.Method;
 public class SecureBeforeMethod {
 
   @Around("@annotation(com.meal.security.Secured)")
-  public ResponseEntity doSecure(ProceedingJoinPoint joinPoint) {
+  public ResponseEntity doSecure(ProceedingJoinPoint joinPoint) throws Throwable {
     MethodSignature  signature = (MethodSignature)joinPoint.getSignature();
     Method method = signature.getMethod();
     RoleEnum[] validRoles = method.getAnnotation(Secured.class).value();
@@ -30,19 +31,15 @@ public class SecureBeforeMethod {
     if(request != null) {
       UserEntity currentUser = ((UserEntity) (request).getAttribute("user"));
       if (currentUser != null) {
-        try {
-          if (validRoles.length == 0) {
-            return (ResponseEntity) joinPoint.proceed();
-          }
-          if (validateRole(validRoles, currentUser.getRole())) {
-            return (ResponseEntity) joinPoint.proceed();
-          }
-        } catch (Throwable ex) {
-          throw new SecureException("Forbidden");
+        if (validRoles.length == 0) {
+          return (ResponseEntity) joinPoint.proceed();
+        }
+        if (validateRole(validRoles, currentUser.getRole())) {
+          return (ResponseEntity) joinPoint.proceed();
         }
       }
     }
-    return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+    return new ResponseEntity(HttpStatus.FORBIDDEN);
   }
 
 
