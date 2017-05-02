@@ -65,7 +65,7 @@ public class UserController {
     GET CURRENT USER
    */
   @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
-  @RequestMapping(value="/users/current", method = RequestMethod.GET, params="")
+  @RequestMapping(value="/users/current", method = RequestMethod.GET)
   public ResponseEntity<UserEntity> getCurrentUser(@RequestAttribute("user") UserEntity user) {
     return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
   }
@@ -74,7 +74,7 @@ public class UserController {
     GET USER
    */
   @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
-  @RequestMapping(value="/users/{id}", method = RequestMethod.GET, params="")
+  @RequestMapping(value="/users/{id}", method = RequestMethod.GET)
   public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") int id) {
     UserEntity user = userService.findOne(id);
     return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
