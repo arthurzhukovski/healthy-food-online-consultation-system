@@ -4,8 +4,10 @@ import com.meal.entity.CommentEntity;
 import com.meal.entity.ReportEntity;
 
 import com.meal.entity.RoleEnum;
+import com.meal.entity.UserEntity;
 import com.meal.security.Secured;
 import com.meal.service.ReportService;
+import com.meal.service.UserService;
 import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -20,16 +22,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ReportController {
 
   private final ReportService reportService;
+  private final UserService userService;
 
   @Autowired
-  public ReportController(ReportService reportService) {
+  public ReportController(ReportService reportService, UserService userService) {
     this.reportService = reportService;
+    this.userService = userService;
   }
 
   /*
    GET ALL REPORTS
   */
-  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
+  @Secured({RoleEnum.ADMIN})
   @RequestMapping(value="/reports", method = RequestMethod.GET)
   public ResponseEntity<Iterable<ReportEntity>> getReports() {
     Iterable<ReportEntity> reports = reportService.findAll();
@@ -57,12 +61,12 @@ public class ReportController {
   }
 
   /*
-    COMMENTE AND RATE REPORT
+    COMMENT AND RATE REPORT
    */
-  @Secured({RoleEnum.ADMIN})
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/reports/comment", method = RequestMethod.PUT)
   public ResponseEntity<ReportEntity> commentReport(@RequestBody ReportEntity reportEntity) {
-    ReportEntity updatedReport = reportService.updateReport(reportEntity);
+    ReportEntity updatedReport = reportService.commentReport(reportEntity);
     return new ResponseEntity<ReportEntity>(updatedReport, HttpStatus.OK);
   }
 
@@ -91,7 +95,9 @@ public class ReportController {
   */
   @Secured({RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/reports/user/{id}", method = RequestMethod.GET)
-  public ResponseEntity<Iterable<ReportEntity>> getUserReports(@PathVariable(value = "id") int id) {
+  public ResponseEntity<Iterable<ReportEntity>> getUserReports(@PathVariable(value = "id") int id,
+                                                               @RequestAttribute("user") UserEntity currentUser) {
+    userService.hasPermission(id, currentUser, RoleEnum.USER);
     Iterable<ReportEntity> reports = reportService.getReportsByUserId(id);
     return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
   }
@@ -115,43 +121,5 @@ public class ReportController {
     Iterable<ReportEntity> reports = reportService.findByUsersId((usersId));
     return new ResponseEntity<Iterable<ReportEntity>>(reports, HttpStatus.OK);
   }
-
-//
-//  /*
-//   UPLOAD IMAGE
-//  */
-//  @RequestMapping(value="/upload", method=RequestMethod.POST)
-//  public String handleFileUpload(@RequestParam("file") MultipartFile file,
-//                                            RedirectAttributes redirectAttributes) {
-//    storageService.store(file);
-//    redirectAttributes.addFlashAttribute("message",
-//            "You successfully uploaded " + file.getOriginalFilename() + "!");
-//
-//    return "redirect:/";
-//  }
-
-
-
-//  /*
-//   GET ALL COACH COMMENTS
-//  */
-//  @RequestMapping(value="/reports/comments/coach", method = RequestMethod.GET)
-//  public ResponseEntity<Iterable<CommentEntity>> getComments(int id) {
-//    Iterable<CommentEntity> reports = reportService.getCommentsByReport(id);
-//    return new ResponseEntity<Iterable<CommentEntity>>(reports, HttpStatus.OK);
-//  }
-
-//  /*
-//   GET ALL USER COMMENTS
-//  */
-//  @RequestMapping(value="/reports/user/:id", method = RequestMethod.GET)
-//  public ResponseEntity<Iterable<CommentEntity>> getComments(int id) {
-//    try {
-//      Iterable<CommentEntity> reports = commentService.getgetUserComments(id);
-//      return new ResponseEntity<Iterable<CommentEntity>>(reports, HttpStatus.OK);
-//    } catch(Exception e) { //TODO: exception type
-//      return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
-//  }
   
 }

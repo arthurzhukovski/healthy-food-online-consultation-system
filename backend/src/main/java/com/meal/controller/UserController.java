@@ -6,9 +6,11 @@ import com.meal.entity.UserDataEntity;
 import com.meal.entity.UserFullEntity;
 import com.meal.security.Secured;
 import com.meal.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -35,9 +37,10 @@ public class UserController {
   /*
      CREATE USER
    */
+  @Secured({})
   @RequestMapping(value="/users", method = RequestMethod.POST)
   public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-    UserEntity createdUser = userService.createUser(user);//add user data
+    UserEntity createdUser = userService.createUser(user);
     return new ResponseEntity<UserEntity>(createdUser, HttpStatus.OK);
   }
 
@@ -46,7 +49,9 @@ public class UserController {
    */
   @Secured({RoleEnum.USER, RoleEnum.ADMIN})
   @RequestMapping(value="/users", method = RequestMethod.PUT)
-  public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user) {
+  public ResponseEntity<UserEntity> updateUser(@RequestBody UserEntity user,
+                                               @RequestAttribute("user") UserEntity currentUser) {
+    userService.hasPermission(user, currentUser, RoleEnum.USER);
     UserEntity updatedUser = userService.updateUser(user);
     return new ResponseEntity<UserEntity>(updatedUser, HttpStatus.OK);
   }
@@ -75,22 +80,24 @@ public class UserController {
    */
   @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/users/{id}", method = RequestMethod.GET)
-  public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") int id) {
+  public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") int id,
+                                            @RequestAttribute("user") UserEntity currentUser) {
+    userService.hasPermission(id, currentUser, RoleEnum.USER);
     UserEntity user = userService.findOne(id);
     return new ResponseEntity<UserEntity>(user, HttpStatus.OK);
   }
 
-  /*
-    UPDATE USER DATA
-   */
-  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
-  @RequestMapping(value="/users/{id}/data", method = RequestMethod.PUT)
-  public ResponseEntity<UserDataEntity> updateUser(@RequestBody UserDataEntity userData) {
-    UserDataEntity updatedUserData = userService.updateUserData(userData);
-    return new ResponseEntity<UserDataEntity>(updatedUserData, HttpStatus.OK);
-  }
+//  /*
+//    UPDATE USER DATA
+//   */
+//  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
+//  @RequestMapping(value="/users/{id}/data", method = RequestMethod.PUT)
+//  public ResponseEntity<UserDataEntity> updateUser(@RequestBody UserDataEntity userData) {
+//    UserDataEntity updatedUserData = userService.updateUserData(userData);
+//    return new ResponseEntity<UserDataEntity>(updatedUserData, HttpStatus.OK);
+//  }
 
-  //@Secured({RoleEnum.ADMIN})
+  @Secured({RoleEnum.ADMIN})
   @RequestMapping(value="/users/coach", method = RequestMethod.GET)
   public ResponseEntity<Iterable<UserEntity>> findCoachs() {
     Iterable<UserEntity> coach = userService.findCoachs();

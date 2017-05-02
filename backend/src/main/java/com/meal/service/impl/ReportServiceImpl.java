@@ -5,9 +5,14 @@ import com.meal.dao.ImageRepository;
 import com.meal.dao.ReportRepository;
 import com.meal.dao.UserRepository;
 import com.meal.entity.*;
+import com.meal.service.Exception.ServiceException;
 import com.meal.service.ReportService;
 import com.meal.utils.HelpUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import sun.plugin2.os.windows.SECURITY_ATTRIBUTES;
 
 import javax.persistence.Basic;
 import javax.persistence.Lob;
@@ -24,6 +29,10 @@ public class ReportServiceImpl implements ReportService {
   private UserRepository userRepository;
   private Date dateTime;
 
+  private final int MAX_CONTENT_LENGTH = 255;
+  private final int MAX_COMMENT_LENGTH = 10000;
+
+  @Autowired
   public ReportServiceImpl(ReportRepository reportRepository, CommentRepository commentRepository,
                            UserRepository userRepository) {
     this.reportRepository = reportRepository;
@@ -39,36 +48,57 @@ public class ReportServiceImpl implements ReportService {
     return reportRepository.findOne(id);
   }
 
-  public ReportEntity createReport(ReportEntity reportEntity) {
-    if(!isReportValid(reportEntity)){
-      return null;
-    }
+  @Transactional
+  public ReportEntity createReport(ReportEntity reportEntity) throws ServiceException {
+    validateReport(reportEntity);
+
     if(reportEntity.getComment() != null){
-      return null;
+      throw new ServiceException("can't have comment");
     }
     reportEntity.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
     reportEntity.setGrade(Grade.EMPTY);
     return reportRepository.save(reportEntity);
   }
 
+  @Transactional
   public ReportEntity updateReport(ReportEntity report) {
     ReportEntity oldReport = reportRepository.findOne(report.getId());
-    if(report.getComment() != null){
-      CommentEntity comment = report.getComment();
-      if(!isCommentValid(comment)){
-        return null;
-      }
-      comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
-      commentRepository.save(comment);
-    }
+    Assert.notNull(report);
+    Assert.notNull(oldReport);
+    Assert.notNull(report.getComment());
+
+    CommentEntity comment = report.getComment();
+    validateComment(comment);
+    comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
+    commentRepository.save(comment);
+
     ReportEntity newReport = updateReportFields(oldReport, report);
-    if(newReport == null){
-      return null;
-    }
+    Assert.notNull(newReport);
     return reportRepository.save(newReport);
   }
 
+  @Transactional
+  public ReportEntity commentReport(ReportEntity report) {
+    ReportEntity oldReport = reportRepository.findOne(report.getId());
+
+    Assert.notNull(report.getComment());
+    CommentEntity comment = report.getComment();
+    validateComment(comment);
+    comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
+    commentRepository.save(comment);
+
+    oldReport.setGrade(report.getGrade());
+
+    Assert.notNull(oldReport);
+    return reportRepository.save(oldReport);
+  }
+
+  @Transactional
   public void deleteReport(int id) {
+    ReportEntity report = reportRepository.findOne(id);
+    if(report != null && report.getComment() != null){
+      commentRepository.delete(report.getComment().getId());
+    }
     reportRepository.delete(id);
   }
 
@@ -91,43 +121,34 @@ public class ReportServiceImpl implements ReportService {
     return reportRepository.findByGroupIdOrderByCreatedAtDesc(groupId);
   }
 
-  private boolean isReportValid(ReportEntity reportEntity){
-    if(reportEntity == null){
-      return false;
+  private void validateReport(ReportEntity reportEntity) throws ServiceException{
+    Assert.notNull(reportEntity);
+    if (HelpUtils.isNullOrEmpty(reportEntity.getContent()) || reportEntity.getContent().length() >= MAX_CONTENT_LENGTH){
+      throw new ServiceException("report has invalid content");
     }
-
-    if (HelpUtils.isNullOrEmpty(reportEntity.getContent()) ){
-      return false;
-    }
-
-    return true;
   }
 
-  private boolean isCommentValid(CommentEntity commentEntity) {
-    if(commentEntity == null){
-      return false;
+  private void validateComment(CommentEntity commentEntity) throws ServiceException {
+    Assert.notNull(commentEntity);
+    if(HelpUtils.isNullOrEmpty(commentEntity.getText()) || commentEntity.getText().length() >= MAX_COMMENT_LENGTH){
+      throw new ServiceException("comment has invalid text");
     }
-
-    if(HelpUtils.isNullOrEmpty(commentEntity.getText())){
-      return false;
-    }
-
-    return true;
   }
 
-  private ReportEntity updateReportFields(ReportEntity oldReport,ReportEntity report){
+  private ReportEntity updateReportFields(ReportEntity oldReport,ReportEntity report) throws ServiceException{
     if(report.getComment() == null){
       report.setComment(oldReport.getComment());
     }
     if(report.getContent() == null) {
+      if(report.getContent().length() >= MAX_CONTENT_LENGTH){
+        throw new ServiceException("report has invalid content");
+      }
       report.setContent(oldReport.getContent());
     }
     if(report.getGrade() == Grade.EMPTY){
       report.setGrade(oldReport.getGrade());
     }
-    if(!isReportValid(report)){
-      return null;
-    }
+    validateReport(report);
     report.setUser(oldReport.getUser());
     report.setCreatedAt(oldReport.getCreatedAt());
     return report;

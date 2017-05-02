@@ -4,6 +4,7 @@ import com.meal.entity.UserEntity;
 import com.meal.service.AuthService;
 import com.meal.service.Exception.ServiceException;
 import com.meal.service.UserService;
+import com.meal.utils.HelpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,17 @@ public class AuthServiceImpl implements AuthService {
   }
 
   public UserEntity login(String login, String password) throws ServiceException {
+    if(HelpUtils.isNullOrEmpty(login) || HelpUtils.isNullOrEmpty(password)) {
+      throw new ServiceException("invalid login or password");
+    }
     UserEntity user = userService.findByLogin(login);
-
-    if(passwordEncoder.matches(password, user.getPassword())){
-      return user;
+    if(user != null){
+      if(passwordEncoder.matches(password, user.getPassword())){
+        return user;
+      }
     }
 
-    return null;
+    throw new ServiceException("invalid login or password");
   }
 
 }

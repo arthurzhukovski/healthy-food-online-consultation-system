@@ -35,7 +35,7 @@ public class ArticleEntity {
   }
 
   @Basic
-  @Column(name = "title", nullable = false, length = 255)
+  @Column(name = "title", nullable = false)
   public String getTitle() {
     return title;
   }

@@ -7,12 +7,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ResourceBundle;
 
 @CrossOrigin
 @Scope("AuthInterceptor")
@@ -20,7 +22,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 
   @Autowired
   private UserService userService;
-  //ResourceBundle resource = ResourceBundle.getBundle("jwt");
+  @Value("${jwt.secret}")
+  private String SECRET;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
@@ -35,8 +38,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 
     Claims claims = null;
     try {
-      //claims = Jwts.parser().setSigningKey(resource.getString("token.secret"))
-      claims = Jwts.parser().setSigningKey("something-secret-you-cannot-keep-it")
+      claims = Jwts.parser().setSigningKey(SECRET)
               .parseClaimsJws(token).getBody();
       int userId = Integer.parseInt(claims.getSubject());
       UserEntity user = userService.findOne(userId);

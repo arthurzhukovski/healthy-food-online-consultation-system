@@ -73,16 +73,6 @@ public class GroupController {
   }
 
   /*
-   GET USER GROUP
-  */
-  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
-  @RequestMapping(value="/groups/user/{id}", method = RequestMethod.GET)
-  public ResponseEntity<GroupEntity> getGroups(@PathVariable(value = "id") int id) {
-    GroupEntity group = groupService.getUserGroup(id);
-    return new ResponseEntity<GroupEntity>(group, HttpStatus.OK);
-  }
-
-  /*
     GET GROUPS BY USERS ID
    */
   @Secured({RoleEnum.ADMIN})

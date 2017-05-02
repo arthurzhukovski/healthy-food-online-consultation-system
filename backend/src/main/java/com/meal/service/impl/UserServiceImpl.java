@@ -8,6 +8,7 @@ import com.meal.entity.RoleEnum;
 import com.meal.entity.UserEntity;
 import com.meal.entity.UserDataEntity;
 import com.meal.entity.UserFullEntity;
+import com.meal.service.Exception.SecureException;
 import com.meal.service.Exception.ServiceException;
 import com.meal.service.UserService;
 import com.meal.utils.HelpUtils;
@@ -31,6 +32,27 @@ public class UserServiceImpl implements UserService {
     this.userDataRepository = userDataRepository;
     this.passwordEncoder = new BCryptPasswordEncoder();
     this.dateTime = new Date();
+  }
+
+  public void hasPermission(int id, UserEntity currentUser, RoleEnum checkRole) throws SecureException {
+    if(currentUser == null || currentUser.getRole() == null) {
+        throw new SecureException("Forbidden");
+    } else {
+      if(currentUser.getRole() == checkRole && currentUser.getId() != id){
+        throw new SecureException("Forbidden");
+      }
+    }
+  }
+  public void hasPermission(UserEntity user, UserEntity currentUser, RoleEnum checkRole) throws SecureException,
+          ServiceException {
+    Assert.notNull(user);
+    if(currentUser == null || currentUser.getRole() == null) {
+      throw new SecureException("Forbidden");
+    } else {
+      if(currentUser.getRole() == checkRole && currentUser.getId() != user.getId()){
+        throw new SecureException("Forbidden");
+      }
+    }
   }
 
   public Iterable<UserEntity> findAll() {
@@ -58,7 +80,6 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   public UserEntity createUser(UserEntity user) throws ServiceException {
-    //500
     validateUser(user);
 
     String passwordHash = user.getPassword();
@@ -69,8 +90,6 @@ public class UserServiceImpl implements UserService {
     user.setRole(RoleEnum.USER);
     user.setRegisteredAt(new java.sql.Timestamp(dateTime.getTime()));
     UserDataEntity userData = new UserDataEntity();
- //   userData = userDataRepository.save(userData);
-   // userData.setUserId(user.getId());
     user.setUserData(userData);
     user = userRepository.save(user);
     return user;
@@ -90,14 +109,12 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   public void deleteUser(int id) {
-    userDataRepository.delete(id);
+    UserEntity user = userRepository.findOne(id);
+    if(user != null && user.getUserData() != null) {
+      userDataRepository.delete(user.getUserData().getId());
+    }
     userRepository.delete(id);
     this.deleteUserDataByUserId(id);
-  }
-
-  @Transactional
-  public UserDataEntity findUserData(int id) {
-    return userDataRepository.findOne(id);
   }
 
   @Transactional
@@ -109,10 +126,6 @@ public class UserServiceImpl implements UserService {
   public void deleteUserDataByUserId(int id) {
     userDataRepository.delete(id);
   }
-
-//  public UserFullEntity findUserWithUserData(int userId) {
-//    return null;
-//  }
 
   private UserEntity updateUserFields(UserEntity user, UserEntity newUser) throws ServiceException {
     Assert.notNull(user, "user can't be null");
@@ -130,6 +143,11 @@ public class UserServiceImpl implements UserService {
         throw new ServiceException("user with such login already exists");
       }
       user.setLogin(newUser.getLogin());
+    }
+    if(newUser.getPassword() != null){
+      String passwordHash = newUser.getPassword();
+      passwordHash = passwordEncoder.encode(passwordHash);
+      user.setPassword(passwordHash);
     }
     if(newUser.getGroupId() != null){
       user.setGroupId(newUser.getGroupId());

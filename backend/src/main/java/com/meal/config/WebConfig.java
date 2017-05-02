@@ -1,6 +1,7 @@
 package com.meal.config;
 
 import com.meal.interceptor.AuthInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -18,7 +19,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-   // registry.addInterceptor(createAuthInterceptor()).excludePathPatterns("/login", "/articles", "/users");
+    registry.addInterceptor(createAuthInterceptor()).excludePathPatterns("/login",
+            "/articles/{pageSize}/{page}","/register");
   }
 
 //  @Override

@@ -8,19 +8,21 @@ import com.meal.service.UserService;
 import com.meal.utils.HelpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.Date;
 
 @Service
 public class MessageServiceImpl implements MessageService {
 
-  @Autowired
   private UserService userService;
   private MessageRepository messageRepository;
   private Date dateTime;
+  private final int MAX_MESSAGE_LENGTH = 10000;
 
   @Autowired
-  public MessageServiceImpl(MessageRepository messageRepository) {
+  public MessageServiceImpl(MessageRepository messageRepository, UserService userService) {
+    this.userService = userService;
     this.messageRepository = messageRepository;
     this.dateTime = new Date();
   }
@@ -34,13 +36,14 @@ public class MessageServiceImpl implements MessageService {
   }
 
   public MessageEntity createMessage(MessageEntity message) throws ServiceException {
-    messageIsValid(message);
+    validateMessage(message);
     message.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
     return messageRepository.save(message);
   }
 
-  public void messageIsValid(MessageEntity message) throws ServiceException{
-    if(HelpUtils.isNullOrEmpty(message.getText())){
+  public void validateMessage(MessageEntity message) throws ServiceException{
+    Assert.notNull(message);
+    if(HelpUtils.isNullOrEmpty(message.getText()) || message.getText().length() >= MAX_MESSAGE_LENGTH){
       throw new ServiceException("message text is invalid");
     }
     if(userService.findOne(message.getSender().getId()) == null){

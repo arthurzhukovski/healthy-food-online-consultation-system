@@ -11,7 +11,6 @@ public interface GroupService {
   GroupEntity updateGroup(GroupEntity group);
   void deleteGroup(int id);
 
-  GroupEntity getUserGroup(int userId);
   Iterable<GroupEntity> findGroupsByCoachId (int coachId);
   Iterable<UserEntity> findUsersByGroupsId (int[] usersId);
   GroupEntity addUserToGroup(int groupId, int userId);
