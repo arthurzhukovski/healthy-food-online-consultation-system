@@ -17,10 +17,10 @@ export class ArticleService {
     }
 
     update(article: any) {
-
+        return this.http.put(Config.BASE_API_URL + '/articles/', article,  UserService.jwt()).map((response: Response) => response.json());
     }
     delete(id: number) {
-
+        return this.http.delete(Config.BASE_API_URL + '/articles/' + id,  UserService.jwt()).map((response: Response) => response.status);
     }
 
 }

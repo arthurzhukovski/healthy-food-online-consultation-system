@@ -36,7 +36,7 @@ export class UserSettingsComponent {
             data =>{
                 localStorage.setItem('currentUser', JSON.stringify(data));
                 this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
-                this.newSettings =  Object.assign(this.currentUser, {});
+                this.newSettings =  Object.assign({}, this.currentUser);
             },
             error => {
                 this.alertService.error('Не удалось загрузить информацию о пользователе. ' + error);
