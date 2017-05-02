@@ -40,7 +40,7 @@ export class UserReportManagement {
     }
 
     rateReport(report: Report) {
-        this.reportService.update(report).subscribe(
+        this.reportService.rateReport(report).subscribe(
             data => {
                 this.alertService.success('Report rated successfully', true);
                 this.loadReports();

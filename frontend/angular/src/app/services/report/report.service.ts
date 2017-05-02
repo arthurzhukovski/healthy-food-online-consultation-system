@@ -18,14 +18,6 @@ export class ReportService {
     }
 
     getAllByUserId(userId: number) {
-        /*return this.http.get('/' , UserService.jwt()).map(
-            (response: Response) =>
-                (
-                    JSON.parse('[{"id":"1", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Хорошо", "createdAt": "0000-00-00"},' +
-                                '{"id":"2", "userId": "1", "content": "Я покушал", "grade": "good", "comment": "Молодец!", "createdAt": "0000-00-00"},' +
-                                '{"id":"3", "userId": "1", "content": "Я покушал", "grade": "empty", "comment": "", "createdAt": "0000-00-00"}]')
-                )
-        );*/
         return this.http.get(Config.BASE_API_URL + '/reports/user/' + userId, UserService.jwt()).map((response: Response) => response.json());
     }
     getAllByUsers(users: any) {
@@ -48,8 +40,12 @@ export class ReportService {
     update(report: any) {
         console.log(report);
         return this.http.put(Config.BASE_API_URL + '/reports/', report, UserService.jwt()).map((response: Response) => response.json());
-        //return this.http.put(Config.BASE_API_URL + '/reports/' + report.id, report, UserService.jwt()).map((response: Response) => response.json());
     }
+    rateReport(report: any) {
+        console.log(report);
+        return this.http.put(Config.BASE_API_URL + '/reports/comment', report, UserService.jwt()).map((response: Response) => response.json());
+    }
+
     delete(id: number) {
         return this.http.delete(Config.BASE_API_URL + '/reports/' + id, UserService.jwt()).map((response: Response) => response.json());
     }

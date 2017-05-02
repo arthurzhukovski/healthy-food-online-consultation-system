@@ -14,7 +14,7 @@ export class UserService {
     }
 
     getById(id: number) {
-        return this.http.get('/api/users/' + id, UserService.jwt()).map((response: Response) => response.json());
+        return this.http.get(Config.BASE_API_URL + '/users/' + id, UserService.jwt()).map((response: Response) => response.json());
     }
 
     create(user: User) {

@@ -1,21 +1,12 @@
-<table>
-    <thead>
-    <tr>
-        <th>Логин</th>
-        <th>Имя</th>
-        <th>Фамилия</th>
-        <th>Группа</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let user of users">
-        <td>{{user.login}}</td>
-        <td>{{user.name}}</td>
-        <td>{{user.surname}}</td>
-        <td>{{user.groupId}}</td>
-        <td><group-select (notify)="onSelectNotification($event, user)" [selectedGroupId]="user.groupId"></group-select></td>
-        <td><button (click)="onGroupSubmit(user)">Применить</button></td>
-    </tr>
-    </tbody>
-</table>
+<form name="form" (ngSubmit)="f.form.valid && createArticle()" #f="ngForm" novalidate>
+
+    <label for="title">Название</label>
+    <input type="text" class="input-field" name="title" [(ngModel)]="newArticle.title" #title="ngModel" required />
+    <div *ngIf="f.submitted && !title.valid" class="help-block">Введите название статьи.</div>
+
+    <label for="content">Текст статьи</label>
+    <textarea type="text" class="input-field" name="content" [(ngModel)]="newArticle.content" #content="ngModel" required> </textarea>
+    <div *ngIf="f.submitted && !content.valid" class="help-block">Имя обязательно.</div>
+
+    <button  type="submit" class="button-bordered">Опубликовать</button>
+</form>

@@ -40,7 +40,7 @@ import {MessageService} from "./services/message/message.service";
 
 
 const appRoutes: Routes = [
-  { path: 'user-table', component: UserTableComponent, canActivate: [AuthGuard]},
+  { path: 'edit-users', component: UserTableComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -49,7 +49,7 @@ const appRoutes: Routes = [
   { path: 'user-settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
   { path: 'group-assignment', component: GroupAssignmentComponent, canActivate: [AuthGuard] },
   { path: 'articles', component: ArticleFeedComponent },
-  { path: 'create-article', component: ArticleCreatorComponent },
+  { path: 'articles/create', component: ArticleCreatorComponent },
   { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
   // otherwise redirect to home
   { path: '*', redirectTo: '' }

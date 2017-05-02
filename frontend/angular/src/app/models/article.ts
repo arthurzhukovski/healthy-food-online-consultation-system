@@ -3,5 +3,5 @@ export class Article{
     title: string;
     content: string;
     createdAt: Date;
-    coachId: string;
+    coach: any = {};
 }

@@ -2,52 +2,41 @@ import { Component, OnInit } from '@angular/core';
 
 import { UserService, AlertService } from '../../services/index';
 import { User } from '../../models/index';
-import  {GroupSelectComponent} from  '../group-select/index';
+import {ArticleService} from "../../services/article/article.service";
+import {Article} from "../../models/article";
 
 @Component({
     moduleId: module.id,
-    selector: 'group-assignment',
+    selector: 'article-creator',
     templateUrl: 'article-creator.component.html',
     styleUrls: ['article-creator.component.scss']
 })
 
 export class ArticleCreatorComponent {
-    private users: User[];
+    private newArticle: Article = new Article();
     private currentUser: User;
-    constructor(private userService: UserService, private alertService: AlertService) {
+    constructor(private userService: UserService, private alertService: AlertService, private articleService: ArticleService) {
         this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
     }
     ngOnInit(){
-        this.loadUsers();
+        this.newArticle = this.createEmptyArticleWithAuthorId();
     }
-    private loadUsers() {
-        this.userService.getAll().subscribe(
+    createArticle() {
+        console.log(this.newArticle);
+        this.articleService.create(this.newArticle).subscribe(
             data => {
-                console.log(data);
-                this.users = data;
+                this.alertService.success('Статья добавлена.', true);
+                this.newArticle = this.createEmptyArticleWithAuthorId();
             },
             error => {
                 this.alertService.error(error);
             });
     }
-    onSelectNotification(selectedGroup: number, user){
-        user.shadowGroup = selectedGroup;
-    }
-    onGroupSubmit(user){
-        var userWithNewGroup = Object.assign({}, user);
-        userWithNewGroup.groupId = userWithNewGroup.shadowGroup;
-        delete userWithNewGroup.shadowGroup;
-        this.applyNewGroup(userWithNewGroup);
-    }
-    applyNewGroup(userWithNewGroup: User) {
-        this.userService.update(userWithNewGroup).subscribe(
-            data => {
-                this.alertService.success('User updated successfully', true);
-                this.loadUsers();
-            },
-            error => {
-                this.alertService.error(error);
-            });
+
+    createEmptyArticleWithAuthorId(){
+        var article: Article = new Article();
+        article.coach.id = this.currentUser.id;
+        return article;
     }
 
 }

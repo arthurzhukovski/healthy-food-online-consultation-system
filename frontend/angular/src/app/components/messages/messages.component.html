@@ -22,10 +22,11 @@
     <div class="messages-outgoing">
         <h3>Входящие сообщения</h3>
         <div  class="message-list">
+            <p *ngIf="incomingMessages == null || incomingMessages.length < 1"> Сообщения отсутствуют.</p>
             <div class="message-preview" *ngFor="let message of incomingMessages">
                 <div>
                     <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
-                    <p class="message-sender">Сообщение от {{message.sender.login}} ({{message.sender.name}} {{message.sender.surname}})</p>
+                    <p class="message-sender">Сообщение от <span *ngIf="message.sender != null" >{{message.sender.login}} ({{message.sender.name}} {{message.sender.surname}})</span></p>
                 </div>
                 <p>{{message.text}}</p>
             </div>
@@ -35,9 +36,10 @@
         <h3>Исходящие сообщения</h3>
         <div  class="message-list">
             <div class="message-preview" *ngFor="let message of outgoingMessages">
+                <p *ngIf="outgoingMessages == null || outgoingMessages.length < 1"> Сообщения отсутствуют.</p>
                 <div>
                     <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
-                    <p class="message-sender">Сообщение для {{message.receiver.login}} ({{message.receiver.name}} {{message.receiver.surname}})</p>
+                    <p class="message-sender">Сообщение для <span *ngIf="message.receiver != null" >{{message.receiver.login}} ({{message.receiver.name}} {{message.receiver.surname}})</span></p>
                 </div>
                 <p>{{message.text}}</p>
             </div>

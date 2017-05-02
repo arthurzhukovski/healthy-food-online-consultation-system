@@ -2,7 +2,8 @@
     <div *ngFor="let article of articles" class="article-list">
         <div class="article">
             <h2>{{article.title}}</h2>
-            <p>{{article.context}}</p>
+            <p>{{article.content}}</p>
         </div>
     </div>
+    <button (click)="loadMore()">Загрузить ещё</button>
 </div>

@@ -21,7 +21,8 @@ export class NavbarComponent {
                       "report_management":"Отчёты пользователей",
                       "settings":"Настройки",
                         "group_assignment":"Группы",
-                        "messages":"Сообщения"};
+                        "messages":"Сообщения",
+                    "articles_create":"Создать статью"};
     private currentUser: User;
 
     private userIsLoggedIn(){
