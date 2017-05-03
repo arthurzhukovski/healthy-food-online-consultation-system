@@ -88,7 +88,7 @@ public class ReportServiceImpl implements ReportService {
     commentRepository.save(comment);
 
     oldReport.setGrade(report.getGrade());
-
+    oldReport.setComment(comment);
     Assert.notNull(oldReport);
     return reportRepository.save(oldReport);
   }

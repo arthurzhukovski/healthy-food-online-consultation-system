@@ -109,7 +109,6 @@ public class UserServiceImpl implements UserService {
   @Transactional
   public void deleteUser(int id) {
     UserEntity user = userRepository.findOne(id);
-
     if(user != null && user.getUserData() != null) {
       userDataRepository.delete(user.getUserData().getId());
     }
