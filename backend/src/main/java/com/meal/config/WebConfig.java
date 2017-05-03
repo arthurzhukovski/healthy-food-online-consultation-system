@@ -20,7 +20,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(createAuthInterceptor()).excludePathPatterns("/login",
-            "/articles/{pageSize}/{page}","/register");
+            "/articles/{pageSize}/{page}","/register","/report/image/{id}");
   }
 
 //  @Override

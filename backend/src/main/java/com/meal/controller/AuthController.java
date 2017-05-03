@@ -4,7 +4,6 @@ import com.meal.entity.LoginRequest;
 import com.meal.entity.TokenResponse;
 import com.meal.entity.UserEntity;
 import com.meal.service.AuthService;
-import com.meal.service.Exception.SecureException;
 import com.meal.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

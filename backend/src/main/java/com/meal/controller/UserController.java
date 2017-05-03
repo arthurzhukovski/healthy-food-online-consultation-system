@@ -79,7 +79,7 @@ public class UserController {
   /*
     GET USER
    */
-  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value="/users/{id}", method = RequestMethod.GET)
   public ResponseEntity<UserEntity> getUser(@PathVariable(value = "id") int id,
                                             @RequestAttribute("user") UserEntity currentUser) {

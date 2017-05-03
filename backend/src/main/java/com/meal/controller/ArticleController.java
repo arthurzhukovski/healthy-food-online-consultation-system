@@ -24,7 +24,7 @@ public class ArticleController {
   /*
      GET ALL ARTICLE
     */
-  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
+ // @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value="/articles/{pageSize}/{page}", method = RequestMethod.GET)
   public ResponseEntity<Page<ArticleEntity>> getArticles(@PathVariable int pageSize, @PathVariable int page) {
     Page<ArticleEntity> articles = articleService.findAll(page, pageSize);

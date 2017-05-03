@@ -34,7 +34,7 @@ public class ImageController {
     return new ResponseEntity<Integer>(id, HttpStatus.OK);
   }
 
-  @Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
+  //Secured({RoleEnum.ADMIN, RoleEnum.COACH, RoleEnum.USER})
   @RequestMapping(value = "/report/image/{id}", method = RequestMethod.GET, produces = {MediaType.IMAGE_JPEG_VALUE,
           MediaType.IMAGE_JPEG_VALUE})
   public ResponseEntity<byte[]> loadFile(@PathVariable(value = "id") int id) {
