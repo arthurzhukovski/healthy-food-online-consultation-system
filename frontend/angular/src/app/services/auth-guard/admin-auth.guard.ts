@@ -5,17 +5,31 @@ import {AlertService} from "../alert/alert.service";
 import {UserService} from "../user/user.service";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AdminAuthGuard implements CanActivate {
 
-    constructor(private router: Router, private alertService: AlertService, private userService: UserService) { }
+    constructor(private router: Router,private userService: UserService, private alertService: AlertService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         this.refreshLocalStorage();
         if ( this.userIsLoggedIn() ) {
-            return true;
+            if (this.userHasAdminRights()){
+                return true;
+            }
+            this.router.navigate(['/'], { queryParams: { returnUrl: state.url }});
+            return false;
         }
 
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+        return false;
+    }
+
+    private userHasAdminRights(): boolean{
+        if (this.userIsLoggedIn() ){
+
+            var user: User = JSON.parse(localStorage.getItem('currentUser'));
+            if (user.role === 'ADMIN')
+                return true;
+        }
         return false;
     }
 
@@ -30,11 +44,9 @@ export class AuthGuard implements CanActivate {
     }
 
     refreshLocalStorage(){
-
         var currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser == null)
             return;
-        var currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         this.userService.getById(currentUser.id).subscribe(
             data =>{
                 localStorage.setItem('currentUser', JSON.stringify(data));

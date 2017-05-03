@@ -1,23 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {User} from "../../models/user";
-import {AlertService} from "../alert/alert.service";
 import {UserService} from "../user/user.service";
+import {AlertService} from "../alert/alert.service";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class CoachAuthGuard implements CanActivate {
 
-    constructor(private router: Router, private alertService: AlertService, private userService: UserService) { }
+    constructor(private router: Router,private userService: UserService, private alertService: AlertService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         this.refreshLocalStorage();
         if ( this.userIsLoggedIn() ) {
-            return true;
+           if (this.userHasCoachOrAdminRights()){
+               return true;
+           }
+            this.router.navigate(['/'], { queryParams: { returnUrl: state.url }});
+            return false;
         }
 
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
         return false;
     }
+
+    private userHasCoachOrAdminRights(): boolean{
+        if (this.userIsLoggedIn() ){
+
+            var user: User = JSON.parse(localStorage.getItem('currentUser'));
+            if (user.role === 'COACH' || user.role === 'ADMIN')
+            return true;
+        }
+        return false;
+    }
+
+
 
     public userIsLoggedIn(): boolean{
 
@@ -28,13 +44,10 @@ export class AuthGuard implements CanActivate {
             return false;
         }
     }
-
     refreshLocalStorage(){
-
         var currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser == null)
             return;
-        var currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         this.userService.getById(currentUser.id).subscribe(
             data =>{
                 localStorage.setItem('currentUser', JSON.stringify(data));
@@ -44,5 +57,4 @@ export class AuthGuard implements CanActivate {
                 this.alertService.error('Не удалось загрузить информацию о пользователе. ' + error);
             });
     }
-
 }

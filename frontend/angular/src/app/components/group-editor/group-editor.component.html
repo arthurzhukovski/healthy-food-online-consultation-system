@@ -1,3 +1,4 @@
+<h3>Редактирование групп</h3>
 <div class="userDataContainer">
   <table class="table-userData">
     <thead>
@@ -15,7 +16,7 @@
       <td data-th="Тренер" ><div *ngIf="group.coach != null">{{group.coach.login}} ({{group.coach.name}} {{group.coach.surname}})</div></td>
       <td data-th="Активна" >{{group.active}}</td>
       <td data-th="Этап">{{group.stage}}</td>
-      <td data-th="Дата создания">{{group.role | date: 'dd.MM.yyyy'}}</td>
+      <td data-th="Дата создания">{{group.createdAt | date: 'dd.MM.yyyy'}}</td>
 
       <td><button (click)="editGroup(group)" class="button-bordered">Редактировать</button></td>
       <td><button (click)="deleteGroup(group.id)" class="button-bordered"><span class="fa fa-trash-o"></span></button></td>
@@ -53,7 +54,7 @@
         <label for="coach">Тренер</label>
         <user-select name="coach" (notify)="onSelectNotification($event)" [users]="coaches"></user-select>
       </div>
-      <button type="'submit" class="btn btn-primary">Создать группу</button>
+      <button type="'submit" class="button-bordered">Сохранить</button>
     </form>
   </div>
 </modal>

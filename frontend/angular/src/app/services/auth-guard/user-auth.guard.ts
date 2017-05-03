@@ -1,21 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {User} from "../../models/user";
-import {AlertService} from "../alert/alert.service";
 import {UserService} from "../user/user.service";
+import {AlertService} from "../alert/alert.service";
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class UserAuthGuard implements CanActivate {
 
-    constructor(private router: Router, private alertService: AlertService, private userService: UserService) { }
+    constructor(private router: Router, private userService: UserService, private alertService: AlertService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         this.refreshLocalStorage();
         if ( this.userIsLoggedIn() ) {
-            return true;
+           if (this.userHasUserRights()){
+               return true;
+           }
+            this.router.navigate(['/'], { queryParams: { returnUrl: state.url }});
+            return false;
         }
 
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+        return false;
+    }
+
+    private userHasUserRights(): boolean{
+        if (this.userIsLoggedIn() ){
+            var user: User = JSON.parse(localStorage.getItem('currentUser'));
+            if (user.role === 'USER')
+            return true;
+        }
         return false;
     }
 
@@ -28,9 +41,7 @@ export class AuthGuard implements CanActivate {
             return false;
         }
     }
-
     refreshLocalStorage(){
-
         var currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser == null)
             return;
@@ -44,5 +55,4 @@ export class AuthGuard implements CanActivate {
                 this.alertService.error('Не удалось загрузить информацию о пользователе. ' + error);
             });
     }
-
 }

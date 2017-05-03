@@ -1,4 +1,4 @@
-<select (change)="notifyGroupChanged()" [(ngModel)]="selectedGroupId">
+<select (change)="notifyGroupChanged()" [(ngModel)]="selectedGroupId" class="input-field">
     <option *ngFor="let group of groups"
             value="{{group.id}}"
             [attr.selected]="group.id == selectedGroupId ? true : null" ngDefaultControl>

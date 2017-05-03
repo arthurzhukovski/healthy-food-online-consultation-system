@@ -31,13 +31,14 @@ export class UserReportFeedComponent {
 
     ngOnInit() {
         this.loadAllReports();
-        this.model.userId = this.currentUser.id;
+        this.model =  this.createEmptyReport();
     }
 
     addReport() {
         this.reportService.create(this.model).subscribe(
             data => {
-                this.alertService.success('Upload successful', true);
+                this.alertService.success('Отчёт добавлен.', true);
+                this.model =  this.createEmptyReport();
                 this.loadAllReports();
             },
             error => {
@@ -53,15 +54,20 @@ export class UserReportFeedComponent {
             });
     }
 
+    createEmptyReport(){
+        var report: Report = new Report();
+        report.userId = this.currentUser.id;
+        return report;
+    }
+
     private uploadImage(event){
+
         var files = event.srcElement.files;
         this.imageToUpload = files[0];
-        console.log(this.imageToUpload);
 
         this.reportService.uploadImage(this.imageToUpload).subscribe(
             data => {
                 this.model.imageId = data;
-                console.log(this.model.imageId);
             },
             error => {
                 this.alertService.error(error);

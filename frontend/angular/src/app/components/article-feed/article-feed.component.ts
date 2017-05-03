@@ -17,17 +17,19 @@ import {ModalComponent} from "../modal/modal.component";
 export class ArticleFeedComponent {
     @ViewChild(ModalComponent)
     public readonly editArticleModal: ModalComponent;
-
+    private currentUser: User = new User();
     private articles: Article[] = [];
     private totalAmount: number = 0;
     private articleAmountPerPage = 3;
     private currentPage = 0;
     private editedArticle: Article = new Article();
     constructor(private userService: UserService, private alertService: AlertService, private articleService: ArticleService) {
-
+        this.refreshLocalStorage();
     }
     ngOnInit(){
+        this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
         this.loadArticles(this.articleAmountPerPage, this.currentPage);
+
     }
     private loadArticles(amount, page) {
         this.articleService.getAll(amount, page).subscribe(
@@ -72,6 +74,20 @@ export class ArticleFeedComponent {
             },
             error => {
                 this.alertService.error(error);
+            });
+    }
+
+    refreshLocalStorage(){
+        var currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser == null)
+            return;
+        this.userService.getById(currentUser.id).subscribe(
+            data =>{
+                localStorage.setItem('currentUser', JSON.stringify(data));
+                currentUser = JSON.parse(localStorage.getItem("currentUser"));
+            },
+            error => {
+                this.alertService.error('Не удалось загрузить информацию о пользователе. ' + error);
             });
     }
 }

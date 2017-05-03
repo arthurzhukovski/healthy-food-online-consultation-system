@@ -42,7 +42,7 @@ export class UserService {
     }
 
     delete(id: number) {
-        return this.http.delete(Config.BASE_API_URL +'/users/' + id, UserService.jwt()).map((response: Response) => response.json());
+        return this.http.delete(Config.BASE_API_URL +'/users/' + id, UserService.jwt()).map((response: Response) => response.status);
     }
 
     public static jwt(noContentType:boolean=false) {

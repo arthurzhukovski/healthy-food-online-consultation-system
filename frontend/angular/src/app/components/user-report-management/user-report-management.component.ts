@@ -19,7 +19,6 @@ import * as $ from 'jquery';
 })
 
 export class UserReportManagement {
-    private ratingReport: any = [];
     private dailyReports: Report[];
     private groups: Group[];
     private users: User[];
@@ -55,6 +54,8 @@ export class UserReportManagement {
         ratedDay.comment = ratedDay.shadowText;
         delete ratedDay.shadowMark;
         delete ratedDay.shadowText;
+        delete day.shadowMark;
+        delete day.shadowText;
         ratedDay.comment = {coach:{id: this.currentUser.id}, text: ratedDay.comment};
         console.log(ratedDay);
         this.rateReport(ratedDay);

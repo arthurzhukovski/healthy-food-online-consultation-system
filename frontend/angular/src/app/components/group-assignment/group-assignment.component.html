@@ -19,7 +19,7 @@
         <td>{{user.surname}}</td>
         <td>{{user.groupId}}</td>
         <td><group-select (notify)="onSelectNotification($event, user)" [selectedGroupId]="user.groupId" [groups]="groups"></group-select></td>
-        <td><button (click)="onGroupSubmit(user)">Применить</button></td>
+        <td><button (click)="onGroupSubmit(user)" class="button-bordered">Применить</button></td>
     </tr>
     </tbody>
 </table>

@@ -16,7 +16,7 @@ import { NavbarComponent } from './components/navbar/index';
 import { UserTableComponent } from './components/user-table/user-table.component';
 import { UserDataItemComponent } from './components/user-data-item/user-data-item.component';
 import { AlertComponent } from './components/alert/index';
-import { AuthGuard } from './services/index';
+import { AuthGuard, UserAuthGuard, CoachAuthGuard, AdminAuthGuard } from './services/index';
 import { AlertService, AuthenticationService, UserService, ReportService, GroupService } from './services/index';
 import { HomeComponent } from './components/home/index';
 import { LoginComponent } from './components/login/index';
@@ -41,20 +41,19 @@ import {MessageService} from "./services/message/message.service";
 
 
 const appRoutes: Routes = [
-  { path: 'edit-users', component: UserTableComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent},
+  { path: 'edit-users', component: UserTableComponent, canActivate: [AdminAuthGuard]},
+
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'feed', component: UserReportFeedComponent, canActivate: [AuthGuard] },
-  { path: 'report-management', component: UserReportManagement, canActivate: [AuthGuard] },
+  { path: 'feed', component: UserReportFeedComponent, canActivate: [UserAuthGuard] },
+  { path: 'report-management', component: UserReportManagement, canActivate: [CoachAuthGuard] },
   { path: 'user-settings', component: UserSettingsComponent, canActivate: [AuthGuard] },
-  { path: 'group-assignment', component: GroupAssignmentComponent, canActivate: [AuthGuard] },
+  { path: 'group-assignment', component: GroupAssignmentComponent, canActivate: [AdminAuthGuard] },
   { path: 'articles', component: ArticleFeedComponent },
-  { path: 'articles/create', component: ArticleCreatorComponent },
+  { path: 'articles/create', component: ArticleCreatorComponent, canActivate: [CoachAuthGuard]  },
   { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
-  // otherwise redirect to home
-  { path: '*', redirectTo: '' }
-
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
@@ -90,6 +89,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthGuard,
+    UserAuthGuard,
+    CoachAuthGuard,
+    AdminAuthGuard,
     AlertService,
     AuthenticationService,
     UserService,

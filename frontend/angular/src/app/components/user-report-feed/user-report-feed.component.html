@@ -18,7 +18,7 @@
                     <p>Фото:</p>
                     <div class="photos">
                         <input type="file" id="inputDailyReportPhotos" style="display: none" (change)="uploadImage($event)" name="image" />
-                        <button class=" btn-add-photo" onclick="document.querySelector('#inputDailyReportPhotos').click();"><span class="fa fa-plus"></span></button>
+                        <button class=" btn-add-photo" onclick="document.querySelector('#inputDailyReportPhotos').click();event.preventDefault();"><span class="fa fa-plus"></span></button>
                         <img *ngIf="model.imageId != null" src="{{imgPath}}{{model.imageId}}">
                     </div>
                     <button [disabled]="!f.form.valid" type="submit" class="btn-send-report">Отправить отчет</button>

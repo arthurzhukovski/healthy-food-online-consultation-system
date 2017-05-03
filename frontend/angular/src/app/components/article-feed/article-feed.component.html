@@ -3,7 +3,7 @@
         <div class="article">
             <h2>{{article.title}}</h2>
             <p>{{article.content}}</p>
-            <div>
+            <div *ngIf="currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'COACH')">
                 <button (click)="editArticle(article)" class="button-bordered"><span class="fa fa-pencil"></span></button>
                 <button (click)="deleteArticle(article.id)" class="button-bordered"><span class="fa  fa-trash-o"></span></button>
             </div>

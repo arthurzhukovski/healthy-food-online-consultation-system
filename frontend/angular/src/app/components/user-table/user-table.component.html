@@ -21,6 +21,7 @@
       <td data-th="Логин">{{user.login}}</td>
       <td data-th="Роль">{{user.role}}</td>
       <td data-th="E-mail" >{{user.email}}</td>
+      <td data-th="Пол" >{{user.userData.gender}}</td>
       <td data-th="Рост" >{{user.userData.height}}</td>
       <td data-th="Вес" >{{user.userData.weight}}</td>
       <td data-th="Дата рождения" >{{user.userData.birthdate | date: 'dd.MM.yyyy'}}</td>
@@ -60,19 +61,19 @@
       <div *ngIf="f.submitted && !role.valid" class="help-block">Роль обязательна.</div>
 
       <label for="height">Рост</label>
-      <input type="number" class="input-field" name="height" [(ngModel)]="selectedUser.userData.height" #height="ngModel" min="100" max="250" pattern="[0-9]{2,3}" required/>
+      <input type="number" class="input-field" name="height" [(ngModel)]="selectedUser.userData.height" #height="ngModel" min="100" max="250" pattern="[0-9]{2,3}" />
       <div *ngIf="f.submitted && !height.valid" class="help-block">Введите рост в сантиметрах.</div>
 
       <label for="weight">Вес</label>
-      <input type="number" class="input-field" name="weight" [(ngModel)]="selectedUser.userData.weight" #weight="ngModel" min="20" max="250" pattern="[0-9]{2,3}" required/>
+      <input type="number" class="input-field" name="weight" [(ngModel)]="selectedUser.userData.weight" #weight="ngModel" min="20" max="250" pattern="[0-9]{2,3}"/>
       <div *ngIf="f.submitted && !weight.valid" class="help-block">Введите вес в килограммах.</div>
 
       <label for="birthdate">Дата рождения</label>
-      <input type="date" class="input-field" name="birthdate" [ngModel]="selectedUser.userData.birthdate"  (ngModelChange)="selectedUser.userData.birthdate = $event" #birthdate="ngModel" required/>
+      <input type="date" class="input-field" name="birthdate" [ngModel]="selectedUser.userData.birthdate"  (ngModelChange)="selectedUser.userData.birthdate = $event" #birthdate="ngModel"/>
       <div *ngIf="f.submitted && !birthdate.valid" class="help-block">Введите дату в формате дд.мм.гггг .</div>
 
       <label for="gender">Пол</label>
-      <select class="input-field" name="gender" [(ngModel)]="selectedUser.userData.gender" #gender="ngModel" required>
+      <select class="input-field" name="gender" [(ngModel)]="selectedUser.userData.gender" #gender="ngModel">
         <option value="MALE" >Мужской</option>
         <option value="FEMALE">Женский</option>
       </select>

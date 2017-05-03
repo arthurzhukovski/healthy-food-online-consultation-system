@@ -29,7 +29,7 @@
                                     <div *ngIf="day.grade !== 'EMPTY'" class="day-mark">
                                         <span class="fa fa-{{markViewClass[day.grade]}}"></span>
                                         <div class="mark-comment">
-                                            {{day.comment.text}}
+                                            <div *ngIf="day.comment">{{day.comment.text}}</div>
                                         </div>
                                     </div>
 
