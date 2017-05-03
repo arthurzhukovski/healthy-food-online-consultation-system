@@ -57,7 +57,12 @@ public class ReportServiceImpl implements ReportService {
     }
     reportEntity.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
     reportEntity.setGrade(Grade.EMPTY);
-    return reportRepository.save(reportEntity);
+    try {
+      return reportRepository.save(reportEntity);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
   }
 
   @Transactional
@@ -70,11 +75,21 @@ public class ReportServiceImpl implements ReportService {
     CommentEntity comment = report.getComment();
     validateComment(comment);
     comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
-    commentRepository.save(comment);
+    try {
+      commentRepository.save(comment);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
 
     ReportEntity newReport = updateReportFields(oldReport, report);
     Assert.notNull(newReport);
-    return reportRepository.save(newReport);
+    try {
+      return reportRepository.save(newReport);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
   }
 
   @Transactional
@@ -85,8 +100,13 @@ public class ReportServiceImpl implements ReportService {
     CommentEntity comment = report.getComment();
     validateComment(comment);
     comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
-    commentRepository.save(comment);
 
+
+    try {
+      commentRepository.save(comment);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
     oldReport.setGrade(report.getGrade());
     oldReport.setComment(comment);
     Assert.notNull(oldReport);
@@ -99,7 +119,12 @@ public class ReportServiceImpl implements ReportService {
     if(report != null && report.getComment() != null){
       commentRepository.delete(report.getComment().getId());
     }
-    reportRepository.delete(id);
+    try {
+      reportRepository.delete(id);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
   }
 
   public Iterable<ReportEntity> findByUsersId(int[] usersId) {

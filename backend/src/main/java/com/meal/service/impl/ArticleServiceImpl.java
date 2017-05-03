@@ -20,7 +20,7 @@ public class ArticleServiceImpl implements ArticleService {
   private ArticleRepository articleRepository;
   private final Date dateTime;
   private final int MAX_TITLE_LENGTH = 255;
-  private final int MAX_CONTENT_LENGTH = 10000;
+  private final int MAX_CONTENT_LENGTH = 1000000;
 
   public ArticleServiceImpl(ArticleRepository articleRepository) {
     this.articleRepository = articleRepository;
@@ -35,7 +35,11 @@ public class ArticleServiceImpl implements ArticleService {
   public ArticleEntity createArticle(ArticleEntity article) throws ServiceException {
     validateArticle(article);
     article.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
-    return articleRepository.save(article);
+    try {
+      return articleRepository.save(article);
+    } catch (Exception e) {
+      throw new ServiceException(e);
+    }
   }
 
   @Transactional
@@ -44,16 +48,30 @@ public class ArticleServiceImpl implements ArticleService {
     ArticleEntity oldArticle = articleRepository.findOne(article.getId());
     Assert.notNull(oldArticle);
     updateArticleFields(oldArticle, article);
-    return articleRepository.save(article);
+    try {
+      return articleRepository.save(article);
+    } catch (Exception e) {
+      throw new ServiceException(e);
+    }
+
   }
 
   public void deleteArticle(int id) {
-    articleRepository.delete(id);
+    try {
+      articleRepository.delete(id);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
   }
 
   public Page<ArticleEntity> findAll(int page, int pageSize) {
     PageRequest pageRequest = new PageRequest(page, pageSize, Sort.Direction.DESC, "createdAt");
-    return articleRepository.findAll(pageRequest);
+    try {
+      return articleRepository.findAll(pageRequest);
+    } catch (Exception e) {
+      throw new ServiceException(e);
+    }
   }
 
   public Iterable<ArticleEntity> getArticlesByCoachId(int id) {

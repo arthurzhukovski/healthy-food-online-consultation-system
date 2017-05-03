@@ -39,7 +39,12 @@ public class GroupServiceImpl implements GroupService {
   public GroupEntity createGroup(GroupEntity group) {
     validateGroup(group);
     group.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
-    return groupRepository.save(group);
+    try {
+      return groupRepository.save(group);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
   }
 
   @Transactional
@@ -52,7 +57,12 @@ public class GroupServiceImpl implements GroupService {
     }
     oldGroup.setCoach(group.getCoach());
     oldGroup.setStage(group.getStage());
-    return groupRepository.save(oldGroup);
+
+    try {
+      return groupRepository.save(oldGroup);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
   }
 
   @Transactional
@@ -60,9 +70,19 @@ public class GroupServiceImpl implements GroupService {
     Iterable<UserEntity> users = userRepository.findByGroupId(id);
     for (UserEntity user: users) {
       user.setGroupId(null);
-      userRepository.save(user);
+      try {
+        userRepository.save(user);
+      } catch (Throwable e) {
+        throw new ServiceException("Bad Request");
+      }
+
     }
-    groupRepository.delete(id);
+    try {
+      groupRepository.delete(id);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
   }
 
   public Iterable<GroupEntity> findGroupsByCoachId(int coachId) {
@@ -93,7 +113,13 @@ public class GroupServiceImpl implements GroupService {
     }
     user.setGroupId(groupId);
     user.setStage(group.getStage());
-    userRepository.save(user);
+
+    try {
+      userRepository.save(user);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
     return group;
   }
 
@@ -108,7 +134,12 @@ public class GroupServiceImpl implements GroupService {
       throw new ServiceException("no such group");
     }
     user.setGroupId(null);
-    userRepository.save(user);
+    try {
+      userRepository.save(user);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
     return group;
   }
 

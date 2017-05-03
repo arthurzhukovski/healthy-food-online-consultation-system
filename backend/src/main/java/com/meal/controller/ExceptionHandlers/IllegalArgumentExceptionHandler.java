@@ -1,6 +1,5 @@
 package com.meal.controller.ExceptionHandlers;
 
-import com.meal.service.Exception.SecureException;
 import com.meal.service.Exception.ServiceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

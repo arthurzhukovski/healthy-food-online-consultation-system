@@ -112,7 +112,12 @@ public class UserServiceImpl implements UserService {
     if(user != null && user.getUserData() != null) {
       userDataRepository.delete(user.getUserData().getId());
     }
-    userRepository.delete(id);
+    try {
+      userRepository.delete(id);
+    } catch (Throwable e) {
+      throw new ServiceException("Bad Request");
+    }
+
   }
 
   @Transactional

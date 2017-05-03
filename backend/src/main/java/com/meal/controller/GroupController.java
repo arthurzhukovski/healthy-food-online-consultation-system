@@ -75,7 +75,7 @@ public class GroupController {
   /*
     GET GROUPS BY USERS ID
    */
-  @Secured({RoleEnum.ADMIN})
+  @Secured({RoleEnum.ADMIN, RoleEnum.COACH})
   @RequestMapping(value="/groups/users", method = RequestMethod.POST)
   public ResponseEntity<Iterable<UserEntity>> getUsersByGroupsId(@RequestBody int[] groupsId) {
     Iterable<UserEntity> users = groupService.findUsersByGroupsId((groupsId));
