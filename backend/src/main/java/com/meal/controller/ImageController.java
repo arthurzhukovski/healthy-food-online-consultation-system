@@ -3,6 +3,7 @@ package com.meal.controller;
 
 import com.meal.entity.RoleEnum;
 import com.meal.security.Secured;
+import com.meal.service.Exception.ServiceException;
 import com.meal.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,9 @@ public class ImageController {
   public ResponseEntity<Integer> uploadFile(@RequestParam("file") MultipartFile image) {
     Integer id = null;
     try {
-      id = imageService.saveImage(image.getBytes());
+      id = imageService.saveImage(image);
     } catch (Exception e){
-
+      throw new ServiceException(e);
     }
     return new ResponseEntity<Integer>(id, HttpStatus.OK);
   }

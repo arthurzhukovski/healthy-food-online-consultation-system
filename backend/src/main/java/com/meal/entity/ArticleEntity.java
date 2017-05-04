@@ -45,7 +45,7 @@ public class ArticleEntity {
   }
 
   @Basic
-  @Column(name = "content", nullable = false, columnDefinition = "text")
+  @Column(name = "content", nullable = false, columnDefinition = "longtext")
   public String getContent() {
     return content;
   }
