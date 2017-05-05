@@ -1,43 +1,36 @@
 package com.meal;
 
-import com.meal.dao.UserDao;
-import com.meal.filter.JwtFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
-@ComponentScan
-public class SpringBootWebApplication extends SpringBootServletInitializer {
-
-//  @Bean
-//  public FilterRegistrationBean jwtFilter() {
-//    final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-//    registrationBean.setFilter(new JwtFilter());
-//    registrationBean.addUrlPatterns("/users/*");
-//
-//    return registrationBean;
-//  }
-
-  @Override
-  protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    return application.sources(SpringBootWebApplication.class);
-  }
+@SpringBootApplication(exclude = org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration.class)
+@EnableTransactionManagement
+@EnableSpringDataWebSupport
+public class SpringBootWebApplication {
 
   public static void main(String[] args) throws Exception {
-
-    ClassPathXmlApplicationContext context = new
-            ClassPathXmlApplicationContext("spring.xml");
-
-    UserDao userDao = context.getBean(UserDao.class);
-
     SpringApplication.run(SpringBootWebApplication.class, args);
   }
 
+//  @Bean
+//  EmbeddedServletContainerCustomizer containerCustomizer() throws Exception {
+//    return (ConfigurableEmbeddedServletContainer container) -> {
+//      if (container instanceof TomcatEmbeddedServletContainerFactory) {
+//        TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
+//        tomcat.addConnectorCustomizers(
+//                (connector) -> {
+//                  connector.setMaxPostSize(10000000); // 10 MB
+//                }
+//        );
+//      }
+//    };
+//  }
+
 }
+
