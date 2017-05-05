@@ -41,15 +41,15 @@
     <form name="form" (ngSubmit)="f.form.valid && applyChangesToUser()" #f="ngForm" novalidate>
 
       <label for="login">Логин</label>
-      <input type="text" class="input-field" name="login" [(ngModel)]="selectedUser.login" #login="ngModel" required />
+      <input type="text" class="input-field" name="login" [(ngModel)]="selectedUser.login" #login="ngModel" required maxlength="254"/>
       <div *ngIf="f.submitted && !login.valid" class="help-block">Логин обязателен.</div>
 
       <label for="name">Имя</label>
-      <input type="text" class="input-field" name="name" [(ngModel)]="selectedUser.name" #name="ngModel" required />
+      <input type="text" class="input-field" name="name" [(ngModel)]="selectedUser.name" #name="ngModel" required maxlength="254"/>
       <div *ngIf="f.submitted && !name.valid" class="help-block">Имя обязательно.</div>
 
       <label for="surname">Фамилия</label>
-      <input type="text" class="input-field" name="surname" [(ngModel)]="selectedUser.surname" #surname="ngModel" required />
+      <input type="text" class="input-field" name="surname" [(ngModel)]="selectedUser.surname" #surname="ngModel" required maxlength="254"/>
       <div *ngIf="f.submitted && !surname.valid" class="help-block">Фамилия обязательна.</div>
 
       <label for="role">Роль</label>

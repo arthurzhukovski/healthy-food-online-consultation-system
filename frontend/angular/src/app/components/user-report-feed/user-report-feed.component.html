@@ -13,7 +13,7 @@
                 </div>
                 <div>Краткое описание того, что Вы кушали:</div>
                 <form name="form" (ngSubmit)="f.form.valid && addReport()" #f="ngForm" novalidate>
-                    <textarea  class="form-control report-text" name="text" [(ngModel)]="model.text" #text="ngModel" required> </textarea>
+                    <textarea  class="form-control report-text" name="text" [(ngModel)]="model.text" #text="ngModel" required maxlength="254"> </textarea>
                     <div *ngIf="f.submitted && !text.valid" class="help-block">Report text is required</div>
                     <p>Фото:</p>
                     <div class="photos">

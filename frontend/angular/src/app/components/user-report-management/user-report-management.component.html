@@ -47,7 +47,7 @@
                                     <option value="BAD">Плохо</option>
                                 </select>
                                 <div *ngIf="f.submitted && !mark.valid" class="help-block">Mark is required</div>
-                                <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="day.shadowText" #text="ngModel" required></textarea>
+                                <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="day.shadowText" #text="ngModel" required maxlength="254"></textarea>
                                 <div *ngIf="f.submitted && !text.valid" class="help-block">Comment text is required</div>
                                 <button class="btn-rate-report">Применить</button>
                             </form>

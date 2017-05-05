@@ -32,6 +32,7 @@ import { ModalComponent } from './components/modal/index';
 import { GroupEditorComponent } from './components/group-editor/index';
 
 import {NgForFilter} from "./pipes/ngfor-filter.pipe";
+import {EllipsisPipe} from "./pipes/ellipsis.pipe";
 import {MessagesComponent} from "./components/messages/messages.component";
 import {MessageService} from "./services/message/message.service";
 
@@ -74,7 +75,8 @@ const appRoutes: Routes = [
     MessagesComponent,
     ModalComponent,
     GroupEditorComponent,
-    NgForFilter
+    NgForFilter,
+      EllipsisPipe
   ],
   imports: [
     BrowserModule,

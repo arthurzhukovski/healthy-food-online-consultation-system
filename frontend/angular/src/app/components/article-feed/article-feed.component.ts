@@ -6,12 +6,13 @@ import  {GroupSelectComponent} from  '../group-select/index';
 import {Article} from '../../models/article';
 import {ArticleService} from "../../services/article/article.service";
 import {ModalComponent} from "../modal/modal.component";
+import {EllipsisPipe} from  "../../pipes/ellipsis.pipe";
 
 @Component({
     moduleId: module.id,
     selector: 'article-feed',
     templateUrl: 'article-feed.component.html',
-    styleUrls: ['article-feed.component.scss']
+    styleUrls: ['article-feed.component.scss'],
 })
 
 export class ArticleFeedComponent {

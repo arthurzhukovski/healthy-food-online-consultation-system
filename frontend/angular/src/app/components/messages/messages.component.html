@@ -5,7 +5,7 @@
     </div>
     <div class="m-body">
         <form name="form" (ngSubmit)="f.form.valid && sendMessage()" #f="ngForm" novalidate>
-            <textarea  class="input-field report-text" name="text" [(ngModel)]="newMessage.text" #text="ngModel" required> </textarea>
+            <textarea  class="input-field report-text" name="text" [(ngModel)]="newMessage.text" #text="ngModel" maxlength="9999" required> </textarea>
 
             <div>
                 <span>Получатель: </span>

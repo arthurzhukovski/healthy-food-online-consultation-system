@@ -1,5 +1,15 @@
 @import "../../../assets/styles/mixins";
 .article-list{
-  @include flex(row, center, center);
+  @include flex(row, flex-start, center);
+  width: 100%;
   flex-wrap: wrap;
+  .article{
+    width: 400px;
+    max-width: 100vw;
+
+    padding: 10px;
+    .article-title, .article-introtext{
+      word-wrap: break-word;
+    }
+  }
 }
