@@ -1,0 +1,12 @@
+<div >
+
+    <div *ngIf="currentUser">
+
+        <h1>{{currentUser.name}}, добро пожаловать на сайт!</h1>
+    </div>
+
+    <div *ngIf="!currentUser">
+        We're glad to see you here.<a class="nav-item" routerLink="/login" routerLinkActive="active">Log in</a> to use all the website functionality.
+    </div>
+
+</div>

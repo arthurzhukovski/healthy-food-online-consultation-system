@@ -1,0 +1,26 @@
+@import "../../../assets/styles/mixins";
+.alert-container{
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  @include flex(column, flex-end, center);
+  pointer-events: none;
+}
+.alert{
+  width: 400px;
+  margin: 20px 20px 0 0;
+  opacity: 0.7;
+  animation: alert-fade-out 2s infinite;
+  visibility: hidden;
+  pointer-events: all;
+}
+
+@keyframes alert-fade-out {
+  0%{
+      visibility: visible;
+  }
+
+  100%{
+    visibility: visible;
+  }
+}

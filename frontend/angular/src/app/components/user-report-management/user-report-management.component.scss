@@ -1,0 +1,204 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/mixins";
+$border-active: 2px solid grey;
+$separator-width: 30px;
+.progress-line-wrapper{
+  background: white;
+  margin: auto;
+  width: 100%;
+  .day-container{
+    margin-left: 10px;
+    @include flex(column, flex-start, flex-start);
+    &.GOOD{
+      border-color: $color-green;
+      .day-content{
+        border-color: $color-green;
+      }
+      .day-header .day-separator{
+        color: $color-green;
+        border: none;
+      }
+    }
+    &.NEUTRAL{
+      border-color: $color-darkyellow;
+      .day-content{
+        border-color: $color-darkyellow;
+
+      }
+      .day-header .day-separator{
+        color: $color-darkyellow;
+        border: none;
+      }
+    }
+    &.BAD{
+      border-color: darkred; .day-content{
+      border-color: darkred;
+    }
+      .day-header .day-separator{
+        color: darkred;
+        border: none;
+      }
+    }
+    .day-header{
+      width: 100%;
+      @include flex(row, center, flex-start);
+      .day-separator{
+        font-size: 35px;
+        color: dimgray;
+        @include flex(row, center, center);
+        width: $separator-width;
+        height: $separator-width;
+        border: $border-active;
+        border-radius: 100%;
+      }
+      .day-date{
+        .fa{
+          padding: 0px 5px;
+        }
+        font-size: 0.8rem;
+        color: grey;
+        padding-left: 10px;
+      }
+    }
+    .day-content{
+      margin-left: $separator-width/2;
+      border-left: $border-active;
+      @include flex(column, flex-start, flex-start);
+
+      .user-post-container{
+        padding: 0px 20px;
+        .user-header{
+          @include flex(row, center, flex-start);
+          .user-avatar{
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 100%;
+            border: 1px solid grey;
+            margin-right: 5px;
+          }
+          .user-name{
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: $color-green;
+            .fullname{
+              &:before{
+                content: "(";
+              }
+              &:after{
+                content: ")";
+              }
+              color: grey;
+              font-weight: normal;
+              font-size: 1rem;
+            }
+
+          }
+        }
+        .photos{
+          @include flex(row, flex-start, flex-start);
+          flex-wrap: wrap;
+          img{
+            margin: 5px;
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            border: 4px solid white;
+            box-shadow: 0px 0px 5px dimgrey;
+          }
+        }
+      }
+      .comment-container{
+        padding: 0px 20px;
+
+        .day-mark-title{
+          padding-top: 10px;
+
+          color: dimgray;
+        }
+        .day-mark{
+
+          @include flex(row, center,center);
+          .mark-comment{
+            padding-left: 10px;
+          }
+          .fa-check-circle{
+            font-size: 3rem;
+            color: $color-green;
+          }
+          .fa-times-circle{
+            font-size: 3rem;
+            color: darkred;
+          }
+          .fa-minus-circle{
+            font-size: 3rem;
+            color: $color-darkyellow;
+          }
+
+        }
+      }
+      &.add-new{
+        padding-bottom: 10px;
+        .btn-add-photo{
+          margin: 5px;
+          width: 60px;
+          height: 60px;
+          color: white;
+          background: #a1a1a1;
+          border-radius:  5px;
+          cursor: pointer;
+          border: none;
+          outline: none;
+        }
+
+      }
+    }
+
+  }
+}
+.btn-send-report, .btn-rate-report, .btn-green{
+  margin: 10px 0px;
+  color: $color-green;
+  font-weight: 300;
+  border: none;
+  outline: none;
+  lint-height: 40px;
+  background: white;
+  border: 1px solid $color-green;
+  border-radius: 5px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.update-mark-header{
+  margin: 10px 0px 0px 0px;
+}
+.report-mark{
+  margin: 10px 0 10px 0;
+}
+.accordion {
+
+  &.group, &.user {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    &.active, &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+.accordion-content{
+  display: none;
+}
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}

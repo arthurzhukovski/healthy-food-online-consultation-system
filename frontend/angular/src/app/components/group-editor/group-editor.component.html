@@ -1,0 +1,60 @@
+<h3>Редактирование групп</h3>
+<div class="userDataContainer">
+  <table class="table-userData">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Тренер</th>
+      <th>Активна</th>
+      <th>Этап</th>
+      <th>Дата создания</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let group of groups">
+      <td data-th="ID">{{group.id}}</td>
+      <td data-th="Тренер" ><div *ngIf="group.coach != null">{{group.coach.login}} ({{group.coach.name}} {{group.coach.surname}})</div></td>
+      <td data-th="Активна" >{{group.active}}</td>
+      <td data-th="Этап">{{group.stage}}</td>
+      <td data-th="Дата создания">{{group.createdAt | date: 'dd.MM.yyyy'}}</td>
+
+      <td><button (click)="editGroup(group)" class="button-bordered">Редактировать</button></td>
+      <td><button (click)="deleteGroup(group.id)" class="button-bordered"><span class="fa fa-trash-o"></span></button></td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<modal>
+  <div class="m-header">
+    <h3><span class="fa fa-pencil"></span> Редактирование группы</h3>
+  </div>
+  <div class="m-body">
+    <form name="form" (ngSubmit)="f.form.valid && applyChangesToGroup()" #f="ngForm" novalidate>
+
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !stage.valid }">
+        <label for="stage">Этап</label>
+        <select class="form-control" name="stage" [(ngModel)]="selectedGroup.stage" #stage="ngModel" required>
+          <option value="1">Новичок</option>
+          <option value="2">Середнячок</option>
+          <option value="3">Качок</option>
+        </select>
+        <div *ngIf="f.submitted && !stage.valid" class="help-block">Неверное значение этапа.</div>
+      </div>
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !active.valid }">
+        <label for="active">Активирована</label>
+        <select class="form-control" name="active" [(ngModel)]="selectedGroup.active" #active="ngModel" required>
+          <option value="true">Да</option>
+          <option value="false">Нет</option>
+        </select>
+        <div *ngIf="f.submitted && !active.valid" class="help-block">Неверное значение статуса группы.</div>
+      </div>
+      <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !active.valid }">
+        <label for="coach">Тренер</label>
+        <user-select name="coach" (notify)="onSelectNotification($event)" [users]="coaches"></user-select>
+      </div>
+      <button type="'submit" class="button-bordered">Сохранить</button>
+    </form>
+  </div>
+</modal>

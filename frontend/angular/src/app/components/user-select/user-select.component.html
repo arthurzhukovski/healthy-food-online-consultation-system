@@ -1,0 +1,6 @@
+<select (change)="notifyCoachChanged()" [(ngModel)]="selectedUserId" class="input-field">
+    <option *ngFor="let user of users"
+            value="{{user.id}}"  ngDefaultControl  >
+        {{user.name}} {{user.surname}}
+    </option>
+</select>

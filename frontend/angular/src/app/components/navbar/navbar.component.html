@@ -1,0 +1,23 @@
+<nav class="navbar">
+    <a class="nav-item" routerLink="" routerLinkActive="active"><span class="fa fa-home"></span> {{navbar.main}}</a>
+    <a class="nav-item" routerLink="articles" routerLinkActive="active"><span class="fa fa-newspaper-o"></span> {{navbar.articles}}</a>
+
+
+    <a class="dropdown" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
+        <span class="fa fa-user"></span>{{currentUser.name}}
+        <div class="dropdown-content">
+            <div *ngIf="currentUser.role == 'ADMIN'">
+
+            </div>
+            <a *ngIf="currentUser.role == 'USER'" class="nav-item" routerLink="feed" routerLinkActive="active" ><span class="fa fa-feed"></span> {{navbar.feed}}</a>
+            <a class="nav-item" routerLink="messages" routerLinkActive="active" ><span class="fa fa-envelope"></span> {{navbar.messages}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN' || currentUser.role == 'COACH'" class="nav-item" routerLink="report-management" routerLinkActive="active" ><span class="fa fa-list"></span> {{navbar.report_management}}</a>
+            <a class="nav-item" routerLink="user-settings" routerLinkActive="active" ><span class="fa fa-cog"></span> {{navbar.settings}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="group-assignment" routerLinkActive="active" ><span class="fa fa-users"></span> {{navbar.group_assignment}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="edit-users" routerLinkActive="active"><span class="fa fa-address-card-o"></span> {{navbar.users}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN' || currentUser.role == 'COACH'" class="nav-item" routerLink="articles/create" routerLinkActive="active"><span class="fa fa-newspaper-o"></span> {{navbar.articles_create}}</a>
+            <a class="nav-item" routerLink="login" routerLinkActive="active" ><span class="fa fa-sign-out"></span> {{navbar.logout}}</a>
+        </div>
+    </a>
+    <a class="nav-item" routerLink="login" routerLinkActive="active" *ngIf="!userIsLoggedIn()"><span class="fa fa-sign-in"></span> {{navbar.login}}</a>
+</nav>

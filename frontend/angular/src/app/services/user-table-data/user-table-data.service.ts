@@ -7,7 +7,7 @@ import {UserDataItemComponent} from "../../components/user-data-item/user-data-i
 
 @Injectable()
 export class UserTableDataService {
-  private userDataUrl = 'http://localhost:63342/test/user-data.php?_ijt=o72a624rna8drfj5mgi180lj0i';
+  private userDataUrl = 'http://localhost:8080/users/';
   users: UserDataItemComponent[];
   constructor(private http:Http) { }
   public getUsers(): Observable<UserDataItemComponent[]> {

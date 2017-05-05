@@ -1,0 +1,43 @@
+<div>
+    <div  class="article-list">
+        <div  class="article" *ngFor="let article of articles">
+            <h2 class="article-title">{{article.title | ellipsis: 25}}</h2>
+            <p class="article-introtext">{{article.content | ellipsis: 150}}</p>
+            <button (click)="showArticle(article)" class="button-bordered"><span class="fa fa-eye"></span></button>
+            <div *ngIf="currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'COACH')">
+                <button (click)="editArticle(article)" class="button-bordered"><span class="fa fa-pencil"></span></button>
+                <button (click)="deleteArticle(article.id)" class="button-bordered"><span class="fa  fa-trash-o"></span></button>
+            </div>
+        </div>
+    </div>
+    <button (click)="loadMore()">Загрузить ещё</button>
+</div>
+
+<modal #edit>
+    <div class="m-header">
+        <h3>Редактирование статьи</h3>
+    </div>
+    <div class="m-body">
+        <form name="form" (ngSubmit)="f.form.valid && submitEditedArticle()" #f="ngForm" novalidate>
+            <label for="title">Название</label>
+            <input type="text" class="input-field" name="title" [(ngModel)]="editedArticle.title" #title="ngModel" required />
+            <div *ngIf="f.submitted && !title.valid" class="help-block">Введите название статьи.</div>
+
+            <label for="content">Текст статьи</label>
+            <textarea type="text" class="input-field" name="content" [(ngModel)]="editedArticle.content" #content="ngModel" required> </textarea>
+            <div *ngIf="f.submitted && !content.valid" class="help-block">Введите содержимое статьи.</div>
+
+            <button  type="submit" class="button-bordered">Сохранить</button>
+        </form>
+    </div>
+</modal>
+
+
+<modal #read>
+    <div class="m-header">
+        <h3>{{articleToRead.title}}</h3>
+    </div>
+    <div class="m-body">
+        <div class="article-full-content">{{articleToRead.content}}</div>
+    </div>
+</modal>

@@ -8,3 +8,52 @@ p{
     padding: 5px 10px;
   }
 }
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948;
+}
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442
+}
+
+.button-bordered{
+
+  color: $color-green;
+  font-weight: 300;
+  border: none;
+  outline: none;
+  lint-height: 1.25rem;
+  padding: 0.3rem 0.75rem;
+  min-width: 100px;
+  background: white;
+  border: 1px solid $color-green;
+  border-radius: 0.1rem;
+  cursor: pointer;
+  &:disabled{
+    color: lightgray;
+    border: 1px solid lightgray;
+  }
+}
+
+.input-field {
+  display: block;
+  width: 100%;
+  padding: 0.3rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #464a4c;
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.1rem;
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  &:focus{
+    border: 1px solid lightblue;
+    outline: none;
+  }
+  &:hover{
+    border: 1px solid lightblue;
+    outline: none;
+  }
+}
