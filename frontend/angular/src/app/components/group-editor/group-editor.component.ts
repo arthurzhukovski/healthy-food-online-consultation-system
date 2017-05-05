@@ -51,7 +51,8 @@ export class GroupEditorComponent implements OnInit {
           this.editGroupModal.hide();
         },
         error => {
-          this.alertService.error('Ошибка. ' + error._body);
+          let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
         }
     );
     this.editGroupModal.hide();
@@ -67,7 +68,8 @@ export class GroupEditorComponent implements OnInit {
           this.loadGroups();
         },
         error => {
-          this.alertService.error('Ошибка. ' + error._body);
+          let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
         }
     );
   }

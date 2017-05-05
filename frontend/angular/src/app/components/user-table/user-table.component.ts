@@ -41,7 +41,8 @@ export class UserTableComponent implements OnInit {
           this.loadUsers();
         },
         error => {
-          this.alertService.error('Ошибка. ' + error._body);
+          let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
         }
     );
     this.editUserModal.hide();
@@ -59,7 +60,8 @@ export class UserTableComponent implements OnInit {
           this.loadUsers();
         },
         error => {
-          this.alertService.error('Ошибка. ' + error._body);
+          let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
         }
     );
   }

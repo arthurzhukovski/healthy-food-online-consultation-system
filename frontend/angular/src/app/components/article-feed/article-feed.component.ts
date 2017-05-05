@@ -16,10 +16,13 @@ import {EllipsisPipe} from  "../../pipes/ellipsis.pipe";
 })
 
 export class ArticleFeedComponent {
-    @ViewChild(ModalComponent)
+    @ViewChild('edit')
     public readonly editArticleModal: ModalComponent;
+    @ViewChild('read')
+    public readonly readArticleModal: ModalComponent;
     private currentUser: User = new User();
     private articles: Article[] = [];
+    private articleToRead: Article = new Article();
     private totalAmount: number = 0;
     private articleAmountPerPage = 3;
     private currentPage = 0;
@@ -40,7 +43,8 @@ export class ArticleFeedComponent {
                 this.totalAmount = data.totalElements;
             },
             error => {
-                this.alertService.error('Ошибка. ' + error._body);
+                let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
             });
     }
 
@@ -62,7 +66,8 @@ export class ArticleFeedComponent {
                 this.loadArticles(this.articleAmountPerPage, this.currentPage);
             },
             error => {
-                this.alertService.error('Ошибка. ' + error._body);
+                let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
             });
     }
     submitEditedArticle(){
@@ -74,8 +79,14 @@ export class ArticleFeedComponent {
                 this.editArticleModal.hide();
             },
             error => {
-                this.alertService.error('Ошибка. ' + error._body);
+                let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
             });
+    }
+
+    showArticle(article){
+        this.articleToRead = Object.assign({}, article);
+        this.readArticleModal.show();
     }
 
     refreshLocalStorage(){

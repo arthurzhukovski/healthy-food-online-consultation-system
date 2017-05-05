@@ -35,7 +35,8 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.alertService.error('Ошибка. ' + error._body);
+                    let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
                     console.log(error);
                     this.loading = false;
                 });

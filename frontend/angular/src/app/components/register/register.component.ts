@@ -27,7 +27,8 @@ export class RegisterComponent {
                     this.router.navigate(['/login']);
                 },
                 error => {
-                    this.alertService.error('Ошибка. ' + error._body);
+                    let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
                     this.loading = false;
                 });
     }

@@ -1,8 +1,9 @@
 <div>
     <div  class="article-list">
-        <div class="article" *ngFor="let article of articles">
+        <div  class="article" *ngFor="let article of articles">
             <h2 class="article-title">{{article.title | ellipsis: 25}}</h2>
             <p class="article-introtext">{{article.content | ellipsis: 150}}</p>
+            <button (click)="showArticle(article)" class="button-bordered"><span class="fa fa-eye"></span></button>
             <div *ngIf="currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'COACH')">
                 <button (click)="editArticle(article)" class="button-bordered"><span class="fa fa-pencil"></span></button>
                 <button (click)="deleteArticle(article.id)" class="button-bordered"><span class="fa  fa-trash-o"></span></button>
@@ -12,7 +13,7 @@
     <button (click)="loadMore()">Загрузить ещё</button>
 </div>
 
-<modal>
+<modal #edit>
     <div class="m-header">
         <h3>Редактирование статьи</h3>
     </div>
@@ -28,5 +29,15 @@
 
             <button  type="submit" class="button-bordered">Сохранить</button>
         </form>
+    </div>
+</modal>
+
+
+<modal #read>
+    <div class="m-header">
+        <h3>{{articleToRead.title}}</h3>
+    </div>
+    <div class="m-body">
+        <div class="article-full-content">{{articleToRead.content}}</div>
     </div>
 </modal>

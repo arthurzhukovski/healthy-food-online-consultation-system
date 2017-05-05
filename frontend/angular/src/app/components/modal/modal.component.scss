@@ -3,4 +3,7 @@
 }
 .modal-dialog{
   top: 20%;
+  max-width: 80vw;
+  max-height: 80vh;
+  overflow-y: auto;
 }

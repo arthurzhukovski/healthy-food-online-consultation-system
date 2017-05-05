@@ -45,7 +45,8 @@ export class UserReportManagement {
                 this.loadReports();
             },
             error => {
-                this.alertService.error('Ошибка. ' + error._body);
+                let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
             });
     }
     submitRatingForm(day){
@@ -76,7 +77,8 @@ export class UserReportManagement {
                             this.dailyReports = reports;
                         });
                     }, error => {
-                        this.alertService.error('Ошибка. ' + error._body);
+                        let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
                     });
                 });
     }
@@ -85,7 +87,8 @@ export class UserReportManagement {
             console.log(reports);
             this.dailyReports = reports;
         },error => {
-            this.alertService.error('Ошибка. ' + error._body);
+            let msg = (error._body != '')? error._body : error;
+                this.alertService.error('Ошибка. ' +msg);
         });
     }
 
