@@ -37,11 +37,15 @@ export class AuthGuard implements CanActivate {
         var currentUser: User = JSON.parse(localStorage.getItem('currentUser'));
         this.userService.getById(currentUser.id).subscribe(
             data =>{
+                if (currentUser.role != data.role)
+                    this.router.navigate(['']);
                 localStorage.setItem('currentUser', JSON.stringify(data));
                 currentUser = JSON.parse(localStorage.getItem("currentUser"));
             },
             error => {
                 this.alertService.error('Не удалось загрузить информацию о пользователе. ' + error);
+                localStorage.removeItem('currentUser');
+                this.router.navigate(['']);
             });
     }
 

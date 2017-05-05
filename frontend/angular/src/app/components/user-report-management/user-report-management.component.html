@@ -20,7 +20,7 @@
                                         <div class="user-name">{{user.login}} <span class="fullname">{{user.name}} {{user.surname}}</span></div>
                                     </div>
                                     <div class="text">{{day.content}}</div>
-                                    <div class="photos">
+                                    <div class="photos"  *ngIf="day.imageId != 0">
                                         <a href="{{imgPath}}{{day.imageId}}"><img src="{{imgPath}}{{day.imageId}}"></a>
                                     </div>
                                 </div>

@@ -47,7 +47,7 @@ export class MessagesComponent {
                 this.subscribeToIncomingMessages();
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
 
@@ -63,7 +63,7 @@ export class MessagesComponent {
 
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
     onSelectNotification(selectedReceiver: number){
@@ -79,7 +79,7 @@ export class MessagesComponent {
                 this.modal.hide();
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
     private loadUsers() {

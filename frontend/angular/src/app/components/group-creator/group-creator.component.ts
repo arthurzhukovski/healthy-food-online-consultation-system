@@ -35,7 +35,7 @@ export class GroupCreatorComponent {
                 console.log(this.newGroup);
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
     private loadCoaches() {

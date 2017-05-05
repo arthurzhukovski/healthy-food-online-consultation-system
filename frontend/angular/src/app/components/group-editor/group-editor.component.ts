@@ -34,7 +34,7 @@ export class GroupEditorComponent implements OnInit {
     this.groupService.getAll()
         .subscribe(
             groups => {this.groups = groups;  console.log(this.groups);},
-            error =>  this.alertService.error(error));
+            error =>  this.alertService.error('Ошибка. ' + error._body));
   }
     onSelectNotification(selectedCoach: number){
         if (this.selectedGroup.coach == null)
@@ -51,7 +51,7 @@ export class GroupEditorComponent implements OnInit {
           this.editGroupModal.hide();
         },
         error => {
-          this.alertService.error(error);
+          this.alertService.error('Ошибка. ' + error._body);
         }
     );
     this.editGroupModal.hide();
@@ -67,7 +67,7 @@ export class GroupEditorComponent implements OnInit {
           this.loadGroups();
         },
         error => {
-          this.alertService.error(error);
+          this.alertService.error('Ошибка. ' + error._body);
         }
     );
   }

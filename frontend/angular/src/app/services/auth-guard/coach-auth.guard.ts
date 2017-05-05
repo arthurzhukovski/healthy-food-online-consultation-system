@@ -15,7 +15,7 @@ export class CoachAuthGuard implements CanActivate {
            if (this.userHasCoachOrAdminRights()){
                return true;
            }
-            this.router.navigate(['/'], { queryParams: { returnUrl: state.url }});
+            this.router.navigate([''], { queryParams: { returnUrl: state.url }});
             return false;
         }
 
@@ -50,11 +50,15 @@ export class CoachAuthGuard implements CanActivate {
             return;
         this.userService.getById(currentUser.id).subscribe(
             data =>{
+                if (currentUser.role != data.role)
+                    this.router.navigate(['']);
                 localStorage.setItem('currentUser', JSON.stringify(data));
                 currentUser = JSON.parse(localStorage.getItem("currentUser"));
             },
             error => {
                 this.alertService.error('Не удалось загрузить информацию о пользователе. ' + error);
+                localStorage.removeItem('currentUser');
+                this.router.navigate(['']);
             });
     }
 }

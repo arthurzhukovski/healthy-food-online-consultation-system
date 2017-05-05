@@ -42,7 +42,7 @@ export class UserReportFeedComponent {
                 this.loadAllReports();
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
 
@@ -50,7 +50,7 @@ export class UserReportFeedComponent {
         this.reportService.getAllByUserId(this.currentUser.id).subscribe(
             data => { console.log(data); this.dailyReports = data; },
             error => {
-                    this.alertService.error(error);
+                    this.alertService.error('Ошибка. ' + error._body);
             });
     }
 
@@ -70,7 +70,7 @@ export class UserReportFeedComponent {
                 this.model.imageId = data;
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
 
     }

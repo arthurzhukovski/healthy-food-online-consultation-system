@@ -28,7 +28,7 @@ export class UserTableComponent implements OnInit {
     this.userService.getAll()
         .subscribe(
             users => {this.users = users;  console.log(this.users);},
-            error =>  this.alertService.error(error));
+            error =>  this.alertService.error('Ошибка. ' + error._body));
   }
   roleSelected(user: User){
       console.log(user);
@@ -41,7 +41,7 @@ export class UserTableComponent implements OnInit {
           this.loadUsers();
         },
         error => {
-          this.alertService.error(error);
+          this.alertService.error('Ошибка. ' + error._body);
         }
     );
     this.editUserModal.hide();
@@ -59,7 +59,7 @@ export class UserTableComponent implements OnInit {
           this.loadUsers();
         },
         error => {
-          this.alertService.error(error);
+          this.alertService.error('Ошибка. ' + error._body);
         }
     );
   }

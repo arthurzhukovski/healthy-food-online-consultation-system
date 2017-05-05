@@ -39,7 +39,7 @@ export class ArticleFeedComponent {
                 this.totalAmount = data.totalElements;
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
 
@@ -61,7 +61,7 @@ export class ArticleFeedComponent {
                 this.loadArticles(this.articleAmountPerPage, this.currentPage);
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
     submitEditedArticle(){
@@ -73,7 +73,7 @@ export class ArticleFeedComponent {
                 this.editArticleModal.hide();
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
 

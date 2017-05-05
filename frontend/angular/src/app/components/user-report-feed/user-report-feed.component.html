@@ -41,8 +41,8 @@
                         <div class="user-name">{{currentUser.login}} <span class="fullname">{{currentUser.name}} {{currentUser.surname}}</span></div>
                     </div>
                     <div class="text">{{day.content}}</div>
-                    <div class="photos">
-                        <a *ngIf="day.imageId != null" href="{{imgPath}}{{day.imageId}}"><img src="{{imgPath}}{{day.imageId}}"></a>
+                    <div class="photos" *ngIf="day.imageId != 0">
+                        <a  href="{{imgPath}}{{day.imageId}}"><img src="{{imgPath}}{{day.imageId}}"></a>
                     </div>
                 </div>
                 <div class="comment-container">

@@ -8,3 +8,4 @@ export * from './auth-guard/auth.guard';
 export * from './auth-guard/user-auth.guard';
 export * from './auth-guard/coach-auth.guard';
 export * from './auth-guard/admin-auth.guard';
+export * from './auth-guard/guest-auth.guard';

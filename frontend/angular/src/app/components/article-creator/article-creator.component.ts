@@ -29,7 +29,7 @@ export class ArticleCreatorComponent {
                 this.newArticle = this.createEmptyArticleWithAuthorId();
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Не удалось создать статью' + error._body);
             });
     }
 

@@ -45,7 +45,7 @@ export class UserReportManagement {
                 this.loadReports();
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
     submitRatingForm(day){
@@ -76,7 +76,7 @@ export class UserReportManagement {
                             this.dailyReports = reports;
                         });
                     }, error => {
-                        this.alertService.error(error);
+                        this.alertService.error('Ошибка. ' + error._body);
                     });
                 });
     }
@@ -85,7 +85,7 @@ export class UserReportManagement {
             console.log(reports);
             this.dailyReports = reports;
         },error => {
-            this.alertService.error(error);
+            this.alertService.error('Ошибка. ' + error._body);
         });
     }
 

@@ -29,7 +29,7 @@ export class GroupAssignmentComponent {
                 this.users = data;
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
 
@@ -61,7 +61,7 @@ export class GroupAssignmentComponent {
                 this.loadUsers();
             },
             error => {
-                this.alertService.error(error);
+                this.alertService.error('Ошибка. ' + error._body);
             });
     }
 

@@ -1,5 +1,9 @@
-<div *ngIf="message" [ngClass]="{ 'alert': message,
+<div class="alert-container">
+   <div *ngFor="let message of messages" >
+       <div (click)="onAlertClicked($event)" *ngIf="message" [ngClass]="{ 'alert alert-dismissable': message,
                                   'alert-success': message.type === 'success',
                                   'alert-danger': message.type === 'error' }">
-    {{message.text}}
+           {{message.text}}
+       </div>
+   </div>
 </div>
