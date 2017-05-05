@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
   private final BCryptPasswordEncoder passwordEncoder;
   private final Date dateTime;
   private final int MIN_PASSWORD_LENGTH = 8;
+  private final int MAX_VARCHAR_LENGTH = 255;
 
   @Autowired
   public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
