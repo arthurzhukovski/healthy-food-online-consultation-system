@@ -45,6 +45,9 @@ public class ReportServiceImpl implements ReportService {
   public Iterable<ReportEntity> findAll() { return reportRepository.findAll(); }
 
   public ReportEntity findOne(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid id");
+    }
     return reportRepository.findOne(id);
   }
 
@@ -67,8 +70,8 @@ public class ReportServiceImpl implements ReportService {
 
   @Transactional
   public ReportEntity updateReport(ReportEntity report) {
-    ReportEntity oldReport = reportRepository.findOne(report.getId());
     Assert.notNull(report);
+    ReportEntity oldReport = reportRepository.findOne(report.getId());
     Assert.notNull(oldReport);
     Assert.notNull(report.getComment());
 
@@ -94,27 +97,30 @@ public class ReportServiceImpl implements ReportService {
 
   @Transactional
   public ReportEntity commentReport(ReportEntity report) {
-    ReportEntity oldReport = reportRepository.findOne(report.getId());
-
+    Assert.notNull(report);
     Assert.notNull(report.getComment());
     CommentEntity comment = report.getComment();
     validateComment(comment);
-    comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
-
-
     try {
+      ReportEntity oldReport = reportRepository.findOne(report.getId());
+      comment.setCreatedAt(new java.sql.Timestamp(dateTime.getTime()));
+
       commentRepository.save(comment);
+
+      oldReport.setGrade(report.getGrade());
+      oldReport.setComment(comment);
+      Assert.notNull(oldReport);
+      return reportRepository.save(oldReport);
     } catch (Throwable e) {
       throw new ServiceException("Bad Request");
     }
-    oldReport.setGrade(report.getGrade());
-    oldReport.setComment(comment);
-    Assert.notNull(oldReport);
-    return reportRepository.save(oldReport);
   }
 
   @Transactional
   public void deleteReport(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid report id");
+    }
     ReportEntity report = reportRepository.findOne(id);
     if(report != null && report.getComment() != null){
       commentRepository.delete(report.getComment().getId());
@@ -128,6 +134,9 @@ public class ReportServiceImpl implements ReportService {
   }
 
   public Iterable<ReportEntity> findByUsersId(int[] usersId) {
+    if(usersId == null || usersId.length == 0){
+      throw new ServiceException("invalid userIds");
+    }
     List<Integer> ids = new ArrayList<Integer>();
     for(int i=0; i<usersId.length; i++) {
       ids.add(usersId[i]);
@@ -135,18 +144,24 @@ public class ReportServiceImpl implements ReportService {
     if (ids != null && !ids.isEmpty()){
       return reportRepository.findByUsersIdOrderByCreatedAtDesc(ids);
     } else {
-      return null;
+      throw new ServiceException("invalid user ids");
     }
   }
 
   public Iterable<ReportEntity> getReportsByUserId(int userId) {
+    if(userId < 0){
+      throw new ServiceException("invalid user id");
+    }
     return reportRepository.findByUserId(userId);
   }
   public Iterable<ReportEntity> getReportsByGroupId(int groupId) {
+    if(groupId < 0){
+      throw new ServiceException("invalid group id");
+    }
     return reportRepository.findByGroupIdOrderByCreatedAtDesc(groupId);
   }
 
-  private void validateReport(ReportEntity reportEntity) throws ServiceException{
+  private void validateReport(ReportEntity reportEntity) throws ServiceException, IllegalArgumentException{
     Assert.notNull(reportEntity);
     if (HelpUtils.isNullOrEmpty(reportEntity.getContent()) || reportEntity.getContent().length() >= MAX_CONTENT_LENGTH){
       throw new ServiceException("report has invalid content");

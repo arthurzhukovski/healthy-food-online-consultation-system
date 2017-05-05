@@ -32,6 +32,9 @@ public class GroupServiceImpl implements GroupService {
   }
 
   public GroupEntity findOne(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid id");
+    }
     return groupRepository.findOne(id);
   }
 
@@ -67,6 +70,9 @@ public class GroupServiceImpl implements GroupService {
 
   @Transactional
   public void deleteGroup(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid id");
+    }
     Iterable<UserEntity> users = userRepository.findByGroupId(id);
     for (UserEntity user: users) {
       user.setGroupId(null);
@@ -86,6 +92,9 @@ public class GroupServiceImpl implements GroupService {
   }
 
   public Iterable<GroupEntity> findGroupsByCoachId(int coachId) {
+    if(coachId < 0){
+      throw new ServiceException("invalid coach id");
+    }
     return groupRepository.findByCoachId(coachId);
   }
 
@@ -148,10 +157,8 @@ public class GroupServiceImpl implements GroupService {
     if(groupEntity.getActive() == null) {
       throw new ServiceException("group invalid active value");
     }
-    if(groupEntity.getCoach() != null) {
-      if(userRepository.findOne(groupEntity.getCoach().getId()) == null) {
-        throw new ServiceException("no such coach");
-      }
+    if(groupEntity.getCoach() == null || userRepository.findOne(groupEntity.getCoach().getId()) == null) {
+      throw new ServiceException("no such coach");
     }
   }
 }

@@ -28,10 +28,16 @@ public class MessageServiceImpl implements MessageService {
   }
 
   public Iterable<MessageEntity> getMessagesBySenderId(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid sender id");
+    }
     return messageRepository.findBySenderIdOrderByCreatedAtDesc(id);
   }
 
   public Iterable<MessageEntity> getMessagesByReceiverId(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid receiver id");
+    }
     return messageRepository.findByReceiverIdOrderByCreatedAtDesc(id);
   }
 
@@ -46,10 +52,10 @@ public class MessageServiceImpl implements MessageService {
     if(HelpUtils.isNullOrEmpty(message.getText()) || message.getText().length() >= MAX_MESSAGE_LENGTH){
       throw new ServiceException("message text is invalid");
     }
-    if(userService.findOne(message.getSender().getId()) == null){
+    if(message.getSender() == null || userService.findOne(message.getSender().getId()) == null){
       throw new ServiceException("no such user-sender");
     }
-    if(userService.findOne(message.getReceiver().getId()) == null){
+    if(message.getReceiver() == null || userService.findOne(message.getReceiver().getId()) == null){
       throw new ServiceException("no such user-receiver");
     }
   }

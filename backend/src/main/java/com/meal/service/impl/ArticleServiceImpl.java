@@ -28,6 +28,9 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   public ArticleEntity findOne(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid id");
+    }
     return articleRepository.findOne(id);
   }
 
@@ -57,6 +60,9 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   public void deleteArticle(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid id");
+    }
     try {
       articleRepository.delete(id);
     } catch (Throwable e) {
@@ -66,6 +72,9 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   public Page<ArticleEntity> findAll(int page, int pageSize) {
+    if(page < 0 || pageSize <= 0) {
+      throw new ServiceException("invalid page parametres");
+    }
     PageRequest pageRequest = new PageRequest(page, pageSize, Sort.Direction.DESC, "createdAt");
     try {
       return articleRepository.findAll(pageRequest);
@@ -75,6 +84,9 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   public Iterable<ArticleEntity> getArticlesByCoachId(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid coach id");
+    }
     return articleRepository.findByCoachIdOrderByCreatedAtDesc(id);
   }
 

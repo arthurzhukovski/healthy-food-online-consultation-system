@@ -6,6 +6,7 @@ import com.meal.entity.ImageEntity;
 import com.meal.service.Exception.ServiceException;
 import com.meal.service.ImageService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialException;
@@ -18,11 +19,12 @@ public class ImageServiceImpl implements ImageService {
   private ImageRepository imageRepository;
   private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif");
 
-  ImageServiceImpl(ImageRepository imageRepository) {
+  public ImageServiceImpl(ImageRepository imageRepository) {
     this.imageRepository = imageRepository;
   }
 
   public int saveImage(MultipartFile file) throws ServiceException{
+    Assert.notNull(file);
     if(!contentTypes.contains(file.getContentType())){
       throw new ServiceException("invalid file type");
     }
@@ -42,6 +44,9 @@ public class ImageServiceImpl implements ImageService {
   }
 
   public byte[] findImage(int id){
+    if(id < 0) {
+      throw new ServiceException("invalid image id");
+    }
     ImageEntity entity = imageRepository.findOne(id);
     return entity.getImage();
   }

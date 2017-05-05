@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
   private final UserDataRepository userDataRepository;
   private final BCryptPasswordEncoder passwordEncoder;
   private final Date dateTime;
+  private final int MIN_PASSWORD_LENGTH = 8;
 
   @Autowired
   public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
@@ -34,10 +35,13 @@ public class UserServiceImpl implements UserService {
   }
 
   public void hasPermission(int id, UserEntity currentUser, RoleEnum checkRole) throws ForbiddenException {
+    if(id < 0){
+      throw new ServiceException("invalid id");
+    }
     if(currentUser == null || currentUser.getRole() == null) {
         throw new ForbiddenException("Forbidden");
     } else {
-      if(currentUser.getRole() == checkRole && currentUser.getId() != id){
+      if(currentUser.getRole() != checkRole || currentUser.getId() != id){
         throw new ForbiddenException("Forbidden");
       }
     }
@@ -48,7 +52,7 @@ public class UserServiceImpl implements UserService {
     if(currentUser == null || currentUser.getRole() == null) {
       throw new ForbiddenException("Forbidden");
     } else {
-      if(currentUser.getRole() == checkRole && currentUser.getId() != user.getId()){
+      if(currentUser.getRole() != checkRole || currentUser.getId() != user.getId()){
         throw new ForbiddenException("Forbidden");
       }
     }
@@ -61,6 +65,9 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   public UserEntity findOne(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid user id");
+    }
     return userRepository.findOne(id);
   }
 
@@ -108,6 +115,9 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   public void deleteUser(int id) {
+    if(id < 0){
+      throw new ServiceException("invalid user id");
+    }
     UserEntity user = userRepository.findOne(id);
     if(user != null && user.getUserData() != null) {
       userDataRepository.delete(user.getUserData().getId());
@@ -125,7 +135,7 @@ public class UserServiceImpl implements UserService {
     return userDataRepository.save(userData);
   }
 
-  private UserEntity updateUserFields(UserEntity user, UserEntity newUser) throws ServiceException {
+  public UserEntity updateUserFields(UserEntity user, UserEntity newUser) throws ServiceException {
     Assert.notNull(user, "user can't be null");
     Assert.notNull(newUser, "new user can't be null");
 
@@ -143,6 +153,9 @@ public class UserServiceImpl implements UserService {
       user.setLogin(newUser.getLogin());
     }
     if(newUser.getPassword() != null){
+      if(newUser.getPassword().isEmpty() || newUser.getPassword().length() < MIN_PASSWORD_LENGTH){
+        throw new ServiceException("user password is invalid");
+      }
       String passwordHash = newUser.getPassword();
       passwordHash = passwordEncoder.encode(passwordHash);
       user.setPassword(passwordHash);
@@ -155,13 +168,13 @@ public class UserServiceImpl implements UserService {
     }
     if(newUser.getName() != null) {
       if(newUser.getName().isEmpty()) {
-        throw new ServiceException("user name can't be null");
+        throw new ServiceException("user name is invalid");
       }
       user.setName(newUser.getName());
     }
     if(newUser.getSurname() != null) {
       if(newUser.getSurname().isEmpty()) {
-        throw new ServiceException("user name can't be null");
+        throw new ServiceException("user name is invalid");
       }
       user.setSurname(newUser.getSurname());
     }
@@ -234,6 +247,8 @@ public class UserServiceImpl implements UserService {
     }
     if(HelpUtils.isNullOrEmpty(user.getPassword())){
       throw new ServiceException("user password is invalid");
+    } else if(user.getPassword().length() < MIN_PASSWORD_LENGTH){
+      throw new ServiceException("user password less than 8 charaters");
     }
   }
 }
