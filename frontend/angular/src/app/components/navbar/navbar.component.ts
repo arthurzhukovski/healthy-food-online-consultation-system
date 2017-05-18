@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../../services/index';
 import { User } from '../../models/index';
+import * as $ from 'jquery';
 
 @Component({
     moduleId: module.id,
@@ -35,7 +36,6 @@ export class NavbarComponent {
         }
     }
     toggleDropdown(event){
-        var target = event.target || event.srcElement || event.currentTarget;
-        target.classList.toggle('opened');
+        $('.side-menu').toggleClass('opened');
     }
 }

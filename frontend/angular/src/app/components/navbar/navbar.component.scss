@@ -2,10 +2,10 @@
 
 .navbar{
   width: 100vw;
-  background: $color-main;
+  background: $color-green;
   height: 50px;
   margin: auto;
-
+  border: 1px solid $color-green;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -13,29 +13,45 @@
 }
 .nav-item{
   margin: 0px 10px;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown{
-  cursor: pointer;
-  position: relative;
-  display: inline-block;
-  &.opened {
-    .dropdown-content {
-      display: block;
-      a{
-        text-decoration: none;
-        color: black;
-        padding: 12px 16px;
-        display: block;
-      }
+  text-decoration: none;
+  color: $color-lightgreen;
+  text-shadow: 1px 1px 2px black;
+  &.active{
+    color: white;
+  }
+  .nav-text{
+    color: $color-lightgreen;
+    &.active{
+      color: white;
     }
   }
+}
+.side-menu {
+  display: block;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: -100%;
+  background-color: $color-green;
+  min-width: 160px;
+  min-height: 100vh;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  transition: 0.5s all ease;
+  &.opened {
+      right: 0;
+      visibility: visible;
+  }
+  a{
+    text-decoration: none;
+    color: $color-lightgreen;
+    padding: 12px 16px;
+    display: block;
+  }
+}
+
+.menu-toggle{
+  cursor: pointer;
+  display: inline-block;
+
 }

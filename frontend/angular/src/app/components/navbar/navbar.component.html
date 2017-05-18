@@ -3,12 +3,9 @@
     <a class="nav-item" routerLink="articles" routerLinkActive="active"><span class="fa fa-newspaper-o"></span> {{navbar.articles}}</a>
 
 
-    <a class="dropdown" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
-        <span class="fa fa-user"></span>{{currentUser.name}}
-        <div class="dropdown-content">
-            <div *ngIf="currentUser.role == 'ADMIN'">
-
-            </div>
+    <a class="nav-item menu-toggle" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
+        <span class="nav-text"><span class="fa fa-user "></span> {{currentUser.login}}</span>
+        <div class="side-menu">
             <a *ngIf="currentUser.role == 'USER'" class="nav-item" routerLink="feed" routerLinkActive="active" ><span class="fa fa-feed"></span> {{navbar.feed}}</a>
             <a class="nav-item" routerLink="messages" routerLinkActive="active" ><span class="fa fa-envelope"></span> {{navbar.messages}}</a>
             <a *ngIf="currentUser.role == 'ADMIN' || currentUser.role == 'COACH'" class="nav-item" routerLink="report-management" routerLinkActive="active" ><span class="fa fa-list"></span> {{navbar.report_management}}</a>

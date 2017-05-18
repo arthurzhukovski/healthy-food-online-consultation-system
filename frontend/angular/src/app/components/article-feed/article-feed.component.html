@@ -1,16 +1,20 @@
 <div>
     <div  class="article-list">
         <div  class="article" *ngFor="let article of articles">
-            <h2 class="article-title">{{article.title | ellipsis: 25}}</h2>
-            <p class="article-introtext">{{article.content | ellipsis: 150}}</p>
-            <button (click)="showArticle(article)" class="button-bordered"><span class="fa fa-eye"></span></button>
-            <div *ngIf="currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'COACH')">
-                <button (click)="editArticle(article)" class="button-bordered"><span class="fa fa-pencil"></span></button>
-                <button (click)="deleteArticle(article.id)" class="button-bordered"><span class="fa  fa-trash-o"></span></button>
+            <div class="article-data">
+                <h2 class="article-title">{{article.title | ellipsis: 25}}</h2>
+                <p class="article-introtext">{{article.content | ellipsis: 150}}</p>
+            </div>
+            <div  class="article-buttons">
+                <button (click)="showArticle(article)" class="button-bordered"><span class="fa fa-eye"></span></button>
+                <button *ngIf="currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'COACH')" (click)="editArticle(article)" class="button-bordered"><span class="fa fa-pencil"></span></button>
+                <button *ngIf="currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'COACH')" (click)="deleteArticle(article.id)" class="button-bordered"><span class="fa  fa-trash-o"></span></button>
             </div>
         </div>
     </div>
-    <button (click)="loadMore()">Загрузить ещё</button>
+    <div class="article-loader-button-container">
+        <button (click)="loadMore()" class="button-bordered">Загрузить ещё</button>
+    </div>
 </div>
 
 <modal #edit>
