@@ -12,7 +12,9 @@ import * as $ from 'jquery';
 })
 
 export class NavbarComponent {
-
+    constructor() {
+        document.addEventListener('click', this.hideMenu.bind(this));
+    }
     private navbar = {"users":"Пользователи",
                       "main":"Главная",
                       "articles":"Статьи",
@@ -36,6 +38,10 @@ export class NavbarComponent {
         }
     }
     toggleDropdown(event){
+        event.stopPropagation();
         $('.side-menu').toggleClass('opened');
+    }
+    hideMenu(){
+        $('.side-menu').removeClass('opened');
     }
 }

@@ -1,20 +1,22 @@
 <nav class="navbar">
-    <a class="nav-item" routerLink="" routerLinkActive="active"><span class="fa fa-home"></span> {{navbar.main}}</a>
-    <a class="nav-item" routerLink="articles" routerLinkActive="active"><span class="fa fa-newspaper-o"></span> {{navbar.articles}}</a>
-
-
+    <div class="left-side-navs">
+        <a class="nav-item" routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-home hidden-mobile"></span> {{navbar.main}}</a>
+        <a class="nav-item" routerLink="articles" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-newspaper-o hidden-mobile"></span> {{navbar.articles}}</a>
+        <a class="nav-item" routerLink="login" routerLinkActive="active" *ngIf="!userIsLoggedIn()"><span class="fa fa-sign-in hidden-mobile"></span> {{navbar.login}}</a>
+    </div>
     <a class="nav-item menu-toggle" *ngIf="userIsLoggedIn()" (click)="toggleDropdown($event)">
-        <span class="nav-text"><span class="fa fa-user "></span> {{currentUser.login}}</span>
+        <span class="nav-text"><span class="fa fa-bars "></span> <span class="hidden-mobile">Меню ({{currentUser.login}})</span></span>
         <div class="side-menu">
-            <a *ngIf="currentUser.role == 'USER'" class="nav-item" routerLink="feed" routerLinkActive="active" ><span class="fa fa-feed"></span> {{navbar.feed}}</a>
-            <a class="nav-item" routerLink="messages" routerLinkActive="active" ><span class="fa fa-envelope"></span> {{navbar.messages}}</a>
-            <a *ngIf="currentUser.role == 'ADMIN' || currentUser.role == 'COACH'" class="nav-item" routerLink="report-management" routerLinkActive="active" ><span class="fa fa-list"></span> {{navbar.report_management}}</a>
-            <a class="nav-item" routerLink="user-settings" routerLinkActive="active" ><span class="fa fa-cog"></span> {{navbar.settings}}</a>
-            <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="group-assignment" routerLinkActive="active" ><span class="fa fa-users"></span> {{navbar.group_assignment}}</a>
-            <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="edit-users" routerLinkActive="active"><span class="fa fa-address-card-o"></span> {{navbar.users}}</a>
+            <h4 class="user-info"><span class="fa fa-user "></span> {{currentUser.login}}</h4>
+            <a *ngIf="currentUser.role == 'USER'" class="nav-item" routerLink="feed" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-feed"></span> {{navbar.feed}}</a>
+            <a class="nav-item" routerLink="messages" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-envelope" ></span> {{navbar.messages}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN' || currentUser.role == 'COACH'" class="nav-item" routerLink="report-management" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-list"></span> {{navbar.report_management}}</a>
+            <a class="nav-item" routerLink="user-settings" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-cog"></span> {{navbar.settings}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="group-assignment" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" ><span class="fa fa-users"></span> {{navbar.group_assignment}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="edit-users" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-address-card-o"></span> {{navbar.users}}</a>
             <a *ngIf="currentUser.role == 'ADMIN' || currentUser.role == 'COACH'" class="nav-item" routerLink="articles/create" routerLinkActive="active"><span class="fa fa-newspaper-o"></span> {{navbar.articles_create}}</a>
             <a class="nav-item" routerLink="login" routerLinkActive="active" ><span class="fa fa-sign-out"></span> {{navbar.logout}}</a>
         </div>
     </a>
-    <a class="nav-item" routerLink="login" routerLinkActive="active" *ngIf="!userIsLoggedIn()"><span class="fa fa-sign-in"></span> {{navbar.login}}</a>
+
 </nav>

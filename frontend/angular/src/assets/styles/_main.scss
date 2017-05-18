@@ -58,3 +58,8 @@ p{
     outline: none;
   }
 }
+@media(max-width: 768px){
+  .hidden-mobile{
+    display: none;
+  }
+}
