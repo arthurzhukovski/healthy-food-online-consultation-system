@@ -7,6 +7,7 @@ import com.meal.dao.UserRepository;
 import com.meal.entity.*;
 import com.meal.service.Exception.ServiceException;
 import com.meal.service.ReportService;
+import com.meal.service.impl.model.entity.ViewerFactoryInterface;
 import com.meal.utils.HelpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import sun.plugin2.os.windows.SECURITY_ATTRIBUTES;
 
 import javax.persistence.Basic;
 import javax.persistence.Lob;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -41,6 +43,66 @@ public class ReportServiceImpl implements ReportService {
     this.dateTime = new Date();
 
   }
+  ////////////////////
+
+  public void createDoc(String type,
+                        HttpServletResponse response,
+                        List<ReportView> entities,
+                        ViewerFactoryInterface viewerFactory,
+                        boolean isEncrypt) {
+
+    DocumentBuilder<ReportView> documentBuilder = new DocumentBuilder<>()
+            .setModelViewer(viewerFactory.create())
+            .setDocumentType(DocumentType.of(type))
+            .setProtectedFromCopy(isEncrypt);
+
+    try {
+      documentBuilder.writeToResponse(entities, response);
+    } catch(Exception ex) {
+      new ServiceException(ex);
+    }
+  }
+
+  @Override
+  public String getCount() {
+    return String.valueOf(reportRepository.getCount());
+  }
+
+  @Override
+  public String getMarkedCount() {
+    return String.valueOf(reportRepository.getMarkedCount());
+  }
+
+//  @Override
+//  public String getBestReporter() {
+//    return String.valueOf(reportRepository.getBestReporter());
+//  }
+//
+//  @Override
+//  public String getBestCoach() {
+//    return "xxx";
+//  }
+
+  @Override
+  public String getGood() {
+    return String.valueOf(reportRepository.getGood());
+  }
+  @Override
+  public String getBad() {
+    return String.valueOf(reportRepository.getGood());
+  }
+  @Override
+  public String getNeutral() {
+    return String.valueOf(reportRepository.getGood());
+  }
+
+//  @Override
+//  public String getBestGroup() {
+//    return String.valueOf(reportRepository.getCount());
+//  }
+
+///////////////////////
+
 
   public Iterable<ReportEntity> findAll() { return reportRepository.findAll(); }
 
@@ -147,6 +209,8 @@ public class ReportServiceImpl implements ReportService {
       throw new ServiceException("invalid user ids");
     }
   }
+
+
 
   public Iterable<ReportEntity> getReportsByUserId(int userId) {
     if(userId < 0){

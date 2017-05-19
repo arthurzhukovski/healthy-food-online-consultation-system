@@ -63,6 +63,8 @@ public class AuthController {
       this.token = token;
     }
 
+    public UserWithToken(){}
+
     public UserEntity getUser() {
       return user;
     }
@@ -71,8 +73,14 @@ public class AuthController {
       this.user = user;
     }
 
-  }
+    public TokenResponse getToken() {
+      return token;
+    }
 
+    public void setToken(TokenResponse token) {
+      this.token = token;
+    }
+  }
 
 }
 

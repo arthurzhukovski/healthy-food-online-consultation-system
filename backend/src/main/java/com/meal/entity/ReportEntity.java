@@ -1,5 +1,8 @@
 package com.meal.entity;
 
+import com.meal.service.ReportService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -28,6 +31,7 @@ public class ReportEntity {
 //  public void setImage(byte[] image){
 //    this.image = image;
 //  }
+
 
   @Column(name = "image_id")
   public int getImageId() {

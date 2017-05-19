@@ -2,8 +2,11 @@ package com.meal.service.impl;
 
 import com.meal.dao.ArticleRepository;;
 import com.meal.entity.ArticleEntity;
+import com.meal.entity.ArticleView;
+import com.meal.entity.UserEntity;
 import com.meal.service.ArticleService;
 import com.meal.service.Exception.ServiceException;
+import com.meal.service.impl.model.entity.ViewerFactoryInterface;
 import com.meal.utils.HelpUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -21,6 +26,42 @@ public class ArticleServiceImpl implements ArticleService {
   private final Date dateTime;
   private final int MAX_TITLE_LENGTH = 255;
   private final int MAX_CONTENT_LENGTH = 1000000;
+
+
+  @Override
+  public String getCount() {
+    return "3";
+  }
+
+  @Override
+  public String getCouch() {
+    return "3";
+  }
+
+
+  @Override
+  public String getLastPub(int id) {
+    return "5";
+  }
+
+
+  public void createDoc(String type,
+                        HttpServletResponse response,
+                        List<ArticleView> entities,
+                        ViewerFactoryInterface viewerFactory,
+                        boolean isEncrypt) {
+
+    DocumentBuilder<ArticleView> documentBuilder = new DocumentBuilder<>()
+            .setModelViewer(viewerFactory.create())
+            .setDocumentType(DocumentType.of(type))
+            .setProtectedFromCopy(isEncrypt);
+
+    try {
+      documentBuilder.writeToResponse(entities, response);
+    } catch(Exception ex) {
+      new ServiceException(ex);
+    }
+  }
 
   public ArticleServiceImpl(ArticleRepository articleRepository) {
     this.articleRepository = articleRepository;
@@ -70,7 +111,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
   }
-
+//////////////
+////////////////////////
   public Page<ArticleEntity> findAll(int page, int pageSize) {
     if(page < 0 || pageSize <= 0) {
       throw new ServiceException("invalid page parametres");

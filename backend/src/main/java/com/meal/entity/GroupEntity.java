@@ -1,5 +1,9 @@
 package com.meal.entity;
 
+import com.meal.service.GroupService;
+import com.meal.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,6 +16,24 @@ public class GroupEntity {
   private Timestamp createdAt;
 
   private UserEntity coach;
+
+  @Autowired
+  GroupService service;
+
+  @Transient
+  public String getUsers() {
+    return String.valueOf(service.getUsers(id));
+  }
+  @Transient
+  public String getReports() {
+    return String.valueOf(service.getReports(id));
+  }
+
+  @Transient
+  public String getMarks() {
+    return String.valueOf(service.getMarks(id));
+  }
+///////////////////////
 
   @ManyToOne
   @JoinColumn(name = "coach_id")

@@ -3,13 +3,16 @@ package com.meal.service.impl;
 import com.meal.dao.GroupRepository;
 import com.meal.dao.UserRepository;
 import com.meal.entity.GroupEntity;
+import com.meal.entity.GroupView;
 import com.meal.entity.UserEntity;
 import com.meal.service.Exception.ServiceException;
 import com.meal.service.GroupService;
+import com.meal.service.impl.model.entity.ViewerFactoryInterface;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +28,39 @@ public class GroupServiceImpl implements GroupService {
     this.groupRepository = groupRepository;
     this.userRepository = userRepository;
     this.dateTime = new Date();
+  }
+
+  @Override
+  public String getUsers(int id) {
+    return String.valueOf(groupRepository.getUsers(id));
+  }
+
+  @Override
+  public String getReports(int id) {
+    return String.valueOf(groupRepository.getReports(id));
+  }
+
+  @Override
+  public String getCoach(int id) {
+    return groupRepository.getCoach(id);
+  }
+
+  public void createDoc(String type,
+                        HttpServletResponse response,
+                        List<GroupView> entities,
+                        ViewerFactoryInterface viewerFactory,
+                        boolean isEncrypt) {
+
+    DocumentBuilder<GroupView> documentBuilder = new DocumentBuilder<>()
+            .setModelViewer(viewerFactory.create())
+            .setDocumentType(DocumentType.of(type))
+            .setProtectedFromCopy(isEncrypt);
+
+    try {
+      documentBuilder.writeToResponse(entities, response);
+    } catch(Exception ex) {
+      new ServiceException(ex);
+    }
   }
 
   public Iterable<GroupEntity> findAll() {
@@ -151,6 +187,7 @@ public class GroupServiceImpl implements GroupService {
 
     return group;
   }
+
 
   private void validateGroup(GroupEntity groupEntity) throws ServiceException{
     Assert.notNull(groupEntity);

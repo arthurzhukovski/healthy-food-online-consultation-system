@@ -14,7 +14,7 @@ public class MessageEntity {
   private UserEntity receiver;
   private UserEntity sender;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "sender_id")
   public UserEntity getSender() {
     return sender;
@@ -26,7 +26,7 @@ public class MessageEntity {
 
   @Id
   @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue
   public int getId() {
     return id;
   }
@@ -45,7 +45,7 @@ public class MessageEntity {
     this.text = text;
   }
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "receiver_id")
   public UserEntity getReceiver() {
     return receiver;

@@ -1,5 +1,9 @@
 package com.meal.entity;
 
+import com.meal.service.ArticleService;
+import com.meal.service.ReportService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -11,6 +15,23 @@ public class ArticleEntity {
   private String content;
   private Timestamp createdAt;
   private UserEntity coach;
+
+  @Autowired
+  ArticleService service;
+
+  @Transient
+  public String getCount() {
+    return String.valueOf(service.getCount(coach.getId()));
+  }
+
+  @Transient
+  public String getCountPerMonth() {
+    return String.valueOf(service.getCountPerMonth(coach.getId()));
+  }
+  @Transient
+  public String getLastPub() {
+    return String.valueOf(service.getLastPub(coach.getId()));
+  }
 
   @ManyToOne
   @JoinColumn(name = "coach_id")

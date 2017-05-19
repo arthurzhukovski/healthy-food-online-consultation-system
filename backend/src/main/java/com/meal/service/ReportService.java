@@ -1,6 +1,12 @@
 package com.meal.service;
 
 import com.meal.entity.ReportEntity;
+import com.meal.entity.ReportView;
+import com.meal.entity.UserEntity;
+import com.meal.service.impl.model.entity.ViewerFactoryInterface;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface ReportService {
 
@@ -13,4 +19,14 @@ public interface ReportService {
   Iterable<ReportEntity> getReportsByUserId(int userId);
   Iterable<ReportEntity> getReportsByGroupId(int userId);
   Iterable<ReportEntity> findByUsersId(int[] usersId);
+  String getCount();
+  String getMarkedCount();
+  String getGood();
+  String getNeutral();
+  String getBad();
+  void createDoc(String type,
+                 HttpServletResponse response,
+                 List<ReportView> entities,
+                 ViewerFactoryInterface viewerFactory,
+                 boolean isEncrypt);
 }

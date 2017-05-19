@@ -1,21 +1,26 @@
 package com.meal.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import com.meal.dao.UserDataRepository;
 import com.meal.dao.UserRepository;
 import com.meal.entity.RoleEnum;
 import com.meal.entity.UserEntity;
 import com.meal.entity.UserDataEntity;
+import com.meal.entity.UserView;
 import com.meal.service.Exception.ForbiddenException;
 import com.meal.service.Exception.ServiceException;
 import com.meal.service.UserService;
+import com.meal.service.impl.model.entity.ViewerFactoryInterface;
 import com.meal.utils.HelpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,8 +29,45 @@ public class UserServiceImpl implements UserService {
   private final UserDataRepository userDataRepository;
   private final BCryptPasswordEncoder passwordEncoder;
   private final Date dateTime;
-  private final int MIN_PASSWORD_LENGTH = 8;
-  private final int MAX_VARCHAR_LENGTH = 255;
+
+  public String getRaiting(int id) {
+    return "xxx";
+  }
+
+  @Override
+  public String getReportsPerDay(int id) {
+    return "xxx";
+  }
+
+  @Override
+  public String GoodMarksCount(int id) {
+    return String.valueOf(userRepository.getGoodMarksCount(id));
+  }
+
+  @Override
+  public String BadMarksCount(int id) {
+    return String.valueOf(userRepository.getBadMarksCount(id));
+  }
+//
+  @Override
+  public String getMarksCount(int id) {
+    return String.valueOf(userRepository.getMarksCount(id));
+  }
+
+  @Override
+  public String GoodMark(int id) {
+    return String.valueOf(userRepository.getGoodMarks(id));
+  }
+
+  @Override
+  public String getGroupsCount(int id) {
+    return String.valueOf(userRepository.getGroupsCount(id));
+  }
+
+  @Override
+  public String getUsersCount(int id) {
+    return String.valueOf(userRepository.getUsersCount(id));
+  }
 
   @Autowired
   public UserServiceImpl(UserRepository userRepository, UserDataRepository userDataRepository) {
@@ -35,14 +77,47 @@ public class UserServiceImpl implements UserService {
     this.dateTime = new Date();
   }
 
-  public void hasPermission(int id, UserEntity currentUser, RoleEnum checkRole) throws ForbiddenException {
-    if(id < 0){
-      throw new ServiceException("invalid id");
+  public void createDoc(String type,
+                        HttpServletResponse response,
+                        List<UserView> entities,
+                        ViewerFactoryInterface viewerFactory,
+                        boolean isEncrypt) {
+
+    DocumentBuilder<UserView> documentBuilder = new DocumentBuilder<>()
+            .setModelViewer(viewerFactory.create())
+            .setDocumentType(DocumentType.of(type))
+            .setProtectedFromCopy(isEncrypt);
+
+    try {
+      documentBuilder.writeToResponse(entities, response);
+    } catch(Exception ex) {
+      new ServiceException(ex);
     }
+  }
+
+  public void createCoachDoc(String type,
+                            HttpServletResponse response,
+                            List<UserView> entities,
+                            ViewerFactoryInterface viewerFactory,
+                            boolean isEncrypt) {
+
+    DocumentBuilder<UserView> documentBuilder = new DocumentBuilder<>()
+            .setModelViewer(viewerFactory.create())
+            .setDocumentType(DocumentType.of(type))
+            .setProtectedFromCopy(isEncrypt);
+
+    try {
+      documentBuilder.writeToResponse(entities, response);
+    } catch(Exception ex) {
+      new ServiceException(ex);
+    }
+  }
+
+  public void hasPermission(int id, UserEntity currentUser, RoleEnum checkRole) throws ForbiddenException {
     if(currentUser == null || currentUser.getRole() == null) {
         throw new ForbiddenException("Forbidden");
     } else {
-      if(currentUser.getRole() != checkRole || currentUser.getId() != id){
+      if(currentUser.getRole() == checkRole && currentUser.getId() != id){
         throw new ForbiddenException("Forbidden");
       }
     }
@@ -53,7 +128,9 @@ public class UserServiceImpl implements UserService {
     if(currentUser == null || currentUser.getRole() == null) {
       throw new ForbiddenException("Forbidden");
     } else {
-      if(currentUser.getRole() != checkRole || currentUser.getId() != user.getId()){
+      if(currentUser.getRole() == checkRole && currentUser.getId() != user.getId()){
+        throw new ForbiddenException("Forbidden");
+      } else if(currentUser.getRole() == checkRole && user.getRole() != currentUser.getRole()){
         throw new ForbiddenException("Forbidden");
       }
     }
@@ -66,9 +143,6 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   public UserEntity findOne(int id) {
-    if(id < 0){
-      throw new ServiceException("invalid user id");
-    }
     return userRepository.findOne(id);
   }
 
@@ -102,6 +176,12 @@ public class UserServiceImpl implements UserService {
     return user;
   }
 
+  private void isLastAdmin(){
+    if(userRepository.findAdminsCount() == 1){
+      throw new ServiceException("at least one admin must present");
+    }
+  }
+
   public UserEntity updateUser(UserEntity user) throws ServiceException {
     Assert.notNull(user);
     UserEntity oldUser = userRepository.findOne(user.getId());
@@ -109,6 +189,9 @@ public class UserServiceImpl implements UserService {
       throw new ServiceException("no user with " + user.getId() + " id");
     }
 
+    if(oldUser.getRole() == RoleEnum.ADMIN && user.getRole() != null && user.getRole() != RoleEnum.ADMIN){
+      isLastAdmin();
+    }
     user = updateUserFields(oldUser, user);
 
     return userRepository.save(user);
@@ -116,10 +199,10 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   public void deleteUser(int id) {
-    if(id < 0){
-      throw new ServiceException("invalid user id");
-    }
     UserEntity user = userRepository.findOne(id);
+    if(user.getRole() == RoleEnum.ADMIN){
+      isLastAdmin();
+    }
     if(user != null && user.getUserData() != null) {
       userDataRepository.delete(user.getUserData().getId());
     }
@@ -136,7 +219,7 @@ public class UserServiceImpl implements UserService {
     return userDataRepository.save(userData);
   }
 
-  public UserEntity updateUserFields(UserEntity user, UserEntity newUser) throws ServiceException {
+  private UserEntity updateUserFields(UserEntity user, UserEntity newUser) throws ServiceException {
     Assert.notNull(user, "user can't be null");
     Assert.notNull(newUser, "new user can't be null");
 
@@ -154,9 +237,6 @@ public class UserServiceImpl implements UserService {
       user.setLogin(newUser.getLogin());
     }
     if(newUser.getPassword() != null){
-      if(newUser.getPassword().isEmpty() || newUser.getPassword().length() < MIN_PASSWORD_LENGTH){
-        throw new ServiceException("user password is invalid");
-      }
       String passwordHash = newUser.getPassword();
       passwordHash = passwordEncoder.encode(passwordHash);
       user.setPassword(passwordHash);
@@ -169,13 +249,13 @@ public class UserServiceImpl implements UserService {
     }
     if(newUser.getName() != null) {
       if(newUser.getName().isEmpty()) {
-        throw new ServiceException("user name is invalid");
+        throw new ServiceException("user name can't be null");
       }
       user.setName(newUser.getName());
     }
     if(newUser.getSurname() != null) {
       if(newUser.getSurname().isEmpty()) {
-        throw new ServiceException("user name is invalid");
+        throw new ServiceException("user name can't be null");
       }
       user.setSurname(newUser.getSurname());
     }
@@ -248,8 +328,6 @@ public class UserServiceImpl implements UserService {
     }
     if(HelpUtils.isNullOrEmpty(user.getPassword())){
       throw new ServiceException("user password is invalid");
-    } else if(user.getPassword().length() < MIN_PASSWORD_LENGTH){
-      throw new ServiceException("user password less than 8 charaters");
     }
   }
 }

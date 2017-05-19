@@ -3,10 +3,14 @@ package com.meal.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.meal.dao.UserRepository;
+import com.meal.service.UserService;
+import com.meal.service.impl.UserServiceImpl;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.management.relation.Role;
 import javax.persistence.*;
@@ -28,6 +32,7 @@ public class UserEntity {
   private String password;
   private Integer groupId;
 
+///////////////////////////////////
   private UserDataEntity userData;
 
   @OneToOne(cascade = CascadeType.ALL)
@@ -80,6 +85,8 @@ public class UserEntity {
   public void setSurname(String surname) {
     this.surname = surname;
   }
+
+
 
   @Basic
   @Email
