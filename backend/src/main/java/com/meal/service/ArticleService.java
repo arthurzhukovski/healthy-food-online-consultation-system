@@ -21,7 +21,7 @@ public interface ArticleService {
   void deleteArticle(int id);
 
   String getCount(int id);
-  String getCountPerMonth(int id);
+  String getCoach(int id);
   String getLastPub(int id);
   void createDoc(String type,
                  HttpServletResponse response,

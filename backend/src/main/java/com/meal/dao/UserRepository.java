@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
   UserEntity findByLogin(@Param("login") String login);
@@ -28,7 +31,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
           "join ReportEntity r " +
           "on u.id = r.user.id " +
           "where u.id = :id and " +
-          "r.grade = GOOD"
+          "r.grade = 'GOOD'"
           )
   int getGoodMarksCount(@Param("id") int id);
 
@@ -37,7 +40,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
           "join ReportEntity r " +
           "on u.id = r.user.id " +
           "where u.id = :id and " +
-          "r.grade = BAD"
+          "r.grade = 'BAD'"
   )
   int getBadMarksCount(@Param("id") int id);
 
@@ -54,7 +57,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
           "join ReportEntity r " +
           "on c.id = r.comment.id " +
           "where c.coach.id = :id and " +
-          "r.grade = GOOD"
+          "r.grade = 'GOOD'"
   )
   int getGoodMarks(@Param("id") int id);
 
@@ -68,8 +71,27 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
   @Query("select count(u) " +
           "from GroupEntity g " +
           "join UserEntity u " +
-          "on u.groupId = g.id" +
+          "on u.groupId = g.id " +
           "where g.coach.id = :id"
   )
   int getUsersCount(@Param("id") int id);
+
+  @Query("select count(a) " +
+          "from ArticleEntity a " +           "where a.coach.id = :id"
+  )
+  int findCoachArticles(@Param("id") int id);
+
+  @Query("select a.createdAt " +
+          "from ArticleEntity a " +
+          "where a.coach.id = :id " +
+          "order by createdAt desc "
+  )
+  List<Timestamp> findLastPub(@Param("id") int id);
+
+  @Query("select r.createdAt " +
+          "from ReportEntity r " +
+          "where r.user.id = :id " +
+          "order by createdAt desc "
+  )
+  List<Timestamp> findLastReport(@Param("id") int id);
 }

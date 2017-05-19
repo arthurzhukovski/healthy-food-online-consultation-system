@@ -18,10 +18,10 @@ public class CoachViewFactory implements ViewerFactoryInterface{
 
     List<String> headers = Arrays.asList(
             "Логин",
-            "Кол-во оценок",
-            "Кол-во положительных оценок",
-            "Кол-во групп",
-            "Кол-во участников"
+            "Проставлено оценок",
+            "Проставлено положительных оценок",
+            "Кол-во курируемых групп",
+            "Кол-во курируемых участников"
     );
 
     tableModelViewer.setHeaders(headers);

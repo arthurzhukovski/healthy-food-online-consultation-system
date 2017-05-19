@@ -1,24 +1,49 @@
 package com.meal.controller;
 
-import com.meal.entity.ArticleEntity;
-import com.meal.entity.RoleEnum;
+import com.google.common.collect.Lists;
+import com.meal.entity.*;
 import com.meal.security.Secured;
 import com.meal.service.ArticleService;
+import com.meal.service.UserService;
+import com.meal.service.impl.model.entity.ArticleViewFactory;
+import com.meal.service.impl.model.entity.UserViewFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class ArticleController {
 
   ArticleService articleService;
+  UserService userService;
 
   @Autowired
-  public ArticleController(ArticleService articleService) {
+  public ArticleController(ArticleService articleService, UserService userService) {
     this.articleService = articleService;
+    this.userService = userService;
+  }
+
+  @Secured({RoleEnum.ADMIN, RoleEnum.USER})
+  @RequestMapping(value="/article/stat/{type}", method = RequestMethod.GET)
+  public void getArticleStat(
+          @PathVariable String type,
+          @RequestParam("encrypt")  boolean isEncrypt,
+          HttpServletResponse response) {
+    List<UserEntity> a =  Lists.newArrayList(userService.findAll());
+    List<ArticleView> articles = new LinkedList<>();
+    for (UserEntity user:
+            a) {
+      articles.add(new ArticleView(user, articleService));
+    }
+    ArticleViewFactory factory = new ArticleViewFactory();
+    articleService.createDoc(type, response, articles, factory, isEncrypt);
   }
 
   /*

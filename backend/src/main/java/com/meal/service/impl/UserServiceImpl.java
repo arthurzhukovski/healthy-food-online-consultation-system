@@ -1,5 +1,6 @@
 package com.meal.service.impl;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,13 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public String getReportsPerDay(int id) {
-    return "xxx";
+    List<Timestamp> u = userRepository.findLastReport(id);
+    if(u.isEmpty()) {
+      return "отсутствует";
+    } else {
+      return String.valueOf(u.get(0));
+    }
+
   }
 
   @Override

@@ -18,8 +18,8 @@ public class UserViewFactory implements ViewerFactoryInterface{
 
       List<String> headers = Arrays.asList(
               "Логин",
-              "Рейтинг",
-              "Отчетов в день",
+       //       "Рейтинг",
+              "Последний отчет",
               "Количество положительных оценок",
               "Количество отрицательных оценок"
       );
@@ -38,7 +38,7 @@ public class UserViewFactory implements ViewerFactoryInterface{
 //                +".";
 
         fields.add(user.getLogin());
-        fields.add(user.getRaiting());
+    //    fields.add(user.getRaiting());
         fields.add(user.getReportsPerDay());
         fields.add(user.GoodMarksCount());
         fields.add(user.BadMarksCount());

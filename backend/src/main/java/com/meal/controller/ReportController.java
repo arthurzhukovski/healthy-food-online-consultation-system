@@ -1,13 +1,12 @@
 package com.meal.controller;
 
-import com.meal.entity.CommentEntity;
-import com.meal.entity.ReportEntity;
+import com.google.common.collect.Lists;
+import com.meal.entity.*;
 
-import com.meal.entity.RoleEnum;
-import com.meal.entity.UserEntity;
 import com.meal.security.Secured;
 import com.meal.service.ReportService;
 import com.meal.service.UserService;
+import com.meal.service.impl.model.entity.ReportViewFactory;
 import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,12 +16,33 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
+import java.util.List;
+
 @CrossOrigin
 @RestController
 public class ReportController {
 
   private final ReportService reportService;
   private final UserService userService;
+
+  @Secured({RoleEnum.ADMIN, RoleEnum.USER})
+  @RequestMapping(value="/report/stat/{type}", method = RequestMethod.GET)
+  public void getReportStat(
+          @PathVariable String type,
+          @RequestParam("encrypt")  boolean isEncrypt,
+          HttpServletResponse response) {
+    //List<ReportEntity> r =  Lists.newArrayList(reportService.findAll());
+    List<ReportView> reports = new LinkedList<>();
+    reports.add(new ReportView(reportService));
+//    for (ReportEntity report:
+//            r) {
+//      reports.add(new ReportView( reportService));
+//    }
+    ReportViewFactory factory = new ReportViewFactory();
+    reportService.createDoc(type, response, reports, factory, isEncrypt);
+  }
 
   @Autowired
   public ReportController(ReportService reportService, UserService userService) {

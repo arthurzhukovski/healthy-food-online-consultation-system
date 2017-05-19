@@ -1,15 +1,19 @@
 package com.meal.controller;
 
-import com.meal.entity.GroupEntity;
-import com.meal.entity.ReportEntity;
-import com.meal.entity.RoleEnum;
-import com.meal.entity.UserEntity;
+import com.google.common.collect.Lists;
+import com.meal.entity.*;
 import com.meal.security.Secured;
 import com.meal.service.GroupService;
+import com.meal.service.impl.model.entity.GroupViewFactory;
+import com.meal.service.impl.model.entity.UserViewFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -20,6 +24,22 @@ public class GroupController {
   @Autowired
   public GroupController(GroupService groupService) {
     this.groupService = groupService;
+  }
+
+  @Secured({RoleEnum.ADMIN, RoleEnum.USER})
+  @RequestMapping(value="/group/stat/{type}", method = RequestMethod.GET)
+  public void getCoachStat(
+          @PathVariable String type,
+          @RequestParam("encrypt")  boolean isEncrypt,
+          HttpServletResponse response) {
+    List<GroupEntity> g =  Lists.newArrayList(groupService.findAll());
+    List<GroupView> groups = new LinkedList<>();
+    for (GroupEntity group:
+            g) {
+      groups.add(new GroupView(group, groupService));
+    }
+    GroupViewFactory factory = new GroupViewFactory();
+    groupService.createDoc(type, response, groups, factory, isEncrypt);
   }
 
   /*

@@ -1,6 +1,7 @@
 package com.meal.service.impl;
 
 import com.meal.dao.ArticleRepository;;
+import com.meal.dao.UserRepository;
 import com.meal.entity.ArticleEntity;
 import com.meal.entity.ArticleView;
 import com.meal.entity.UserEntity;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -23,25 +25,31 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
   private ArticleRepository articleRepository;
+  private UserRepository userRepository;
   private final Date dateTime;
   private final int MAX_TITLE_LENGTH = 255;
   private final int MAX_CONTENT_LENGTH = 1000000;
 
 
   @Override
-  public String getCount() {
-    return "3";
+  public String getCount(int id) {
+    return String.valueOf(userRepository.findCoachArticles(id));
   }
 
   @Override
-  public String getCouch() {
-    return "3";
+  public String getCoach(int id) {
+    return String.valueOf(userRepository.findOne(id).getLogin());
   }
 
 
   @Override
   public String getLastPub(int id) {
-    return "5";
+    List<Timestamp> t = userRepository.findLastReport(id);
+    if(t.isEmpty()) {
+      return "отсутствует";
+    } else {
+      return String.valueOf(t.get(0));
+    }
   }
 
 
@@ -63,8 +71,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
   }
 
-  public ArticleServiceImpl(ArticleRepository articleRepository) {
+  public ArticleServiceImpl(ArticleRepository articleRepository, UserRepository userRepository) {
     this.articleRepository = articleRepository;
+    this.userRepository = userRepository;
     this.dateTime = new Date();
   }
 

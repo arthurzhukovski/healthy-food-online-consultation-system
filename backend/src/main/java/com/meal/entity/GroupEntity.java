@@ -17,22 +17,6 @@ public class GroupEntity {
 
   private UserEntity coach;
 
-  @Autowired
-  GroupService service;
-
-  @Transient
-  public String getUsers() {
-    return String.valueOf(service.getUsers(id));
-  }
-  @Transient
-  public String getReports() {
-    return String.valueOf(service.getReports(id));
-  }
-
-  @Transient
-  public String getMarks() {
-    return String.valueOf(service.getMarks(id));
-  }
 ///////////////////////
 
   @ManyToOne

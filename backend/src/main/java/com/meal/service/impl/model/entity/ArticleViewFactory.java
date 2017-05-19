@@ -29,9 +29,8 @@ public class ArticleViewFactory implements ViewerFactoryInterface {
       List<String> fields = new ArrayList<>();
 
 
-      fields.add(article.getCoach().getLogin());
+      fields.add(article.getCoach());
       fields.add(article.getCount());
-      fields.add(article.getCountPerMonth());
       fields.add(article.getLastPub());
 
       return fields;

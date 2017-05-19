@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.meal.entity.*;
 import com.meal.security.Secured;
 import com.meal.service.UserService;
+import com.meal.service.impl.model.entity.CoachViewFactory;
 import com.meal.service.impl.model.entity.UserViewFactory;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class UserController {
   }
 
 
-  @Secured({RoleEnum.ADMIN})
+  @Secured({RoleEnum.ADMIN, RoleEnum.USER})
   @RequestMapping(value="/coach/stat/{type}", method = RequestMethod.GET)
   public void getCoachStat(
           @PathVariable String type,
@@ -56,7 +57,7 @@ public class UserController {
             u) {
       users.add(new UserView(user, userService));
     }
-    UserViewFactory factory = new UserViewFactory();
+    CoachViewFactory factory = new CoachViewFactory();
     userService.createCoachDoc(type, response, users, factory, isEncrypt);
   }
 

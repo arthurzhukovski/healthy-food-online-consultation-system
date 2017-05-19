@@ -33,7 +33,7 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 
   @Query("select count(r) " +
           "from ReportEntity r " +
-          "where r.grade != EMPTY"
+          "where r.grade != 'EMPTY'"
   )
   int getMarkedCount();
 
@@ -48,19 +48,19 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 
   @Query("select count(r)" +
           "from ReportEntity r " +
-          "where r.grade = GOOD"
+          "where r.grade = 'GOOD'"
   )
   int getGood();
 
   @Query("select count(r)" +
           "from ReportEntity r " +
-          "where r.grade = BAD"
+          "where r.grade = 'BAD'"
   )
   int getBad();
 
   @Query("select count(r)" +
           "from ReportEntity r " +
-          "where r.grade = NEUTRAL"
+          "where r.grade = 'NEUTRAL'"
   )
   int getNeutral();
 }

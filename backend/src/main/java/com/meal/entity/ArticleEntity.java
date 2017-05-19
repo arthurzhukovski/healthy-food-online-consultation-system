@@ -16,23 +16,6 @@ public class ArticleEntity {
   private Timestamp createdAt;
   private UserEntity coach;
 
-  @Autowired
-  ArticleService service;
-
-  @Transient
-  public String getCount() {
-    return String.valueOf(service.getCount(coach.getId()));
-  }
-
-  @Transient
-  public String getCountPerMonth() {
-    return String.valueOf(service.getCountPerMonth(coach.getId()));
-  }
-  @Transient
-  public String getLastPub() {
-    return String.valueOf(service.getLastPub(coach.getId()));
-  }
-
   @ManyToOne
   @JoinColumn(name = "coach_id")
   public UserEntity getCoach() {
