@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
 
   @Override
   public String getLastPub(int id) {
-    List<Timestamp> t = userRepository.findLastReport(id);
+    List<Timestamp> t = userRepository.findLastPub(id);
     if(t.isEmpty()) {
       return "отсутствует";
     } else {

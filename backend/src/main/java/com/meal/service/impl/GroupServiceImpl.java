@@ -42,7 +42,13 @@ public class GroupServiceImpl implements GroupService {
 
   @Override
   public String getCoach(int id) {
-    return groupRepository.getCoach(id);
+    String coach = groupRepository.getCoach(id);
+    if(coach == null) {
+      return "отсутствует";
+    } else {
+      return coach;
+    }
+
   }
 
   public void createDoc(String type,

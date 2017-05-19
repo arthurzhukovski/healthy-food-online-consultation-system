@@ -89,11 +89,11 @@ public class ReportServiceImpl implements ReportService {
   }
   @Override
   public String getBad() {
-    return String.valueOf(reportRepository.getGood());
+    return String.valueOf(reportRepository.getBad());
   }
   @Override
   public String getNeutral() {
-    return String.valueOf(reportRepository.getGood());
+    return String.valueOf(reportRepository.getNeutral());
   }
 
 //  @Override

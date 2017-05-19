@@ -5,6 +5,7 @@ import com.meal.entity.ArticleView;
 import com.meal.entity.UserEntity;
 import com.meal.service.impl.model.TableModelViewer;
 import com.meal.service.impl.model.TableModelViewerInterface;
+import com.meal.utils.HelpUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class ArticleViewFactory implements ViewerFactoryInterface {
     List<String> headers = Arrays.asList(
             "Автор",
             "Кол-во статей",
-            "Кол-во статей за месяц",
+           // "Кол-во статей за месяц",
             "Дата последней публикации"
     );
 
@@ -29,9 +30,9 @@ public class ArticleViewFactory implements ViewerFactoryInterface {
       List<String> fields = new ArrayList<>();
 
 
-      fields.add(article.getCoach());
-      fields.add(article.getCount());
-      fields.add(article.getLastPub());
+      fields.add(!HelpUtils.isNullOrEmpty(article.getCoach()) ? article.getCoach() : "");
+      fields.add(!HelpUtils.isNullOrEmpty(article.getCount())? article.getCount() : "");
+      fields.add(!HelpUtils.isNullOrEmpty(article.getLastPub()) ? article.getLastPub() : "");
 
       return fields;
     });

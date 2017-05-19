@@ -33,7 +33,7 @@ public interface ReportRepository extends JpaRepository<ReportEntity, Integer> {
 
   @Query("select count(r) " +
           "from ReportEntity r " +
-          "where r.grade != 'EMPTY'"
+          "where r.grade = 'EMPTY'"
   )
   int getMarkedCount();
 

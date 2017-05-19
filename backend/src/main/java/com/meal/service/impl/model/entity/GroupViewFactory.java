@@ -20,7 +20,7 @@ public class GroupViewFactory implements ViewerFactoryInterface {
             "№",
             "Кол-во участников",
             "Кол-во отчетов",
-            "Кол-во оценок",
+           // "Кол-во оценок",
             "Тренер"
     );
 
