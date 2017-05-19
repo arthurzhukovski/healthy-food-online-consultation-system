@@ -1,6 +1,7 @@
 @import "mixins";
 body{
   background: $color-background;
+  background: linear-gradient(to bottom, #e1ffce 0%,#acd17d 100%,#547f51 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   position: relative;
   height: 100%;
   min-height: 100vh;
@@ -25,18 +26,31 @@ header{
 }
 content{
   display: block;
-  margin-bottom: 50px;
+  margin: 10px 5px 60px 5px;
+  padding: 20px;
+  min-height: calc(100vh - 50px - 65px - 90px);
+  background: white;
+  border: 1px solid $color-border;
+  border-radius: 2px;
 }
 footer{
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
-  border-top: 1px solid $color-border;
-  background: grey;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.1);
   color: white;
-  text-shadow: 1px 1px 4px black;
+  padding: 5px 0px;
+  text-shadow: 0px 0px 2px black;
   text-align: center;
+  .footer-link{
+    text-decoration: none;
+    color: white;
+    &:hover{
+      color: $color-lightgreen;
+    }
+  }
 }
 p{
   &.error{
