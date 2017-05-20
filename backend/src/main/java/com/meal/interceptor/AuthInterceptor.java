@@ -30,6 +30,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
     if (request.getMethod().equals("OPTIONS")) return true;
 
     String authHeader = request.getHeader("Authorization");
+    if (authHeader == null) {
+      authHeader = request.getParameter("auth");
+    }
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       response.sendError(401);
       return false;
