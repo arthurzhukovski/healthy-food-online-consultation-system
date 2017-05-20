@@ -1,0 +1,23 @@
+<iframe style='position:fixed;display:none;top:-1px;left:-1px;'></iframe>
+<div>
+  <h2 class="documents-header">Документы</h2>
+  <h4>Скачать статистику по:</h4>
+  <div class="documents-container">
+    <select class="statictics-type-select input-field" [(ngModel)]="statType">
+      <option value="users" [attr.selected]="true">Пользователям</option>
+      <option value="coach">Тренерам</option>
+      <option value="group">Группам</option>
+      <option value="article">Статьям</option>
+      <option value="report">Отчётам</option>
+    </select>
+
+    <select class="document-type-select input-field" [(ngModel)]="docType"  >
+      <option value="pdf" [attr.selected]="true">*.pdf</option>
+      <option value="pdfsec">*.pdf(защищённый)</option>
+      <option value="xls">*.xls</option>
+      <option value="csv">*.csv</option>
+    </select>
+    <a download href="http://localhost:8080/coach/stat/xls?encrypt=false">download</a>
+    <button (click)="downloadFile()" class="button-bordered">Скачать</button>
+  </div>
+</div>

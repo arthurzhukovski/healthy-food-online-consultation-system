@@ -26,6 +26,7 @@ import { GroupCreatorComponent } from './components/group-creator/index';
 import { UserSelectComponent } from './components/user-select/index';
 import { ArticleFeedComponent } from './components/article-feed/index';
 import { ArticleCreatorComponent } from './components/article-creator/index';
+import { DocumentComponent } from './components/documents/document.component';
 import {ArticleService} from "./services/article/article.service";
 
 import { ModalComponent } from './components/modal/index';
@@ -41,7 +42,7 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [GuestAuthGuard] },
   { path: 'edit-users', component: UserTableComponent, canActivate: [AdminAuthGuard]},
 
-  { path: 'login', component: LoginComponent, canActivate: [GuestAuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent, canActivate: [GuestAuthGuard]  },
   { path: 'feed', component: UserReportFeedComponent, canActivate: [UserAuthGuard] },
   { path: 'report-management', component: UserReportManagement, canActivate: [CoachAuthGuard] },
@@ -50,6 +51,7 @@ const appRoutes: Routes = [
   { path: 'articles', component: ArticleFeedComponent, canActivate: [GuestAuthGuard]  },
   { path: 'articles/create', component: ArticleCreatorComponent, canActivate: [CoachAuthGuard]  },
   { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
+  { path: 'documents', component: DocumentComponent, canActivate: [AdminAuthGuard] },
   { path: '**', redirectTo: '', canActivate: [GuestAuthGuard]  },
 ];
 
@@ -75,6 +77,7 @@ const appRoutes: Routes = [
     MessagesComponent,
     ModalComponent,
     GroupEditorComponent,
+    DocumentComponent,
     NgForFilter,
       EllipsisPipe
   ],
@@ -98,7 +101,6 @@ const appRoutes: Routes = [
     GroupService,
     ArticleService,
     MessageService,
-
   ],
   bootstrap: [AppComponent]
 })
