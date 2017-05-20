@@ -92,7 +92,7 @@ export class UserReportManagement {
         });
     }
 
-    toggleContent(event){
+    toggleContent(event) {
         var $target = $(event.target || event.srcElement || event.currentTarget);
         console.log($target);
         $target.toggleClass('active');
@@ -103,5 +103,18 @@ export class UserReportManagement {
         content.toggle(300);
 
     }
+        toggleSpan(event){
+            event.stopPropagation();
+            console.log('2');
+            var $target = $(event.target || event.srcElement || event.currentTarget).closest('.accordion');
+            console.log($target);
+            $target.toggleClass('active');
+            var content = $target.siblings('.accordion-content');
+            console.log(content);
+            $target.children('.fa').toggleClass('fa-angle-down');
+            $target.children('.fa').toggleClass('fa-angle-right');
+            content.toggle(300);
+
+        }
 }
 

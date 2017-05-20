@@ -1,55 +1,58 @@
 <div *ngFor="let group of groups">
-    <button class="accordion group" (click)="toggleContent($event)"><span class="fa fa-angle-right"></span> Группа {{group.id}}</button>
-
+    <button class="accordion group" (click)="toggleContent($event)"><span (click)="toggleSpan($event)"  class="fa fa-angle-right"></span> Группа {{group.id}}</button>
     <div class="accordion-content">
         <div *ngFor="let user of users | filter : 'groupId' : group.id">
-            <button class="accordion user" (click)="toggleContent($event)" ><span class="fa fa-angle-right"></span> {{user.login}} ({{user.name}} {{user.surname}})</button>
+            <button class="accordion user" (click)="toggleContent($event)" ><span (click)="toggleSpan($event)" class="fa fa-angle-right"></span> {{user.login}} ({{user.name}} {{user.surname}})</button>
             <div class="accordion-content">
                 <div class="progress-line-wrapper">
                     <div *ngFor="let day of dailyReports | filter : 'user.id' : user.id">
                         <div class="day-container {{day.grade}}" >
                             <input type="hidden" class="report-id" value="{{day.id}}"  />
-                            <div class="day-header">
-                                <div class="day-separator"><span class="fa fa-{{markViewClass[day.grade]}}"></span></div>
-                                <span class="day-date"><span class="fa fa-calendar"> </span>{{day.createdAt | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
-                            </div>
-                            <div class="day-content ">
-                                <div class="user-post-container">
-                                    <div class="user-header">
-                                        <img class="user-avatar" src="{{imgPlaceholder}}">
-                                        <div class="user-name">{{user.login}} <span class="fullname">{{user.name}} {{user.surname}}</span></div>
-                                    </div>
-                                    <div class="text">{{day.content}}</div>
-                                    <div class="photos"  *ngIf="day.imageId != 0">
-                                        <a href="{{imgPath}}{{day.imageId}}"><img src="{{imgPath}}{{day.imageId}}"></a>
-                                    </div>
+                            <div class="user-report">
+                                <div class="day-header">
+                                    <div class="day-separator"><span class="fa fa-{{markViewClass[day.grade]}}"></span></div>
+                                    <span class="day-date"><span class="fa fa-calendar"> </span>{{day.createdAt | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
                                 </div>
-                                <div class="comment-container">
-                                    <div class="day-mark-title">Оценка:</div>
-                                    <div *ngIf="day.grade !== 'EMPTY'" class="day-mark">
-                                        <span class="fa fa-{{markViewClass[day.grade]}}"></span>
-                                        <div class="mark-comment">
-                                            <div *ngIf="day.comment">{{day.comment.text}}</div>
+                                <div class="day-content ">
+                                    <div class="user-post-container">
+                                        <div class="user-header">
+                                            <img class="user-avatar" src="{{imgPlaceholder}}">
+                                            <div class="user-name">{{user.login}} <span class="fullname">{{user.name}} {{user.surname}}</span></div>
+                                        </div>
+                                        <div class="text">{{day.content}}</div>
+                                        <div class="photos"  *ngIf="day.imageId != 0">
+                                            <a href="{{imgPath}}{{day.imageId}}"><img src="{{imgPath}}{{day.imageId}}"></a>
                                         </div>
                                     </div>
+                                    <div class="comment-container">
+                                        <div class="day-mark-title">Оценка:</div>
+                                        <div *ngIf="day.grade !== 'EMPTY'" class="day-mark">
+                                            <span class="fa fa-{{markViewClass[day.grade]}}"></span>
+                                            <div class="mark-comment">
+                                                <div *ngIf="day.comment">{{day.comment.text}}</div>
+                                            </div>
+                                        </div>
 
-                                    <div class="day-mark" *ngIf="day.grade === 'EMPTY'">
-                                        <div >Оценка отсутствует.</div>
+                                        <div class="day-mark" *ngIf="day.grade === 'EMPTY'">
+                                            <div >Оценка отсутствует.</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <form class="update-mark" name="form" (ngSubmit)="f.form.valid && submitRatingForm(day)" #f="ngForm" novalidate>
                                 <p class="update-mark-header">Как вы оцениваете этот отчёт?</p>
-                                <select class="report-mark form-control" name="mark" [(ngModel)]="day.shadowMark" #mark="ngModel" required>
-                                    <option value="EMPTY">Без оценки</option>
-                                    <option value="GOOD">Хорошо</option>
-                                    <option value="NEUTRAL">Нейтрально</option>
-                                    <option value="BAD">Плохо</option>
-                                </select>
-                                <div *ngIf="f.submitted && !mark.valid" class="help-block">Mark is required</div>
-                                <textarea  type="text" class="form-control report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="day.shadowText" #text="ngModel" required maxlength="254"></textarea>
-                                <div *ngIf="f.submitted && !text.valid" class="help-block">Comment text is required</div>
-                                <button class="btn-rate-report">Применить</button>
+                                <div class="update-mark-fields">
+                                    <select class="report-mark input-field" name="mark" [(ngModel)]="day.shadowMark" #mark="ngModel" required>
+                                        <option value="EMPTY">Без оценки</option>
+                                        <option value="GOOD">Хорошо</option>
+                                        <option value="NEUTRAL">Нейтрально</option>
+                                        <option value="BAD">Плохо</option>
+                                    </select>
+                                    <div *ngIf="f.submitted && !mark.valid" class="help-block">Mark is required</div>
+                                    <input  type="text" class="input-field report-comment-text" placeholder="Комментарий к оценке" name="text" [(ngModel)]="day.shadowText" #text="ngModel" required maxlength="254"/>
+                                    <div *ngIf="f.submitted && !text.valid" class="help-block">Comment text is required</div>
+                                    <button class="btn-rate-report button-bordered">Применить</button>
+                                </div>
                             </form>
                         </div>
                     </div>

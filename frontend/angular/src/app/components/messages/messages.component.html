@@ -11,7 +11,7 @@
                 <span>Получатель: </span>
                 <user-select name="receiver" (notify)="onSelectNotification($event)" [users]="receivers"></user-select>
             </div>
-
+            <br>
             <button [disabled]="!f.form.valid" type="submit" class="button-bordered">Отправить</button>
         </form>
     </div>
@@ -25,7 +25,7 @@
             <p *ngIf="incomingMessages == null || incomingMessages.length < 1"> Сообщения отсутствуют.</p>
             <div class="message-preview" *ngFor="let message of incomingMessages">
                 <div>
-                    <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
+                    <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy'}}</span>
                     <p class="message-sender">Сообщение от <span *ngIf="message.sender != null" >{{message.sender.login}} ({{message.sender.name}} {{message.sender.surname}})</span></p>
                 </div>
                 <p>{{message.text}}</p>
@@ -38,7 +38,7 @@
             <div class="message-preview" *ngFor="let message of outgoingMessages">
                 <p *ngIf="outgoingMessages == null || outgoingMessages.length < 1"> Сообщения отсутствуют.</p>
                 <div>
-                    <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy, hh:mm:ss'}}</span>
+                    <span class="message-date">{{message.createdAt  | date: 'dd.MM.yyyy'}}</span>
                     <p class="message-sender">Сообщение для <span *ngIf="message.receiver != null" >{{message.receiver.login}} ({{message.receiver.name}} {{message.receiver.surname}})</span></p>
                 </div>
                 <p>{{message.text}}</p>

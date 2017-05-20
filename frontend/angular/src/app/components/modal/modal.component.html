@@ -4,6 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <ng-content select=".m-header"></ng-content>
+                <div (click)="this.hide()" class="button-modal-close">X</div>
             </div>
             <div class="modal-body">
                 <ng-content select=".m-body"></ng-content>

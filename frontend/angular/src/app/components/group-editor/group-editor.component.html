@@ -1,5 +1,5 @@
-<h3>Редактирование групп</h3>
-<div class="userDataContainer">
+<div class="table-wrapper">
+  <h3>Редактирование групп</h3>
   <table class="table-userData">
     <thead>
     <tr>
@@ -18,13 +18,13 @@
       <td data-th="Этап">{{group.stage}}</td>
       <td data-th="Дата создания">{{group.createdAt | date: 'dd.MM.yyyy'}}</td>
 
-      <td><button (click)="editGroup(group)" class="button-bordered">Редактировать</button></td>
+      <td><button (click)="editGroup(group)" class="button-bordered"><span class="fa fa-pencil"></span></button></td>
       <td><button (click)="deleteGroup(group.id)" class="button-bordered"><span class="fa fa-trash-o"></span></button></td>
     </tr>
     </tbody>
   </table>
-
 </div>
+
 
 <modal>
   <div class="m-header">
@@ -54,7 +54,7 @@
         <label for="coach">Тренер</label>
         <user-select name="coach" (notify)="onSelectNotification($event)" [users]="coaches"></user-select>
       </div>
-      <button type="'submit" class="button-bordered">Сохранить</button>
+      <button type="submit" class="button-bordered">Сохранить</button>
     </form>
   </div>
 </modal>

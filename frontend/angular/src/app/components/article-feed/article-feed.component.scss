@@ -18,10 +18,16 @@
     @include flex(column, flex-start, space-between);
     .article-title, .article-introtext{
       word-wrap: break-word;
+      word-break: break-all;
       overflow: hidden;
     }
     .article-title{
       color: $color-green;
+    }
+    .article-date{
+      color: grey;
+      font-size: 0.8em;
+      margin-bottom: 0;
     }
     .article-buttons{
       padding-top: 10px;
@@ -38,12 +44,19 @@
 
 .article-full-content{
   word-wrap: break-word;
+  word-break: break-all;
 }
 
 .article-loader-button-container{
   width: 100%;
   @include flex(row, center, center);
   margin: 10px 0px;
+}
+
+.view-article-form{
+  .m-body {
+    min-height: 50vh;
+  }
 }
 
 @media (max-width: 768px){

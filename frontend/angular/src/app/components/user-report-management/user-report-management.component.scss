@@ -8,7 +8,7 @@ $separator-width: 30px;
   width: 100%;
   .day-container{
     margin-left: 10px;
-    @include flex(column, flex-start, flex-start);
+    @include flex(row, flex-start, flex-start);
     &.GOOD{
       border-color: $color-green;
       .day-content{
@@ -156,19 +156,7 @@ $separator-width: 30px;
 
   }
 }
-.btn-send-report, .btn-rate-report, .btn-green{
-  margin: 10px 0px;
-  color: $color-green;
-  font-weight: 300;
-  border: none;
-  outline: none;
-  lint-height: 40px;
-  background: white;
-  border: 1px solid $color-green;
-  border-radius: 5px;
-  height: 40px;
-  cursor: pointer;
-}
+
 
 .update-mark-header{
   margin: 10px 0px 0px 0px;
@@ -201,4 +189,13 @@ $separator-width: 30px;
 }
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
+}
+
+.update-mark-fields{
+  .input-field{
+    margin: 10px;
+
+  }
+  display: flex;
+  align-items: center;
 }

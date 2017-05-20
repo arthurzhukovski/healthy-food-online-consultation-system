@@ -25,7 +25,8 @@ export class NavbarComponent {
                       "settings":"Настройки",
                         "group_assignment":"Группы",
                         "messages":"Сообщения",
-                    "articles_create":"Создать статью"};
+                    "articles_create":"Создать статью",
+                    "documents":"Документы"};
     private currentUser: User;
 
     private userIsLoggedIn(){

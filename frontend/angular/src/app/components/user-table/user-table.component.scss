@@ -4,20 +4,29 @@
   .table-userData{
     width: 100%;
     td,th{
-      min-width: 100px;
+      min-width: 50px;
       width: auto;
     }
     th{
       text-align: center;
     }
+    td{
+      &:last-child, &:nth-last-child(2){
+        border-color: white;
+
+      }
+      button{
+        min-width: 100%;
+      }
+    }
   }
 }
 tr, td, th{
-  border: 1px solid black;
+  border-bottom: 1px solid grey;
   border-collapse: collapse;
 }
 
-@media screen and(max-width: 768px) {
+@media screen and(max-width: 1050px) {
   .userDataContainer{
     padding: 30px 0px;
     .table-userData{
@@ -27,7 +36,7 @@ tr, td, th{
       }
       tr{
         display: block;
-        width: 100vw;
+        width: 100%;
         margin: 0;
         border-bottom: 1px solid black;
       }
@@ -41,6 +50,15 @@ tr, td, th{
         &:before {
           content: attr(data-th)": ";
           font-weight: bold;
+        }
+        &:last-child, &:nth-last-child(2){
+          button{
+            margin: 10px 0px;
+          }
+
+          &:before {
+            content: attr(data-th)"";
+          }
         }
       }
     }

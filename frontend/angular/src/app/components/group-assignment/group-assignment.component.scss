@@ -1,0 +1,26 @@
+
+
+@media(min-width: 1050px){
+  table{
+    width: 100%;
+    td,th{
+      min-width: 50px;
+      width: auto;
+    }
+    th{
+      text-align: center;
+    }
+    td{
+      &:last-child{
+        border-color: white;
+      }
+      &:nth-last-child(2){
+
+        border-bottom: 1px solid grey;
+      }
+      button{
+        min-width: 100%;
+      }
+    }
+  }
+}

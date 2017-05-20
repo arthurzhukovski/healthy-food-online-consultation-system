@@ -2,7 +2,8 @@
     <div  class="article-list">
         <div  class="article" *ngFor="let article of articles">
             <div class="article-data">
-                <h2 class="article-title">{{article.title | ellipsis: 25}}</h2>
+                <p class="article-date">{{article.createdAt |  date: 'dd.MM.yyyy, hh:mm'}}</p>
+                <h2 class="article-title">{{article.title | ellipsis: 10}}</h2>
                 <p class="article-introtext">{{article.content | ellipsis: 150}}</p>
             </div>
             <div  class="article-buttons">
@@ -13,7 +14,7 @@
         </div>
     </div>
     <div class="article-loader-button-container">
-        <button (click)="loadMore()" class="button-bordered">Загрузить ещё</button>
+        <button (click)="loadMore()" [disabled]="articles.length >= totalAmount" type="submit" class="button-bordered">Загрузить ещё</button>
     </div>
 </div>
 
@@ -30,16 +31,16 @@
             <label for="content">Текст статьи</label>
             <textarea type="text" class="input-field" name="content" [(ngModel)]="editedArticle.content" #content="ngModel" required> </textarea>
             <div *ngIf="f.submitted && !content.valid" class="help-block">Введите содержимое статьи.</div>
-
-            <button  type="submit" class="button-bordered">Сохранить</button>
+            <br>
+            <button  class="button-bordered">Сохранить</button>
         </form>
     </div>
 </modal>
 
 
-<modal #read>
+<modal #read class="view-article-form">
     <div class="m-header">
-        <h3>{{articleToRead.title}}</h3>
+        <h3>{{articleToRead.title | ellipsis: 25}}</h3>
     </div>
     <div class="m-body">
         <div class="article-full-content">{{articleToRead.content}}</div>

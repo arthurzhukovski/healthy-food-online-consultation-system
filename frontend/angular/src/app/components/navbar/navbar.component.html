@@ -15,6 +15,7 @@
             <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="group-assignment" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" ><span class="fa fa-users"></span> {{navbar.group_assignment}}</a>
             <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="edit-users" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"><span class="fa fa-address-card-o"></span> {{navbar.users}}</a>
             <a *ngIf="currentUser.role == 'ADMIN' || currentUser.role == 'COACH'" class="nav-item" routerLink="articles/create" routerLinkActive="active"><span class="fa fa-newspaper-o"></span> {{navbar.articles_create}}</a>
+            <a *ngIf="currentUser.role == 'ADMIN'" class="nav-item" routerLink="documents" routerLinkActive="active"><span class="fa fa-file"></span>  {{navbar.documents}}</a>
             <a class="nav-item" routerLink="login" routerLinkActive="active" ><span class="fa fa-sign-out"></span> {{navbar.logout}}</a>
         </div>
     </a>

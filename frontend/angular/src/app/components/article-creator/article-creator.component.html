@@ -7,6 +7,6 @@
     <label for="content">Текст статьи</label>
     <textarea type="text" class="input-field" name="content" [(ngModel)]="newArticle.content" #content="ngModel" required maxlength="99999">  </textarea>
     <div *ngIf="f.submitted && !content.valid" class="help-block">Введите содержимое статьи.</div>
-
+    <br>
     <button  type="submit" class="button-bordered">Опубликовать</button>
 </form>

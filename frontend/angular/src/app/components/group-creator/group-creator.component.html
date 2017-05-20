@@ -1,8 +1,8 @@
-<div >
+<div>
     <form name="form" (ngSubmit)="f.form.valid && createNewGroup()" #f="ngForm" novalidate>
         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !stage.valid }">
             <label for="stage">Этап</label>
-            <select class="form-control" name="stage" [(ngModel)]="newGroup.stage" #stage="ngModel" required>
+            <select class="input-field" name="stage" [(ngModel)]="newGroup.stage" #stage="ngModel" required>
                 <option value="1">Новичок</option>
                 <option value="2">Середнячок</option>
                 <option value="3">Качок</option>
@@ -11,7 +11,7 @@
         </div>
         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !active.valid }">
             <label for="active">Активирована</label>
-            <select class="form-control" name="active" [(ngModel)]="newGroup.active" #active="ngModel" required>
+            <select class="input-field" name="active" [(ngModel)]="newGroup.active" #active="ngModel" required>
                 <option value="true">Да</option>
                 <option value="false">Нет</option>
             </select>

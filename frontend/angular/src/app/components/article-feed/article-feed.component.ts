@@ -23,7 +23,7 @@ export class ArticleFeedComponent {
     private currentUser: User = new User();
     private articles: Article[] = [];
     private articleToRead: Article = new Article();
-    private totalAmount: number = 0;
+    private totalAmount: number = 10;
     private articleAmountPerPage = 3;
     private currentPage = 0;
     private editedArticle: Article = new Article();
@@ -31,6 +31,7 @@ export class ArticleFeedComponent {
         this.refreshLocalStorage();
     }
     ngOnInit(){
+        this.articleToRead.title = "";
         this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
         this.loadArticles(this.articleAmountPerPage, this.currentPage);
 
@@ -41,6 +42,9 @@ export class ArticleFeedComponent {
                 console.log(data);
                 this.articles = data.content;
                 this.totalAmount = data.totalElements;
+
+                console.log(this.articles.length);
+                console.log(this.totalAmount );
             },
             error => {
                 let msg = (error._body != '')? error._body : error;
@@ -60,15 +64,19 @@ export class ArticleFeedComponent {
         this.editArticleModal.show();
     }
     deleteArticle(id){
-        this.articleService.delete(id).subscribe(
-            data => {
-                this.alertService.success('Статья успешно удалена.');
-                this.loadArticles(this.articleAmountPerPage, this.currentPage);
-            },
-            error => {
-                let msg = (error._body != '')? error._body : error;
-                this.alertService.error('Ошибка. ' +msg);
-            });
+        if (confirm("Вы действительно хотите удалить статью?") == true) {
+            this.articleService.delete(id).subscribe(
+                data => {
+                    this.alertService.success('Статья успешно удалена.');
+                    this.loadArticles(this.articleAmountPerPage, this.currentPage);
+                },
+                error => {
+                    let msg = (error._body != '')? error._body : error;
+                    this.alertService.error('Ошибка. ' +msg);
+                });
+        } else {
+        }
+
     }
     submitEditedArticle(){
         console.log(this.editedArticle);

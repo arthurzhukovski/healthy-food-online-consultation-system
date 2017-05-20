@@ -26,7 +26,7 @@
       <td data-th="Рост" >{{user.userData.height}}</td>
       <td data-th="Вес" >{{user.userData.weight}}</td>
       <td data-th="Дата рождения" >{{user.userData.birthdate | date: 'dd.MM.yyyy'}}</td>
-      <td><button (click)="editUser(user)" class="button-bordered">Редактировать</button></td>
+      <td><button (click)="editUser(user)" class="button-bordered"><span class="fa fa-pencil"></span></button></td>
       <td><button (click)="deleteUser(user.id)" class="button-bordered"><span class="fa fa-trash-o"></span></button></td>
     </tr>
     </tbody>

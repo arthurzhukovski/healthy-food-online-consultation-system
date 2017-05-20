@@ -21,7 +21,7 @@
                         <button class=" btn-add-photo" onclick="document.querySelector('#inputDailyReportPhotos').click();event.preventDefault();"><span class="fa fa-plus"></span></button>
                         <img *ngIf="model.imageId != null" src="{{imgPath}}{{model.imageId}}">
                     </div>
-                    <button [disabled]="!f.form.valid" type="submit" class="btn-send-report">Отправить отчет</button>
+                    <button [disabled]="!f.form.valid" type="submit" class="btn-send-report button-bordered">Отправить отчет</button>
                 </form>
 
             </div>

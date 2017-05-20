@@ -1,0 +1,11 @@
+.auth-title{
+  color: green;
+}
+
+@media (max-width: 768px) {
+  .buttons-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+}

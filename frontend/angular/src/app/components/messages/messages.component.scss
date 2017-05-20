@@ -1,7 +1,7 @@
 @import "../../../assets/styles/mixins";
 .message-split-container{
   @include flex(row, flex-start, stretch);
-
+  margin-top: 10px;
   width: 100%;
   .messages-incoming, .messages-outgoing{
     width: 50%;
@@ -11,9 +11,36 @@
       border-left: 1px solid grey;
       padding: 20px;
       .message-preview{
+        .message-sender, .message-date{
+          font-size: 0.9em;
+          color: grey;
+          margin-bottom: 3px;
+        }
         border-bottom: 1px solid grey;
       }
     }
   }
 
 }
+
+@media(max-width: 768px){
+  .button-bordered{
+    width: 100%;
+  }
+  .message-split-container{
+    flex-direction: column;
+    .messages-incoming, .messages-outgoing{
+      .message-list{
+        padding: 10px;
+      }
+      margin-top: 40px;
+      width: 100%;
+      .message-preview {
+        width: 100%;
+      }
+    }
+
+    }
+}
+
+
