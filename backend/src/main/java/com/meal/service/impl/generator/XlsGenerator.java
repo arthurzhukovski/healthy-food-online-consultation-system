@@ -32,18 +32,24 @@ public class XlsGenerator<In> extends DocumentGeneratorAbstract<In> {
     sheet.setFitToPage(true);
 
     CellStyle style = getCellStyle(workbook);
-    addContent(model, sheet, style);
+    CellStyle headerStyle = getCellStyle(workbook);
+    headerStyle.setFillBackgroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+    headerStyle.setFillForegroundColor(IndexedColors.LIGHT_CORNFLOWER_BLUE.getIndex());
+    headerStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+    addContent(model, sheet, style, headerStyle);
 
     return workbook;
   }
 
-  private void addContent(List<In> model, Sheet sheet, CellStyle style) {
+  private void addContent(List<In> model, Sheet sheet, CellStyle style, CellStyle headerStyle) {
     Row header = sheet.createRow(0);
+ //   header.setRowStyle(headerStyle);
+
 
     for (int i = 0; i < tableModelViewer.getHeaders().size(); i++) {
       String caption = tableModelViewer.getHeaders().get(i);
       header.createCell(i).setCellValue(caption);
-      header.getCell(i).setCellStyle(style);
+      header.getCell(i).setCellStyle(headerStyle);
     }
 
 

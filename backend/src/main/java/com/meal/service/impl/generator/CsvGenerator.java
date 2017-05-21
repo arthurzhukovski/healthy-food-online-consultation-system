@@ -37,14 +37,14 @@ public class CsvGenerator<In> extends DocumentGeneratorAbstract<In> {
   }
 
   private void addContent(List<In> model, ICsvListWriter listWriter) throws IOException {
-    listWriter
-            .writeHeader(
-                    tableModelViewer
-                            .getHeaders()
-                            .toArray(
-                                    new String[tableModelViewer
-                                            .getHeaders()
-                                            .size()]));
+//    listWriter
+//            .writeHeader(
+//                    tableModelViewer
+//                            .getHeaders()
+//                            .toArray(
+//                                    new String[tableModelViewer
+//                                            .getHeaders()
+//                                            .size()]));
 
 
     List<List<String>> modelList =  tableModelViewer.map(model);
