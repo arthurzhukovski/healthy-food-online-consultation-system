@@ -75,7 +75,14 @@ public class PdfGenerator<In> extends DocumentGeneratorAbstract<In> {
     for (String header : tableModelViewer.getHeaders()) {
       PdfPCell headerCell = new PdfPCell(new Phrase(header));
       headerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+      headerCell.setBackgroundColor(BaseColor.DARK_GRAY);
       pdfTable.addCell(new Paragraph(header, font));
+    }
+
+    PdfPCell[] headers = pdfTable.getRow(0).getCells();
+    for(PdfPCell cell : headers) {
+      cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+      cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
     }
 
     pdfTable.setHeaderRows(1);
